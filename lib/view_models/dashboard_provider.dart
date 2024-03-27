@@ -7,10 +7,12 @@ import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/accounts/get_booking_details_model.dart';
+import '../models/common_models/response_model.dart';
 import '../models/dashboard_models/membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
 import '../models/dashboard_models/slot_booking_model.dart';
 import '../models/dashboard_models/slot_by_sub_services_model.dart';
+import '../utils/show_toast.dart';
 
 class DashboardProvider extends ChangeNotifier {
   bool _showLoader = false;
@@ -39,6 +41,9 @@ class DashboardProvider extends ChangeNotifier {
 
   List<SlotBookingModel> _slotBooking = [];
   List<SlotBookingModel> get slotBooking => _slotBooking;
+
+  List<ResponseModel> _help = [];
+  List<ResponseModel> get helpuser => _help;
 
 
   _setShowLoader(bool value) {
@@ -258,4 +263,45 @@ class DashboardProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> help({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _help = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.help,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+
+      if (res?.data is List) {
+        _help = (res?.data as List<dynamic>)
+            .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+            .toList();
+        print("dfhjfghdsgfhsdfsdh");
+        showToast(res?.message, isSuccess: true);
+      } else {
+        showToast(res?.message, isSuccess: true);
+        // Handle the case where res?.data is not a List
+        print('Response data is not a List');
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+
+  }
+
 }

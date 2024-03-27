@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -81,7 +82,7 @@ class _MyBookingState extends State<MyBooking> {
                           padding:
                               const EdgeInsets.only(left: 8, right: 8, top: 5),
                           child: SizedBox(
-                            height: 270,
+                            height: 300,
                             width: double.infinity,
                             child: Card(
                               elevation: 4,
@@ -94,7 +95,8 @@ class _MyBookingState extends State<MyBooking> {
                               child: Column(
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Expanded(
@@ -113,14 +115,14 @@ class _MyBookingState extends State<MyBooking> {
                                                 children: [
                                                   appText(
                                                     title: "Green Trends",
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     color: Colors.teal.shade500,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   appText(
                                                     title:
                                                         " (Waiting for appoval)",
-                                                    fontSize: 12,
+                                                    fontSize: 11,
                                                     color: Colors.orangeAccent,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -170,6 +172,30 @@ class _MyBookingState extends State<MyBooking> {
                                               const SizedBox(
                                                 height: 2,
                                               ),
+                                              Row(
+                                                children: [
+                                                  appText(
+                                                      title: "Rating:",
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  RatingBar.builder(
+                                                    wrapAlignment:
+                                                        WrapAlignment.start,
+                                                    itemSize: 25,
+                                                    initialRating: 3,
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemBuilder: (context, _) =>
+                                                        const Icon(
+                                                      Icons.star,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    onRatingUpdate: (value) {},
+                                                  ),
+                                                ],
+                                              )
                                             ],
                                           ),
                                         ),
@@ -182,7 +208,7 @@ class _MyBookingState extends State<MyBooking> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  height: 50,
+                                                  height: 45,
                                                   decoration: BoxDecoration(
                                                       color: appColors.appColor,
                                                       borderRadius:
@@ -201,8 +227,8 @@ class _MyBookingState extends State<MyBooking> {
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            left: 15,
-                                                            right: 15,
+                                                            left: 5,
+                                                            right: 5,
                                                             top: 12,
                                                             bottom: 12),
                                                     child: Row(
@@ -215,7 +241,8 @@ class _MyBookingState extends State<MyBooking> {
                                                               BoxDecoration(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(12),
+                                                                    .circular(
+                                                                        12),
                                                             color: appColors
                                                                 .appColor,
                                                             border: Border.all(
@@ -226,8 +253,11 @@ class _MyBookingState extends State<MyBooking> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                    .fromLTRB(10,
-                                                                    14, 10, 14),
+                                                                    .fromLTRB(
+                                                                    10,
+                                                                    14,
+                                                                    10,
+                                                                    14),
                                                             child: Row(
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
@@ -244,7 +274,8 @@ class _MyBookingState extends State<MyBooking> {
                                                                     }
                                                                   },
                                                                   child: Icon(
-                                                                    Icons.remove,
+                                                                    Icons
+                                                                        .remove,
                                                                     color: appColors
                                                                         .appBlack,
                                                                     size: 20,
@@ -254,10 +285,12 @@ class _MyBookingState extends State<MyBooking> {
                                                                   width: 12,
                                                                 ),
                                                                 Center(
-                                                                  child: appText(
+                                                                  child:
+                                                                      appText(
                                                                     title:
                                                                         '$count',
-                                                                    fontSize: 16,
+                                                                    fontSize:
+                                                                        16,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -270,7 +303,8 @@ class _MyBookingState extends State<MyBooking> {
                                                                 ),
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    setState(() {
+                                                                    setState(
+                                                                        () {
                                                                       count++;
                                                                     });
                                                                   },
@@ -295,8 +329,8 @@ class _MyBookingState extends State<MyBooking> {
                                     ],
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-                                      openMap(latitude,longitude);
+                                    onTap: () {
+                                      openMap(latitude, longitude);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(
@@ -314,14 +348,16 @@ class _MyBookingState extends State<MyBooking> {
                                                 left: 10, right: 10),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Icon(
                                                   Icons.location_on,
                                                   color: Colors.white,
                                                 ),
                                                 appText(
-                                                  title: "Follow map to visit shop",
+                                                  title:
+                                                      "Follow map to visit shop",
                                                   fontWeight: FontWeight.w900,
                                                   color: appColors.appWhite,
                                                   fontSize: 8,
@@ -368,8 +404,10 @@ class _MyBookingState extends State<MyBooking> {
       },
     );
   }
+
   Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {

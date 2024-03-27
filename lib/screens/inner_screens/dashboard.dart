@@ -29,6 +29,7 @@ import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../utils/slot.dart';
 import '../../utils/validator.dart';
 import '../common_screens/local_notifications.dart';
+import '../common_screens/notification.dart';
 import 'shop_detail.dart';
 import 'sub_service_detail.dart';
 
@@ -43,7 +44,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with CacheManager, SingleTickerProviderStateMixin {
   int index = 0;
-  int selectedIndex = 1;
+  String selectedIndex = "1";
   int selectedTabIndex = 0;
   double latitude = 28.7041;
   double longitude = 77.1025;
@@ -131,9 +132,12 @@ class _DashboardState extends State<Dashboard>
           'lng': longitude,
           'personType': widget.personType,
           'serviceTypeId': selectedIndex,
-          'offer':'${offerLabels.start},${offerLabels.end}',
-          'price': '${labels.start},${labels.end}',
-          'distance': '${rangeLabels.start},${rangeLabels.end}',
+          'minOffer':offerLabels.start,
+          'maxOffer':offerLabels.end,
+          'minPrice': labels.start,
+          'maxPrice': labels.end,
+          'minDistance': rangeLabels.start,
+          'maxDistance': rangeLabels.end,
 
         };
         provider.getShopList(
@@ -326,11 +330,12 @@ class _DashboardState extends State<Dashboard>
                             print("kfhjksyhfkjsdf $index");
                             print("kfhjksyhfkjsdf $i");
                             if(index == 0){
-                              selectedIndex = 1;
+                              selectedIndex = "1";
                             }else {
-                              selectedIndex = 2;
+                              selectedIndex = "2";
                             }
                             index = i;
+                            _getNearByData();
 
                           });
                         },
@@ -389,19 +394,24 @@ class _DashboardState extends State<Dashboard>
                       const SizedBox(
                         width: 10,
                       ),
-                      Card(
-                        color: appColors.appColor,
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: SizedBox(
-                          width: 50,
-                          height: 46,
-                          child: Center(
-                            child: Icon(
-                              Icons.notifications,
-                              color: appColors.appBlack,
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
+                        },
+                        child: Card(
+                          color: appColors.appColor,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: SizedBox(
+                            width: 50,
+                            height: 46,
+                            child: Center(
+                              child: Icon(
+                                Icons.notifications,
+                                color: appColors.appBlack,
+                              ),
                             ),
                           ),
                         ),

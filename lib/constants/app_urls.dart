@@ -1,6 +1,11 @@
 class AppUrls {
   String get baseUrl => 'http://51.21.129.106:5000';
 
+  //local...
+  // String get baseUrl => 'http://192.168.29.1';
+
+
+
   String get loginUrl => '/user/login';
 
   String get verifyOtpUrl => '/user/otp-verify';
@@ -20,6 +25,8 @@ class AppUrls {
  String get getBookingDetails => '/user/getBookingDetailList';
 
  String get slotBooking => '/user/bookingdetails';
+
+ String get help => '/user/storesupportusers';
 }
 
 AppUrls appUrls = AppUrls();
