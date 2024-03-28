@@ -381,7 +381,7 @@ class _SearchScreenState extends State<SearchScreen>
             height: 12,
           );
         },
-        itemCount: provider.serviceList.length,
+        itemCount: provider.nearShopList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(

@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
     {'icon': Icons.pattern, 'title': texts.package},
     {'icon': Icons.card_membership, 'title': texts.membership},
     {'icon': Icons.headset_mic_rounded, 'title': texts.help},
-    {'icon': Icons.history, 'title': texts.history},
+    {'icon': Icons.chat_bubble_outline, 'title': texts.history},
   ];
 
   @override
@@ -73,31 +73,30 @@ class _ProfileState extends State<Profile> {
       // ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 5,left: 45,right: 0,bottom: 14),
+          padding: const EdgeInsets.only(top: 5,left: 0,right: 0,bottom: 14),
           child: Column(
             children: [
               Container(
                 height: 80,
                 decoration: BoxDecoration(color: Colors.orangeAccent,),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    appText(
-                      title: number,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20,right: 20),
+                      child: appText(
+                        title: number,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+
                     Icon(
-                      Icons.account_circle_sharp,
+                      Icons.personal_injury_sharp,
                       color: appColors.appBlack,
-                      size: 50,
+                      size: 40,
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+
                   ],
                 ),
               ),
@@ -107,13 +106,13 @@ class _ProfileState extends State<Profile> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       children: [
                         SizedBox(
-                          height: 80,
-                          width: 80,
+                          height: 60,
+                          width: 60,
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50)),
@@ -132,26 +131,29 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(
                           height: 6,
                         ),
-                        appText(
-                          title: texts.shareUs,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: appColors.appGray,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: appText(
+                            title: texts.shareUs,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: appColors.appGray,
+                          ),
                         )
                       ],
                     ),
                     const SizedBox(
-                      width: 60,
+                      width: 20,
                     ),
                     Column(
                       children: [
                         SizedBox(
-                          height: 80,
-                          width: 80,
+                          height: 60,
+                          width: 60,
                           child: Icon(
                             Icons.content_copy_sharp,
                             color: appColors.appBlack,
-                            size: 60,
+                            size: 40,
                           ),
                         ),
                         const SizedBox(
@@ -172,20 +174,20 @@ class _ProfileState extends State<Profile> {
               //   height: 10,
               // ),
               Card(
-                elevation: 2,
+                elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 200,
+                      width: double.infinity,
                       child: ListView.separated(
                         separatorBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(left: 30),
                             child: Divider(
-                              color: appColors.appGray,
+                              color: Colors.grey.shade100,
                             ),
                           );
                         },
@@ -258,7 +260,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  _navigationCard(IconData icon, String title,int index) {
+  _navigationCard(IconData icon, String title,int index,) {
     return InkWell(
       onTap: () {
         if(navigationData[index]['title']== texts.myBooking){
@@ -307,6 +309,11 @@ class _ProfileState extends State<Profile> {
                     fontWeight: FontWeight.bold,
                     color: appColors.appGray,
                   ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 15,
+                  color: Colors.grey,
                 ),
               ],
             ),

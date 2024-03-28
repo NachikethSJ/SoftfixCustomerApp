@@ -8,6 +8,7 @@ import '../../../../constants/texts.dart';
 import '../../../../styles/app_colors.dart';
 import '../../../../utils/app_text.dart';
 import '../../../../view_models/dashboard_provider.dart';
+import '../help/help.dart';
 
 class MyBooking extends StatefulWidget {
   const MyBooking({super.key});
@@ -172,31 +173,7 @@ class _MyBookingState extends State<MyBooking> {
                                               const SizedBox(
                                                 height: 2,
                                               ),
-                                              Row(
-                                                children: [
-                                                  appText(
-                                                      title: "Rating:",
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  RatingBar.builder(
-                                                    wrapAlignment:
-                                                        WrapAlignment.start,
-                                                    itemSize: 25,
-                                                    initialRating: 3,
-                                                    minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    itemBuilder: (context, _) =>
-                                                        const Icon(
-                                                      Icons.star,
-                                                      color: Colors.amber,
-                                                    ),
-                                                    onRatingUpdate: (value) {},
-                                                  ),
-                                                ],
-                                              )
-                                            ],
+                                                 ],
                                           ),
                                         ),
                                       ),
@@ -206,6 +183,7 @@ class _MyBookingState extends State<MyBooking> {
                                             padding: const EdgeInsets.only(
                                                 top: 10, right: 10),
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Container(
                                                   height: 45,
@@ -322,7 +300,26 @@ class _MyBookingState extends State<MyBooking> {
                                                       ],
                                                     ),
                                                   ),
-                                                )
+                                                ),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const HelpPage()));
+                                                  },
+                                                  child: Align(
+                                                      alignment: Alignment.topRight,
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(color: appColors.appColor,width: 2),
+                                                            borderRadius: BorderRadius.circular(10)
+                                                          ),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(left: 20,right: 20,top: 8,bottom: 8),
+                                                            child: appText(title: "Help?",color: appColors.appGray,fontSize: 16,fontWeight: FontWeight.bold),
+                                                          )),
+                                                  ),
+                                                ),
+
+
                                               ],
                                             )),
                                       ),

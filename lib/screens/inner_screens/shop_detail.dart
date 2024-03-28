@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
+import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
@@ -224,7 +225,16 @@ class _ShopDetailState extends State<ShopDetail> {
                             //   to: NearSubServicesDetail(
                             //     data: provider.nearShopList[index],
                             //   ),
-                            // );                   
+                            // );
+                            slideTransition(
+                                context: context,
+                                to: SubServiceDetail(
+                                  data: provider.subServiceList[index],
+                                  shopData:
+                                  provider.subServiceList[index].shop!,
+                                  lat: latitude,
+                                  lng: longitude,
+                                ));
                             },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

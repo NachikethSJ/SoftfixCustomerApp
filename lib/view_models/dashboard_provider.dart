@@ -12,6 +12,7 @@ import '../models/dashboard_models/membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
 import '../models/dashboard_models/slot_booking_model.dart';
 import '../models/dashboard_models/slot_by_sub_services_model.dart';
+import '../models/help_model.dart';
 import '../utils/show_toast.dart';
 
 class DashboardProvider extends ChangeNotifier {
@@ -42,8 +43,8 @@ class DashboardProvider extends ChangeNotifier {
   List<SlotBookingModel> _slotBooking = [];
   List<SlotBookingModel> get slotBooking => _slotBooking;
 
-  List<ResponseModel> _help = [];
-  List<ResponseModel> get helpuser => _help;
+  List<SupportModel> _help = [];
+  List<SupportModel> get helpuser => _help;
 
 
   _setShowLoader(bool value) {
@@ -283,12 +284,13 @@ class DashboardProvider extends ChangeNotifier {
 
       if (res?.data is List) {
         _help = (res?.data as List<dynamic>)
-            .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+            .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
         print("dfhjfghdsgfhsdfsdh");
-        showToast(res?.message, isSuccess: true);
+        showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
       } else {
-        showToast(res?.message, isSuccess: true);
+        _setShowLoader(false);
+        showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
         // Handle the case where res?.data is not a List
         print('Response data is not a List');
       }
