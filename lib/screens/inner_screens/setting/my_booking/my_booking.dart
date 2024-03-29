@@ -25,7 +25,7 @@ class _MyBookingState extends State<MyBooking> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    bookingDetails();
+    // bookingDetails();
   }
 
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _MyBookingState extends State<MyBooking> {
               Consumer<DashboardProvider>(
                 builder: (context, provider, child) {
                   return ListView.builder(
-                      itemCount: provider.getbookingDeatils.length,
+                      itemCount: 5,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, index) {

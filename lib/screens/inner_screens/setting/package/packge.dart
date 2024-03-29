@@ -27,10 +27,15 @@ class _PackageScreenState extends State<PackageScreen> {
       appBar: AppBar(
         title: const Text("Packages"),
       ),
-      body: Column(
-        children: [
-          _nearByPackagesList(),
-        ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              _nearByPackagesList(),
+            ],
+          ),
+        ),
       ),
     );
   }

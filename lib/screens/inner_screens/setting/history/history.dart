@@ -62,7 +62,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ListView.builder(
                   itemCount: 2,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
@@ -271,7 +271,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.location_on,
                                             color: Colors.white,
                                           ),

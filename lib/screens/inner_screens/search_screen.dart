@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
@@ -23,7 +24,8 @@ import '../../utils/slot.dart';
 import 'membership_detail.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String personType;
+  const SearchScreen({required this.personType,super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -37,8 +39,44 @@ class _SearchScreenState extends State<SearchScreen>
   late TabController _tabController;
   int selectedTabIndex = 0;
   int index = 0;
+  bool isOffer = false;
+  bool isNearest = false;
+  bool isPackage = false;
+  bool isMemberShip = false;
   double latitude = 28.7041;
   double longitude = 77.1025;
+  DateTime _selectedDate = DateTime.now();
+  String? selectedTimeFrom;
+  String? selectedTimeTo;
+  List<String> timeItems = [
+    '12:00 AM', '01:00 AM', '02:00 AM', '03:00 AM', '04:00 AM', '05:00 AM',
+    '06:00 AM', '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM',
+    '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM',
+    '06:00 PM', '07:00 PM', '08:00 PM', '09:00 PM', '10:00 PM', '11:00 PM',
+  ];
+
+  Future<void> _selectbookingDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+  List<String> getSecondContainerItems() {
+    if (selectedTimeFrom == null) {
+      return timeItems;
+    } else {
+      List<String> secondContainerItems = List.from(timeItems);
+      secondContainerItems.remove(selectedTimeFrom);
+      return secondContainerItems;
+    }
+  }
   _openMap() async {
     var permission = await Geolocator.checkPermission();
     permission = await Geolocator.requestPermission();
@@ -112,18 +150,39 @@ class _SearchScreenState extends State<SearchScreen>
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
+          (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
           'lat': latitude,
           'lng': longitude,
-          'personType': '',
+          'personType': widget.personType,
+          'serviceTypeId': 1,
+          // 'minOffer':offerLabels.start,
+          // 'maxOffer':offerLabels.end,
+          // 'minPrice': labels.start,
+          // 'maxPrice': labels.end,
+          // 'minDistance': rangeLabels.start,
+          // 'maxDistance': rangeLabels.end,
+          'shopName': searchController.text ?? '',
+          "serviceName":searchController.text ?? '',
+          "packageName":searchController.text ?? '',
+          "subServiceType": searchController.text ?? '',
+          "membershipName" : searchController.text ?? ""
+
         };
         provider.getShopList(
           context: context,
           body: body,
         );
         provider.getServiceList(
+          context: context,
+          body: body,
+        );
+        provider.getMembershipList(
+          context: context,
+          body: body,
+        );
+        provider.getPackagesList(
           context: context,
           body: body,
         );
@@ -185,7 +244,7 @@ class _SearchScreenState extends State<SearchScreen>
                     FlutterToggleTab(
                       height: 50,
                       selectedBackgroundColors: [appColors.appWhite],
-                      unSelectedBackgroundColors: [appColors.appGreen],
+                      unSelectedBackgroundColors: [appColors.appColor],
                       width: MediaQuery.of(context).size.width / 5.5,
                       borderRadius: 30,
                       selectedTextStyle: TextStyle(
@@ -193,7 +252,7 @@ class _SearchScreenState extends State<SearchScreen>
                           fontSize: 10,
                           fontWeight: FontWeight.w500),
                       unSelectedTextStyle: TextStyle(
-                          color: appColors.appWhite,
+                          color: Colors.black,
                           fontSize: 10,
                           fontWeight: FontWeight.w500),
                       labels: label,
@@ -235,8 +294,10 @@ class _SearchScreenState extends State<SearchScreen>
                                     left: 14, right: 14, top: 14, bottom: 14)),
                             onChanged: (value) {
                               setState(() {
-                                searchController.text = value;
+
+                                 searchController.text = value;
                               });
+                              _getNearByData();
                             },
                           ),
                         ),
@@ -272,7 +333,7 @@ class _SearchScreenState extends State<SearchScreen>
                   children: [
                     InkWell(
                       onTap: () {
-                        // _showFilter();
+                        _showFilter();
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -405,16 +466,21 @@ class _SearchScreenState extends State<SearchScreen>
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.star,
-                            color: appColors.appColor,
+                          const CircleAvatar(
+                            radius: 8,
+                            backgroundColor: Colors.teal,
+                            child: Icon(
+                              Icons.star,
+                              color: Colors.white,
+                              size: 12,
+                            ),
                           ),
                           const SizedBox(
                             width: 2,
                           ),
                           appText(
                             title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
@@ -424,10 +490,7 @@ class _SearchScreenState extends State<SearchScreen>
                       ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.timelapse_outlined,
-                            color: appColors.appGreen,
-                          ),
+                          Image.asset('assets/images/time_icon1.png',height: 20,width: 20,),
                           const SizedBox(
                             width: 2,
                           ),
@@ -463,7 +526,7 @@ class _SearchScreenState extends State<SearchScreen>
                     height: 10,
                   ),
                   SizedBox(
-                    height: 160,
+                    height: 170,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) {
@@ -483,117 +546,159 @@ class _SearchScreenState extends State<SearchScreen>
                             child:
                             Row(
                               children: [
-                                SizedBox(
-                                  height: 140,
-                                  width: 100,
-                                  child: Image.network(
-                                    provider.serviceList[index].subService?[0].image?[0] ?? "",
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        color: appColors.appGray100,
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.photo,
-                                            color: appColors.appGray,
-                                          ),
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: 120,
+                                      width: 120,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(17),
+                                        child: Image.network(
+                                          provider.serviceList?[index].subService?[0].image?[0] ?? "",
+                                          fit: BoxFit.fill,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey)
+                                              ),
+                                              color: appColors.appGray100,
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.photo,
+                                                  color: appColors.appGray,
+                                                ),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+
+                                    ),
+                                    Positioned(
+                                      left: 5,
+                                      bottom: 5,
+                                      child: Container(
+                                        height: 25,
+                                        width: 70,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.blue
+                                        ),
+                                        child:  Center(child: Text("${provider.serviceList[index].subService?[0].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(
-                                  width: 10,
+                                  width: 15,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
-                                      appText(
-                                        title: '${provider.serviceList[index].name ?? "0"}',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      const SizedBox(
-                                        height: 2,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
+                                        children: [
+                                          appText(
+                                            title: '${provider.serviceList[index].name ?? ""}',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
                                             MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            Icons.star,
-                                            color: appColors.appColor,
+                                            children: [
+                                              const CircleAvatar(
+                                                radius: 8,
+                                                backgroundColor: Colors.teal,
+                                                child: Icon(
+                                                  Icons.star,
+                                                  color: Colors.white,
+                                                  size: 12,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 2,
+                                              ),
+                                              appText(
+                                                title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ],
                                           ),
                                           const SizedBox(
-                                            width: 2,
+                                            height: 4,
                                           ),
-                                          appText(
-                                            title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Row(
-                                        children: [
-                                          appText(
-                                            title: '₹${provider.serviceList[index].subService?[0].price ?? "0"}',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          // appText(
-                                          //   title: '₹200',
-                                          //   color: appColors.appGray,
-                                          //   textDecoration:
-                                          //       TextDecoration.lineThrough,
-                                          //   fontSize: 12,
-                                          // ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.lightbulb,
-                                            color: appColors.appBlue,
+                                          Row(
+                                            children: [
+                                              appText(
+                                                title: '₹${calculatePrice(double.parse(provider.serviceList[index].subService?[0].price?.toString() ?? '0'), double.parse(provider.serviceList[index].subService?[0].offer?.toString() ?? '0'))}',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              appText(
+                                                  title: '₹${provider.serviceList[index].subService?[0].price ?? ""}',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey,
+                                                  textDecoration: TextDecoration.lineThrough
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                            ],
                                           ),
                                           const SizedBox(
-                                            width: 2,
+                                            height: 4,
                                           ),
-                                          appText(
-                                            title: '${provider.serviceList[index].subService?[0].timeTaken ?? "0"} Hour Service',
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.lightbulb,
+                                                color: appColors.appBlue,
+                                              ),
+                                              const SizedBox(
+                                                width: 2,
+                                              ),
+                                              appText(
+                                                title: '${provider.serviceList[index].subService?[0].timeTaken ?? "0"} Hour Service',
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 4,
+                                          ),
+                                          SizedBox(
+                                            width: 90,
+                                            height: 34,
+                                            child: AppButton(
+                                              borderColor: appColors.appColor,
+                                              color: Colors.white,
+                                              radius: 8,
+                                              onPressed: () {
+                                                showSlotBookingDialog(context);
+                                              },
+                                              title: '+ Book',
+                                              fontSize: 12,
+                                              textColor: appColors.appColor,
+                                              fontWeight: FontWeight.w900,
+                                            ),
                                           )
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      SizedBox(
-                                        width: 90,
-                                        height: 34,
-                                        child: AppButton(
-                                          radius: 8,
-                                          onPressed: () {
-                                            showSlotBookingDialog(context);
-                                          },
-                                          title: '+ Book',
-                                          fontSize: 12,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 )
+
+
+
                               ],
                             ),
                           ),
@@ -608,6 +713,552 @@ class _SearchScreenState extends State<SearchScreen>
         },
       );
     });
+  }
+
+  RangeValues values = const RangeValues(1, 1);
+  RangeLabels labels = const RangeLabels('1', "50000");
+
+  RangeValues rangeValue = const RangeValues(1, 1);
+  RangeLabels rangeLabels = const RangeLabels('1', "40");
+
+  RangeValues offerValue = const RangeValues(1, 1);
+  RangeLabels offerLabels = const RangeLabels("1", "100");
+  void _showFilter() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Wrap(children: [
+          StatefulBuilder(builder: (context, setState) {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        appText(
+                          title: texts.filter,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: appText(
+                            title: texts.price,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          width: 30,
+                          child: appText(
+                            title: '0',
+                            fontSize: 12,
+                          ),
+                        ),
+                        Expanded(
+                          child: Theme(
+                            data: ThemeData(
+                                sliderTheme: SliderThemeData(
+                                  valueIndicatorTextStyle: TextStyle(
+                                    color: appColors.appBlack,
+                                  ),
+                                  thumbColor: appColors.appColor,
+                                  activeTrackColor: appColors.appColor,
+                                  inactiveTrackColor: appColors.appGray,
+                                  valueIndicatorColor: appColors.appColor,
+                                  activeTickMarkColor: appColors.appColor,
+                                )),
+                            child: RangeSlider(
+                                divisions: 5,
+                                min: 1,
+                                max: 50000,
+                                values: values,
+                                labels: labels,
+                                onChanged: (value) {
+                                  setState(() {
+                                    values = value;
+                                    labels = RangeLabels(
+                                        value.start.toInt().toString(),
+                                        value.end.toInt().toString());
+                                  });
+                                }),
+                          ),
+                        ),
+                        appText(
+                          title: '50000',
+                          fontSize: 12,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: appText(
+                            title: texts.distance,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          width: 30,
+                          child: appText(
+                            title: '0 KM',
+                            fontSize: 12,
+                          ),
+                        ),
+                        Expanded(
+                          child: Theme(
+                            data: ThemeData(
+                                sliderTheme: SliderThemeData(
+                                  valueIndicatorTextStyle: TextStyle(
+                                    color: appColors.appBlack,
+                                  ),
+                                  thumbColor: appColors.appColor,
+                                  activeTrackColor: appColors.appColor,
+                                  inactiveTrackColor: appColors.appGray,
+                                  valueIndicatorColor: appColors.appColor,
+                                  activeTickMarkColor: appColors.appColor,
+                                )),
+                            child: RangeSlider(
+                                divisions: 5,
+                                min: 1,
+                                max: 40,
+                                values: rangeValue,
+                                labels: rangeLabels,
+                                onChanged: (value) {
+                                  setState(() {
+                                    rangeValue = value;
+                                    rangeLabels = RangeLabels(
+                                        value.start.toInt().toString(),
+                                        value.end.toInt().toString());
+                                  });
+                                }),
+                          ),
+                        ),
+                        appText(
+                          title: '40 KM',
+                          fontSize: 12,
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                      indent: 15,
+                      endIndent: 15,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 60,
+                          child: appText(
+                            title: texts.offer,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          width: 30,
+                          child: appText(
+                            title: '0%',
+                            fontSize: 12,
+                          ),
+                        ),
+                        Expanded(
+                          child: Theme(
+                            data: ThemeData(
+                                sliderTheme: SliderThemeData(
+                                  valueIndicatorTextStyle: TextStyle(
+                                    color: appColors.appBlack,
+                                  ),
+                                  thumbColor: appColors.appColor,
+                                  activeTrackColor: appColors.appColor,
+                                  inactiveTrackColor: appColors.appGray,
+                                  valueIndicatorColor: appColors.appColor,
+                                  activeTickMarkColor: appColors.appColor,
+                                )),
+                            child: RangeSlider(
+                                divisions: 5,
+                                min: 1,
+                                max: 100,
+                                values: offerValue,
+                                labels: offerLabels,
+                                onChanged: (value) {
+                                  setState(() {
+                                    offerValue = value;
+                                    offerLabels = RangeLabels(
+                                        value.start.toInt().toString(),
+                                        value.end.toInt().toString());
+                                  });
+                                }),
+                          ),
+                        ),
+                        appText(
+                          title: '100 %',
+                          fontSize: 12,
+                        ),
+
+                        // Checkbox(
+                        //   value: isOffer,
+                        //   activeColor: appColors.appColor,
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       isOffer = value!;
+                        //     });
+                        //   },
+                        // ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      indent: 15,
+                      endIndent: 15,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 60,
+                          child: appText(
+                            title: texts.nearest,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Checkbox(
+                          value: isNearest,
+                          activeColor: appColors.appColor,
+                          onChanged: (value) {
+                            setState(() {
+                              isNearest = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                      indent: 15,
+                      endIndent: 15,
+                    ),
+                    // Row(
+                    //   children: [
+                    //     appText(
+                    //         title: "Rating",
+                    //         fontWeight: FontWeight.bold
+                    //     ),
+                    //     RatingBar.builder(
+                    //       wrapAlignment: WrapAlignment.start,
+                    //       itemSize: 30,
+                    //       initialRating: 3,
+                    //       minRating: 1,
+                    //       direction: Axis.horizontal,
+                    //       allowHalfRating: true,
+                    //       itemCount: 4,
+                    //       itemBuilder: (context, _) => const Icon(
+                    //         Icons.star,
+                    //         color: Colors.amber,
+                    //       ),
+                    //       onRatingUpdate: (value) {},
+                    //     ),
+                    //
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       height: 40,
+                    //       width: 40,
+                    //       child: FittedBox(
+                    //         fit: BoxFit.fitWidth,
+                    //         child: Checkbox(
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius:
+                    //               BorderRadius
+                    //                   .circular(4),
+                    //               side: const BorderSide(
+                    //                   color: Colors
+                    //                       .indigoAccent)),
+                    //           side:  BorderSide(
+                    //               color: appColors.appColor),
+                    //           checkColor: Colors.white,
+                    //           activeColor:
+                    //           Colors.indigoAccent,
+                    //           value: _isMenChecked,
+                    //           onChanged: (bool? value) {
+                    //             setState(() {
+                    //               _isMenChecked = value ??
+                    //                   false; // Update the value in _isChecked list
+                    //             });
+                    //           },
+                    //
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     appText(title: "Mens"),
+                    //     SizedBox(
+                    //       height: 40,
+                    //       width: 40,
+                    //       child: FittedBox(
+                    //         fit: BoxFit.fitWidth,
+                    //         child: Checkbox(
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius:
+                    //               BorderRadius
+                    //                   .circular(4),
+                    //               side: const BorderSide(
+                    //                   color: Colors
+                    //                       .indigoAccent)),
+                    //           side:  BorderSide(
+                    //               color: appColors.appColor),
+                    //           checkColor: Colors.white,
+                    //           activeColor:
+                    //           Colors.indigoAccent,
+                    //           value: _isWomenChecked,
+                    //           onChanged: (bool? value) {
+                    //             setState(() {
+                    //               _isWomenChecked = value ??
+                    //                   false; // Update the value in _isChecked list
+                    //             });
+                    //           },
+                    //
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     appText(title: "Womens"),
+                    //     SizedBox(
+                    //       height: 40,
+                    //       width: 40,
+                    //       child: FittedBox(
+                    //         fit: BoxFit.fitWidth,
+                    //         child: Checkbox(
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius:
+                    //               BorderRadius
+                    //                   .circular(4),
+                    //               side:  BorderSide(
+                    //                   color: appColors.appColor)),
+                    //           side:  BorderSide(
+                    //               color: appColors.appColor),
+                    //           checkColor: Colors.white,
+                    //           activeColor:
+                    //           Colors.indigoAccent,
+                    //           value: _isKidsChecked,
+                    //           onChanged: (bool? value) {
+                    //             setState(() {
+                    //               _isKidsChecked = value ??
+                    //                   false; // Update the value in _isChecked list
+                    //             });
+                    //           },
+                    //
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     appText(title: "kids"),
+                    //   ],
+                    // ),
+
+                    Row(
+                      children: [
+                        appText(title: "Booking Date"),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            _selectbookingDate(context);
+                          },
+                          child: Container(
+                            height: 45,
+                            width: 130,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1, color: Colors.yellow),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    DateFormat('MMM d, yyyy')
+                                        .format(_selectedDate),
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: appColors.appColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      indent: 15,
+                      endIndent: 15,
+                    ),
+                    Row(
+                      children: [
+                        appText(title: "Booking Time from"),
+                        SizedBox(width: 10),
+                        SizedBox(
+                          width: 80,
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: appColors.appColor),
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            child: Row(
+                              children: [
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: selectedTimeFrom,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedTimeFrom = newValue;
+                                      });
+                                    },
+                                    items: timeItems.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Text(value,style: TextStyle(fontSize: 10),),
+                                        ),
+                                      );
+                                    }).toList(),
+
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        appText(title: "To"),
+                        SizedBox(width: 5),
+                        SizedBox(
+                          width: 80, // Specified width for the container
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: appColors.appColor),
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            child: Row(
+                              children: [
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: selectedTimeTo,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedTimeTo = newValue;
+                                      });
+                                    },
+                                    items: getSecondContainerItems().map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Text(value,style: const TextStyle(fontSize: 10),),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      endIndent: 15,
+                      indent: 15,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              radius: 12,
+                              onPressed: () {
+                                Navigator.of(context,rootNavigator: true).pop();
+                                _getNearByData();
+                              },
+                              title: texts.apply,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                          Expanded(
+                            child: AppButton(
+                              radius: 12,
+                              onPressed: () {
+                                setState(() {
+                                  // Reset values here.......
+                                  values = RangeValues(1, 1);
+                                  labels = RangeLabels('1', '1');
+                                  rangeValue = RangeValues(1, 1);
+                                  offerValue= RangeValues(1, 1);
+                                  // offerLabels= RangeValues('1','1');
+                                  rangeLabels = RangeLabels('1', '1');
+                                  isOffer = false;
+                                  isNearest = false;
+                                });
+                              },
+                              title: texts.reset,
+                              color: appColors.appGreen,
+                              textColor: appColors.appWhite,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ]),
+            );
+          }),
+        ]);
+      },
+    ).whenComplete(() {});
   }
 
   _nearByMembershipList() {

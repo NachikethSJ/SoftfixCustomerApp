@@ -10,7 +10,7 @@ import 'continue_to_payment.dart';
 import 'fixed_gridview_height.dart';
 
 class SlotBookingDialog extends StatefulWidget {
-  final String? subServiceId;
+  final int? subServiceId;
   const SlotBookingDialog({super.key, this.subServiceId});
 
   @override
@@ -47,6 +47,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
   @override
   void initState() {
     super.initState();
+    print("Subservice Type id===${widget.subServiceId}");
     // Initialize time slots and checkbox states
     timeSlots = ['10:30-11 AM', '10:30-11 AM', '10:30-11 AM', '10:30-11 AM'];
     _getNearByData();
@@ -61,7 +62,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
     return Consumer<DashboardProvider>(
       builder: (context, provider, child) {
         if (provider.showLoader) {
-          return Dialog(
+          return const Dialog(
             child: Center(
               child: CircularProgressIndicator(),
             ),

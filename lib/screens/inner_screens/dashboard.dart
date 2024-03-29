@@ -17,6 +17,7 @@ import 'package:salon_customer_app/screens/inner_screens/map/map_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
+import 'package:salon_customer_app/screens/inner_screens/serivce_at_home_screen.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
@@ -277,7 +278,7 @@ class _DashboardState extends State<Dashboard>
                     Padding(
                       padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 3.6,
+                        width: MediaQuery.of(context).size.width / 4.5,
                         child: InkWell(
                           onTap: () async {
                             await _openMap();
@@ -307,7 +308,7 @@ class _DashboardState extends State<Dashboard>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
                       child: FlutterToggleTab(
                         height: 42,
                         selectedBackgroundColors: [appColors.appWhite],
@@ -316,7 +317,7 @@ class _DashboardState extends State<Dashboard>
                         borderRadius: 12,
                         selectedTextStyle: TextStyle(
                             color: appColors.appBlack,
-                            fontSize: 10,
+                            fontSize: 8,
                             fontWeight: FontWeight.w500),
                         unSelectedTextStyle: const TextStyle(
                             color: Colors.black,
@@ -329,10 +330,10 @@ class _DashboardState extends State<Dashboard>
                           setState(() {
                             print("kfhjksyhfkjsdf $index");
                             print("kfhjksyhfkjsdf $i");
-                            if(index == 0){
+                            if(index == 1){
                               selectedIndex = "1";
                             }else {
-                              selectedIndex = "2";
+                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceHome()));
                             }
                             index = i;
                             _getNearByData();
@@ -354,7 +355,7 @@ class _DashboardState extends State<Dashboard>
                         child: InkWell(
                           onTap: () {
                             slideTransition(
-                                context: context, to: const SearchScreen());
+                                context: context, to:  SearchScreen(personType: personType,));
                           },
                           child: IgnorePointer(
                             child: Card(
