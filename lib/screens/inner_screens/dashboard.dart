@@ -29,6 +29,7 @@ import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../utils/slot.dart';
 import '../../utils/validator.dart';
+import '../common_screens/cutome_image_slider.dart';
 import '../common_screens/local_notifications.dart';
 import '../common_screens/notification.dart';
 import 'shop_detail.dart';
@@ -132,14 +133,14 @@ class _DashboardState extends State<Dashboard>
           'lat': latitude,
           'lng': longitude,
           'personType': widget.personType,
-          'serviceTypeId': selectedIndex,
-          'minOffer':offerLabels.start,
-          'maxOffer':offerLabels.end,
-          'minPrice': labels.start,
-          'maxPrice': labels.end,
-          'minDistance': rangeLabels.start,
-          'maxDistance': rangeLabels.end,
-
+          'serviceTypeId': "1",
+          'minOffer':int.tryParse(offerLabels.start),
+          'maxOffer':int.tryParse(offerLabels.end),
+          'minPrice': int.tryParse(labels.start),
+          'maxPrice': int.tryParse(labels.end),
+          'minDistance': int.tryParse(rangeLabels.start),
+          'maxDistance': int.tryParse(rangeLabels.end),
+          'search': "",
         };
         provider.getShopList(
           context: context,
@@ -373,8 +374,8 @@ class _DashboardState extends State<Dashboard>
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       suffixIcon: Icon(
-                                        Icons.search,
-                                        color: appColors.appBlack,
+                                        Icons.water_drop,
+                                        color: appColors.appGray,
                                       ),
                                       contentPadding: const EdgeInsets.only(
                                           left: 12,
@@ -584,8 +585,12 @@ class _DashboardState extends State<Dashboard>
                                                   showSlotBookingDialog(context);
                                                 },
                                                 child: Card(
-                                                  color: Colors.yellow,
+                                                  color: Colors.white,
                                                   shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: appColors.appColor, // Specify the desired border color here
+                                                      width: 1, // Specify the desired border width
+                                                    ),
                                                     borderRadius:
                                                         BorderRadius.circular(30),
                                                   ),
@@ -597,7 +602,7 @@ class _DashboardState extends State<Dashboard>
                                                       child: appText(
                                                         title: texts.book,
                                                         fontSize: 10,
-                                                        color: Colors.black,
+                                                        color: appColors.appColor,
                                                         fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
@@ -618,234 +623,246 @@ class _DashboardState extends State<Dashboard>
                         const SizedBox(
                           height: 12,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            appText(
-                              title: texts.bookAgain,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            appText(
-                              title: texts.seeAll,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: appColors.appGreen,
-                            ),
+                        //Slider.........
+                         DynamicPageView(
+                          imagePaths: [
+                            "assets/images/ban1.jpg",
+                            "assets/images/ban2.jpg",
+                            "assets/images/ban3.jpg",
+                            "assets/images/ban4.jpg",
                           ],
-                        ),
-                        const SizedBox(
-                          height: 12,
+                          indicatorColor: Colors.teal,
+                          activeIndicatorColor: appColors.appColor,
                         ),
 
-                        SizedBox(
-                          height: 174,
-                          child: Consumer<DashboardProvider>(
-                              builder: (context, provider, child) {
-                            if (provider.showLoader) {
-                              return ListView.separated(
-                                itemCount: 4,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    width: 14,
-                                  );
-                                },
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 130,
-                                    child: loadingShimmer(),
-                                  );
-                                },
-                              );
-                            } else if (provider.serviceList.isEmpty) {
-                              return Center(
-                                child: appText(title: texts.notFound),
-                              );
-                            }
-                            return ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  width: 6,
-                                );
-                              },
-                              padding: const EdgeInsets.all(0),
-                              itemCount: provider.serviceList.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  width: 150,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 150,
-                                          height: 120,
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(16),
-                                            child: Container(
-                                              color: Colors.yellowAccent.shade100,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(6),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    // GridView.builder(
-                                                    //   padding:
-                                                    //       const EdgeInsets.all(0),
-                                                    //   shrinkWrap: true,
-                                                    //   physics:
-                                                    //       const NeverScrollableScrollPhysics(),
-                                                    //   itemCount: provider
-                                                    //               .serviceList[
-                                                    //                   index]
-                                                    //               .subService!
-                                                    //               .length >
-                                                    //           4
-                                                    //       ? 4
-                                                    //       : provider
-                                                    //           .serviceList[index]
-                                                    //           .subService
-                                                    //           ?.length,
-                                                    //   gridDelegate:
-                                                    //       const FixedGridViewHeight(
-                                                    //           crossAxisCount: 2,
-                                                    //           height: 50,
-                                                    //           mainAxisSpacing: 5,
-                                                    //           crossAxisSpacing: 5),
-                                                    //   itemBuilder: (context, i) {
-                                                    //     return Column(
-                                                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                                                    //       children: [
-                                                    //         Container(
-                                                    //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                                    //           height:35,
-                                                    //           width: 35,
-                                                    //           child: ClipRRect(
-                                                    //             borderRadius:BorderRadius.circular(12),
-                                                    //             child: Image.network(
-                                                    //               provider
-                                                    //                       .serviceList[
-                                                    //                           index]
-                                                    //                       .subService?[i]
-                                                    //                       .image
-                                                    //                       ?.first ??
-                                                    //                   '',
-                                                    //               fit: BoxFit.fill,
-                                                    //             ),
-                                                    //           ),
-                                                    //         ),
-                                                    //         const SizedBox(height: 2,),
-                                                    //         Text("${provider.serviceList[index].subService?[i].type}",style: TextStyle(fontSize: 8),),
-                                                    //       ],
-                                                    //     );
-                                                    //   },
-                                                    // ),
-                                                    GridView.builder(
-                                                      padding: const EdgeInsets.all(0),
-                                                      shrinkWrap: true,
-                                                      physics: const NeverScrollableScrollPhysics(),
-                                                      itemCount: provider.serviceList[index].subService!.length > 4
-                                                          ? 4
-                                                          : provider.serviceList[index].subService!.length,
-                                                      gridDelegate: const FixedGridViewHeight(
-                                                        crossAxisCount: 2,
-                                                        height: 50,
-                                                        mainAxisSpacing: 5,
-                                                        crossAxisSpacing: 5,
-                                                      ),
-                                                      itemBuilder: (context, i) {
-                                                        if (i == 3 && provider.serviceList[index].subService!.length > 4) {
-                                                          return Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                                                height: 35,
-                                                                width: 35,
-                                                                child: ClipRRect(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      '+${provider.serviceList[index].subService!.length - 3}',
-                                                                      style: TextStyle(fontSize: 12),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 2,),
-                                                              Text(
-                                                                "More",
-                                                                style: TextStyle(fontSize: 8),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        } else {
-                                                          return Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                                                height: 35,
-                                                                width: 35,
-                                                                child: ClipRRect(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  child: Image.network(
-                                                                    provider.serviceList[index].subService![i].image?.first ?? '',
-                                                                    fit: BoxFit.fill,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(height: 2,),
-                                                              Text(
-                                                                "${provider.serviceList[index].subService![i].type}",
-                                                                style: TextStyle(fontSize: 8),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        }
-                                                      },
-                                                    ),
-
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 6,
-                                        ),
-                                        appText(
-                                          title: provider.serviceList[index].name ??
-                                              '',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        // appText(
-                                        //   title:
-                                        //       '${provider.serviceList[index].subService?.length ?? 0} Products',
-                                        //   color: appColors.appGray,
-                                        //   fontSize: 12,
-                                        //   fontWeight: FontWeight.w500,
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }),
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     appText(
+                        //       title: texts.bookAgain,
+                        //       fontSize: 16,
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //     appText(
+                        //       title: texts.seeAll,
+                        //       fontSize: 14,
+                        //       fontWeight: FontWeight.bold,
+                        //       color: appColors.appGreen,
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 12,
+                        // ),
+                        //
+                        // SizedBox(
+                        //   height: 174,
+                        //   child: Consumer<DashboardProvider>(
+                        //       builder: (context, provider, child) {
+                        //     if (provider.showLoader) {
+                        //       return ListView.separated(
+                        //         itemCount: 4,
+                        //         shrinkWrap: true,
+                        //         scrollDirection: Axis.horizontal,
+                        //         separatorBuilder: (context, index) {
+                        //           return const SizedBox(
+                        //             width: 14,
+                        //           );
+                        //         },
+                        //         itemBuilder: (context, index) {
+                        //           return SizedBox(
+                        //             height: 100,
+                        //             width: 130,
+                        //             child: loadingShimmer(),
+                        //           );
+                        //         },
+                        //       );
+                        //     } else if (provider.serviceList.isEmpty) {
+                        //       return Center(
+                        //         child: appText(title: texts.notFound),
+                        //       );
+                        //     }
+                        //     return ListView.separated(
+                        //       separatorBuilder: (context, index) {
+                        //         return const SizedBox(
+                        //           width: 6,
+                        //         );
+                        //       },
+                        //       padding: const EdgeInsets.all(0),
+                        //       itemCount: provider.serviceList.length,
+                        //       shrinkWrap: true,
+                        //       scrollDirection: Axis.horizontal,
+                        //       itemBuilder: (context, index) {
+                        //         return SizedBox(
+                        //           width: 150,
+                        //           child: Padding(
+                        //             padding: const EdgeInsets.all(8),
+                        //             child: Column(
+                        //               crossAxisAlignment: CrossAxisAlignment.start,
+                        //               children: [
+                        //                 SizedBox(
+                        //                   width: 150,
+                        //                   height: 120,
+                        //                   child: ClipRRect(
+                        //                     borderRadius: BorderRadius.circular(16),
+                        //                     child: Container(
+                        //                       color: Colors.yellowAccent.shade100,
+                        //                       child: Padding(
+                        //                         padding: const EdgeInsets.all(6),
+                        //                         child: Column(
+                        //                           mainAxisAlignment:
+                        //                               MainAxisAlignment.start,
+                        //                           children: [
+                        //                             // GridView.builder(
+                        //                             //   padding:
+                        //                             //       const EdgeInsets.all(0),
+                        //                             //   shrinkWrap: true,
+                        //                             //   physics:
+                        //                             //       const NeverScrollableScrollPhysics(),
+                        //                             //   itemCount: provider
+                        //                             //               .serviceList[
+                        //                             //                   index]
+                        //                             //               .subService!
+                        //                             //               .length >
+                        //                             //           4
+                        //                             //       ? 4
+                        //                             //       : provider
+                        //                             //           .serviceList[index]
+                        //                             //           .subService
+                        //                             //           ?.length,
+                        //                             //   gridDelegate:
+                        //                             //       const FixedGridViewHeight(
+                        //                             //           crossAxisCount: 2,
+                        //                             //           height: 50,
+                        //                             //           mainAxisSpacing: 5,
+                        //                             //           crossAxisSpacing: 5),
+                        //                             //   itemBuilder: (context, i) {
+                        //                             //     return Column(
+                        //                             //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //                             //       children: [
+                        //                             //         Container(
+                        //                             //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                        //                             //           height:35,
+                        //                             //           width: 35,
+                        //                             //           child: ClipRRect(
+                        //                             //             borderRadius:BorderRadius.circular(12),
+                        //                             //             child: Image.network(
+                        //                             //               provider
+                        //                             //                       .serviceList[
+                        //                             //                           index]
+                        //                             //                       .subService?[i]
+                        //                             //                       .image
+                        //                             //                       ?.first ??
+                        //                             //                   '',
+                        //                             //               fit: BoxFit.fill,
+                        //                             //             ),
+                        //                             //           ),
+                        //                             //         ),
+                        //                             //         const SizedBox(height: 2,),
+                        //                             //         Text("${provider.serviceList[index].subService?[i].type}",style: TextStyle(fontSize: 8),),
+                        //                             //       ],
+                        //                             //     );
+                        //                             //   },
+                        //                             // ),
+                        //                             GridView.builder(
+                        //                               padding: const EdgeInsets.all(0),
+                        //                               shrinkWrap: true,
+                        //                               physics: const NeverScrollableScrollPhysics(),
+                        //                               itemCount: provider.serviceList[index].subService!.length > 4
+                        //                                   ? 4
+                        //                                   : provider.serviceList[index].subService!.length,
+                        //                               gridDelegate: const FixedGridViewHeight(
+                        //                                 crossAxisCount: 2,
+                        //                                 height: 50,
+                        //                                 mainAxisSpacing: 5,
+                        //                                 crossAxisSpacing: 5,
+                        //                               ),
+                        //                               itemBuilder: (context, i) {
+                        //                                 if (i == 3 && provider.serviceList[index].subService!.length > 4) {
+                        //                                   return Column(
+                        //                                     crossAxisAlignment: CrossAxisAlignment.center,
+                        //                                     children: [
+                        //                                       Container(
+                        //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                        //                                         height: 35,
+                        //                                         width: 35,
+                        //                                         child: ClipRRect(
+                        //                                           borderRadius: BorderRadius.circular(12),
+                        //                                           child: Center(
+                        //                                             child: Text(
+                        //                                               '+${provider.serviceList[index].subService!.length - 3}',
+                        //                                               style: TextStyle(fontSize: 12),
+                        //                                             ),
+                        //                                           ),
+                        //                                         ),
+                        //                                       ),
+                        //                                       const SizedBox(height: 2,),
+                        //                                       Text(
+                        //                                         "More",
+                        //                                         style: TextStyle(fontSize: 8),
+                        //                                       ),
+                        //                                     ],
+                        //                                   );
+                        //                                 } else {
+                        //                                   return Column(
+                        //                                     crossAxisAlignment: CrossAxisAlignment.center,
+                        //                                     children: [
+                        //                                       Container(
+                        //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                        //                                         height: 35,
+                        //                                         width: 35,
+                        //                                         child: ClipRRect(
+                        //                                           borderRadius: BorderRadius.circular(12),
+                        //                                           child: Image.network(
+                        //                                             provider.serviceList[index].subService![i].image?.first ?? '',
+                        //                                             fit: BoxFit.fill,
+                        //                                           ),
+                        //                                         ),
+                        //                                       ),
+                        //                                       const SizedBox(height: 2,),
+                        //                                       Text(
+                        //                                         "${provider.serviceList[index].subService![i].type}",
+                        //                                         style: TextStyle(fontSize: 8),
+                        //                                       ),
+                        //                                     ],
+                        //                                   );
+                        //                                 }
+                        //                               },
+                        //                             ),
+                        //
+                        //                           ],
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 const SizedBox(
+                        //                   height: 6,
+                        //                 ),
+                        //                 appText(
+                        //                   title: provider.serviceList[index].name ??
+                        //                       '',
+                        //                   fontSize: 14,
+                        //                   fontWeight: FontWeight.w500,
+                        //                 ),
+                        //                 const SizedBox(
+                        //                   height: 4,
+                        //                 ),
+                        //                 // appText(
+                        //                 //   title:
+                        //                 //       '${provider.serviceList[index].subService?.length ?? 0} Products',
+                        //                 //   color: appColors.appGray,
+                        //                 //   fontSize: 12,
+                        //                 //   fontWeight: FontWeight.w500,
+                        //                 // ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         );
+                        //       },
+                        //     );
+                        //   }),
+                        // ),
                         const SizedBox(
                           height: 4,
                         ),

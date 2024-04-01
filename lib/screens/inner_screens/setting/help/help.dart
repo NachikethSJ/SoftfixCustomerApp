@@ -131,6 +131,7 @@ class _HelpPageState extends State<HelpPage> {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
 
         var body = {
+          "vendorId":"36",
           "name":subjectController.text,
           "message":messageController.text
         };

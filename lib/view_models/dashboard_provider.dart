@@ -3,6 +3,7 @@ import 'package:salon_customer_app/api/api_client.dart';
 import 'package:salon_customer_app/constants/app_urls.dart';
 import 'package:salon_customer_app/models/dashboard_models/near_by_service_model.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
+import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -286,6 +287,9 @@ class DashboardProvider extends ChangeNotifier {
         _help = (res?.data as List<dynamic>)
             .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
+
+
+        // validateConnectivity(context: context, provider: provider)
         print("dfhjfghdsgfhsdfsdh");
         showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
       } else {
