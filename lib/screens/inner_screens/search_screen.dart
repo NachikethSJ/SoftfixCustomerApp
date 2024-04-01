@@ -164,10 +164,10 @@ class _SearchScreenState extends State<SearchScreen>
           // 'minDistance': rangeLabels.start,
           // 'maxDistance': rangeLabels.end,
           'shopName': searchController.text ?? '',
-          "serviceName":searchController.text ?? '',
-          "packageName":searchController.text ?? '',
-          "subServiceType": searchController.text ?? '',
-          "membershipName" : searchController.text ?? ""
+          // "serviceName":searchController.text ?? '',
+          // "packageName":searchController.text ?? '',
+          // "subServiceType": searchController.text ?? '',
+          // "membershipName" : searchController.text ?? ""
 
         };
         provider.getShopList(
