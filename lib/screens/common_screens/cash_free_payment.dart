@@ -142,8 +142,7 @@ Future<Map<String, dynamic>> createSessionID(String orderID) async {
 // createSessionID(String orderID) async {
 //   var headers = {
 //     'Content-Type': 'application/json',
-//     'x-client-id': "TEST10161308ce7a3c7517ae3003742a80316101", // Replace with your actual client ID
-//     'x-client-secret': "cfsk_ma_test_dc9401919add89aa1c5174078ece3f14_be999582", // Replace with your actual client secret
+//    e with your actual client secret
 //     'x-api-version': '2024-04-01',
 //     'x-request-id': 'fluterwings'
 //   };
