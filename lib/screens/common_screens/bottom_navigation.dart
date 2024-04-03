@@ -34,6 +34,16 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
           var body = {
             'lat': latitude,
             'lng': longitude,
+
+            'serviceTypeId': "1",
+            'minOffer':1,
+            'maxOffer':100,
+            'minPrice': 1,
+            'maxPrice': 5000,
+            'minDistance': 1,
+            'maxDistance':40,
+            'search':  '',
+
             'personType': index == 0
                 ? ''
                 : index == 1

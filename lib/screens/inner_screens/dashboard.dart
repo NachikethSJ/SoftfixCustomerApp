@@ -140,7 +140,7 @@ class _DashboardState extends State<Dashboard>
           'maxPrice': int.tryParse(labels.end),
           'minDistance': int.tryParse(rangeLabels.start),
           'maxDistance': int.tryParse(rangeLabels.end),
-          'search': "",
+          'search': '',
         };
         provider.getShopList(
           context: context,
@@ -331,10 +331,10 @@ class _DashboardState extends State<Dashboard>
                           setState(() {
                             print("kfhjksyhfkjsdf $index");
                             print("kfhjksyhfkjsdf $i");
-                            if(index == 1){
+                            if(index == 0){
                               selectedIndex = "1";
                             }else {
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceHome()));
+                              selectedIndex = "2";
                             }
                             index = i;
                             _getNearByData();
@@ -582,7 +582,7 @@ class _DashboardState extends State<Dashboard>
                                               InkWell(
                                                 onTap: () {
                                                       //Select Slot Dialog
-                                                  showSlotBookingDialog(context);
+                                                  showSlotBookingDialog(context,'${subService[index].id}');
                                                 },
                                                 child: Card(
                                                   color: Colors.white,
@@ -2114,11 +2114,11 @@ class _DashboardState extends State<Dashboard>
   }
 
 
-  void showSlotBookingDialog(BuildContext context) {
+  void showSlotBookingDialog(BuildContext context,String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return  SlotBookingDialog();
+        return  SlotBookingDialog(subServiceId: int.tryParse(id),);
       },
     );
   }

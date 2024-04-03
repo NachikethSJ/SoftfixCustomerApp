@@ -35,7 +35,7 @@ class _CashFreePaymentState extends State<CashFreePayment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cashfree Payment Flutter Template'),
+        title: const Text('Continue to pay'),
       ),
       body: Center(
         child: Consumer<DashboardProvider>(
@@ -122,72 +122,69 @@ class _CashFreePaymentState extends State<CashFreePayment> {
       print(e.message);
     }
   }
-  // bookingSlot() {
-  //   WidgetsBinding.instance.addPostFrameCallback(
-  //         (timeStamp) {
-  //       var provider = Provider.of<DashboardProvider>(context, listen: false);
-  //
-  //       var body = {
-  //         "employeeId": "12",
-  //         "serviceTypeId": "1",
-  //         "bookingDate": widget.date,
-  //         "bookingStartTime": "09:00:00",
-  //         "bookingEndTime": "10:00:00",
-  //         "promocode": "121",
-  //         "tax": 10.50,
-  //         "latitude": 37.7749,
-  //         "longitude": -122.4194,
-  //         "bookingnumber": "BG456",
-  //         "transactionID": "TS456789",
-  //         "paymentStatus": "1",
-  //         "bookingStatus": "1"
-  //       };
-  //       provider.SlotBooking(
-  //         context: context,
-  //         body: body,
-  //       );
-  //     },
-  //   );
-  // }
 
 }
-
-createSessionID(String orderID) async {
-  var headers = {
-    'Content-Type': 'application/json',
-    'x-client-id': "CF10161308CO38QRDM103MD67HR870" ?? "",
-    'x-client-secret': "cfsk*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*2088" ?? "",
-    'x-api-version': '2022-09-01', // This is latest version for API
-    'x-request-id': 'fluterwings'
+Future<Map<String, dynamic>> createSessionID(String orderID) async {
+  // Sample response data (replace with your desired test/demo data)
+  Map<String, dynamic> sampleResponse = {
+    "order_id": "sample_order_id",
+    "payment_session_id": "sample_payment_session_id"
+    // Add any other fields you need to simulate
   };
-  print(headers);
-  var request =
-      http.Request('POST', Uri.parse('https://sandbox.cashfree.com/pg/orders'));
-  request.body = json.encode({
-    "order_amount": 1, // Order Amount in Rupees
-    "order_id": orderID, // OrderiD created by you it must be unique
-    "order_currency": "INR", // Currency of order like INR,USD
-    "customer_details": {
-      "customer_id": "customer_id", // Customer id
-      "customer_name": "customer_name", // Name of customer
-      "customer_email": "flutterwings304@gmail.com", // Email id of customer
-      "customer_phone": "+917737366393" // Phone Number of customer
-    },
-    "order_meta": {"notify_url": "https://test.cashfree.com"},
-    "order_note": "some order note here" // If you want to store something extra
-  });
-  request.headers.addAll(headers);
 
-  http.StreamedResponse response = await request.send();
+  // Simulate an asynchronous delay to mimic API call
+  await Future.delayed(Duration(seconds: 1));
 
-  if (response.statusCode == 200) {
-    // If All the details is correct it will return the
-    // response and you can get sessionid for checkout
-    return jsonDecode(await response.stream.bytesToString());
-  } else {
-    print(await response.stream.bytesToString());
-    print(response.reasonPhrase);
-  }
-
-
+  // Return the sample response
+  return sampleResponse;
 }
+
+// createSessionID(String orderID) async {
+//   var headers = {
+//     'Content-Type': 'application/json',
+//     'x-client-id': "TEST10161308ce7a3c7517ae3003742a80316101", // Replace with your actual client ID
+//     'x-client-secret': "cfsk_ma_test_dc9401919add89aa1c5174078ece3f14_be999582", // Replace with your actual client secret
+//     'x-api-version': '2024-04-01',
+//     'x-request-id': 'fluterwings'
+//   };
+//
+//   var request = http.Request(
+//       'POST', Uri.parse('https://sandbox.cashfree.com/pg/orders'));
+//   request.body = json.encode({
+//     "order_amount": 1,
+//     "order_id": orderID,
+//     "order_currency": "INR",
+//     "customer_details": {
+//       "customer_id": "customer_id",
+//       "customer_name": "customer_name",
+//       "customer_email": "flutterwings304@gmail.com",
+//       "customer_phone": "+917737366393"
+//     },
+//     "order_meta": {"notify_url": "https://test.cashfree.com"},
+//     "order_note": "some order note here"
+//   });
+//   request.headers.addAll(headers);
+//
+//   http.StreamedResponse response = await request.send();
+//
+//   if (response.statusCode == 200) {
+//     // Decode the response body
+//     var responseBody = await response.stream.bytesToString();
+//     print('Response body: $responseBody');
+//
+//     // Parse the JSON response
+//     var jsonResponse = jsonDecode(responseBody);
+//
+//     // Check if the response contains the expected data
+//     if (jsonResponse.containsKey('order_id') && jsonResponse.containsKey('payment_session_id')) {
+//       return jsonResponse;
+//     } else {
+//       throw Exception('Unexpected response format');
+//     }
+//   } else {
+//     print(await response.stream.bytesToString());
+//     print(response.reasonPhrase);
+//     throw Exception('Failed to create session ID: ${response.reasonPhrase}');
+//   }
+// }
+

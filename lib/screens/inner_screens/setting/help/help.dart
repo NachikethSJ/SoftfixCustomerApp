@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
+import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
+import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
 import '../../../../utils/custom_textfield.dart';
@@ -17,6 +19,7 @@ class _HelpPageState extends State<HelpPage> {
   String _enteredText = "";
   TextEditingController subjectController = TextEditingController();
   TextEditingController messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -43,7 +46,7 @@ class _HelpPageState extends State<HelpPage> {
                     Text(
                       "How can i help you?",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     SizedBox(
                       height: 20,
@@ -96,25 +99,15 @@ class _HelpPageState extends State<HelpPage> {
                     const SizedBox(
                       height: 25,
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        helpQueryUser();
-                        Navigator.pop(context);
+                    Consumer<DashboardProvider>(
+                      builder: (context, provider, child) {
+                        return AppButton(
+                            isLoading:provider.showLoader,
+                            onPressed: () {
+                              helpQueryUser();
+                            }, title: 'Submit', radius: 12);
                       },
-                      child: Container(
-                        height: 45,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: appColors.appColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Center(
-                            child: Text(
-                          "Submit",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                      ),
-                    )
+                    ),
                   ],
                 );
               },
@@ -126,21 +119,22 @@ class _HelpPageState extends State<HelpPage> {
   }
 
   helpQueryUser() {
-    WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-        var provider = Provider.of<DashboardProvider>(context, listen: false);
+    validateConnectivity(context: context, provider: () {
+      var provider = Provider.of<DashboardProvider>(context, listen: false);
 
-        var body = {
-          "vendorId":"36",
-          "name":subjectController.text,
-          "message":messageController.text
-        };
-        provider.help(
-          context: context,
-          body: body,
-        );
-
-      },
-    );
+      var body = {
+        "vendorId": "36",
+        "name": subjectController.text,
+        "message": messageController.text
+      };
+      provider.help(
+        context: context,
+        body: body,
+      ).then((value) {
+        if (value) {
+          Navigator.pop(context);
+        }
+      });
+    });
   }
 }

@@ -24,15 +24,12 @@ class PaymentContinueScreen extends StatefulWidget {
 }
 
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
-  CFPaymentGatewayService cfPaymentGatewayService = CFPaymentGatewayService();
+  CashFreePayment cashFreePayment = CashFreePayment();
   int count = 1;
 bool isSuccess = true;
   @override
   void initState() {
     super.initState();
-    CashFreePayment();
-// Attach events when payment is success and when error occured
-    cfPaymentGatewayService.setCallback(verifyPayment, onError);
   }
 
   @override
@@ -234,7 +231,12 @@ bool isSuccess = true;
                       GestureDetector(
                         onTap: () {
                           // bookingSlot();
-                          CashFreePayment();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CashFreePayment(), // Instantiate CashFreePayment widget
+                            ),
+                          );
                         },
                         child: Container(
                           height: 45,
@@ -259,68 +261,8 @@ bool isSuccess = true;
       ),
     );
   }
-  void verifyPayment(String orderId) {
-    // Here we will only print the statement
-    // to check payment is done or not
-    isSuccess = true;
-    setState(() {
 
-    });
-    print("Verify Payment $orderId");
-  }
-  void onError(CFErrorResponse errorResponse, String orderId) {
-// printing the error message so that we can
-    // show it to user or checkourselves for testing
-    isSuccess = false;
-    setState(() {});
-    print(errorResponse.getMessage());
-    print("Error while making payment");
-  }
-  pay() async {
-    try {
-      var session = await createSession();
-      List<CFPaymentModes> components = <CFPaymentModes>[];
-      // If you want to set paument mode to be shown to customer
-      var paymentComponent =
-      CFPaymentComponentBuilder().setComponents(components).build();
-      // We will set theme of checkout session page like fonts, color
-      var theme = CFThemeBuilder()
-          .setNavigationBarBackgroundColorColor("#FF0000")
-          .setPrimaryFont("Menlo")
-          .setSecondaryFont("Futura")
-          .build();
-      // Create checkout with all the settings we have set earlier
-      var cfDropCheckoutPayment = CFDropCheckoutPaymentBuilder()
-          .setSession(session!)
-          .setPaymentComponent(paymentComponent)
-          .setTheme(theme)
-          .build();
-      // Launching the payment page
 
-      cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
-    } on CFException catch (e) {
-      print(e.message);
-    }
-  }
-
-  Future<CFSession?> createSession() async {
-    try {
-      final mySessionIDData = await bookingSlot(); //This will create session id from flutter itself
-
-      // Now we will se some parameter like orderID ,environment,payment sessionID
-      // after that we wil create the checkout session which
-      // will launch through which user can pay.
-      var session = CFSessionBuilder()
-          .setEnvironment(CFEnvironment.SANDBOX)
-          .setOrderId(mySessionIDData["order_id"])
-          .setPaymentSessionId(mySessionIDData["payment_session_id"])
-          .build();
-      return session;
-    } on CFException catch (e) {
-      print(e.message);
-    }
-    return null;
-  }
 
   bookingSlot() {
     WidgetsBinding.instance.addPostFrameCallback(

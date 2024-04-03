@@ -155,6 +155,8 @@ class _SearchScreenState extends State<SearchScreen>
         var body = {
           'lat': latitude,
           'lng': longitude,
+          // "lat": "26.8310467",
+          // "lng": "80.9243877",
           'personType': widget.personType,
           'serviceTypeId': "1",
           'minOffer':int.tryParse(offerLabels.start),
@@ -166,19 +168,19 @@ class _SearchScreenState extends State<SearchScreen>
           'search': searchController.text ?? '',
         };
         print("====$body");
-        provider.getShopList(
+        provider.getSearchShopList(
           context: context,
           body: body,
         );
-        provider.getServiceList(
+          provider.getSearchServiceList(
           context: context,
           body: body,
         );
-        provider.getMembershipList(
+        provider.getSearchMembershipList(
           context: context,
           body: body,
         );
-        provider.getPackagesList(
+        provider.getSearchPackagesList(
           context: context,
           body: body,
         );
@@ -406,7 +408,7 @@ class _SearchScreenState extends State<SearchScreen>
   _serviceList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
       List<NearServiceModel> serviceData =
-          provider.serviceList.where((element) {
+          provider.searchserviceList.where((element) {
         if (searchController.text.isNotEmpty) {
           return element.name
                   ?.toLowerCase()
@@ -438,7 +440,7 @@ class _SearchScreenState extends State<SearchScreen>
             height: 12,
           );
         },
-        itemCount: provider.serviceList.length,
+        itemCount: provider.searchserviceList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(
@@ -451,7 +453,7 @@ class _SearchScreenState extends State<SearchScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   appText(
-                    title: '${provider.serviceList[index].name}',
+                    title: '${provider.searchserviceList[index].name}',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -475,7 +477,7 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
+                            title: '${provider.searchserviceList[index].subService?[0].rating ?? "0"}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -491,7 +493,7 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${provider.serviceList[index].subService?[0].price ?? ""}',
+                            title: '${provider.searchserviceList[index].subService?[0].price ?? ""}',
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -503,7 +505,7 @@ class _SearchScreenState extends State<SearchScreen>
                       Row(
                         children: [
                           // appText(
-                          //   title: '${(Geolocator.distanceBetween(latitude, longitude, provider.serviceList[index].lat!, provider.nearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
+                          //   title: '${(Geolocator.distanceBetween(latitude, longitude, provider.searchserviceList[index].lat!, provider.newnearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
                           //   fontSize: 14,
                           //   fontWeight: FontWeight.bold,
                           // ),
@@ -530,7 +532,7 @@ class _SearchScreenState extends State<SearchScreen>
                           width: 10,
                         );
                       },
-                      itemCount: provider.serviceList[index].subService?.length??0,
+                      itemCount: provider.searchserviceList[index].subService?.length??0,
                       itemBuilder: (context, i) {
                         return Card(
                           elevation: 8,
@@ -550,7 +552,7 @@ class _SearchScreenState extends State<SearchScreen>
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(17),
                                         child: Image.network(
-                                          provider.serviceList?[index].subService?[i].image?.first ?? "",
+                                          provider.searchserviceList?[index].subService?[i].image?.first ?? "",
                                           fit: BoxFit.fill,
                                           errorBuilder: (context, error, stackTrace) {
                                             return Container(
@@ -579,7 +581,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         decoration: const BoxDecoration(
                                             color: Colors.blue
                                         ),
-                                        child:  Center(child: Text("${provider.serviceList[index].subService?[i].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                                        child:  Center(child: Text("${provider.searchserviceList[index].subService?[i].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
                                       ),
                                     ),
                                   ],
@@ -596,7 +598,7 @@ class _SearchScreenState extends State<SearchScreen>
                                         CrossAxisAlignment.start,
                                         children: [
                                           appText(
-                                            title: '${provider.serviceList[index].subService?[i].type ?? ""}',
+                                            title: '${provider.searchserviceList[index].subService?[i].type ?? ""}',
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -620,7 +622,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '${provider.serviceList[index].subService?[i].rating ?? "0"}',
+                                                title: '${provider.searchserviceList[index].subService?[i].rating ?? "0"}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -632,7 +634,7 @@ class _SearchScreenState extends State<SearchScreen>
                                           Row(
                                             children: [
                                               appText(
-                                                title: '₹${calculatePrice(double.parse(provider.serviceList[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.serviceList[index].subService?[i].offer?.toString() ?? '0'))}',
+                                                title: '₹${calculatePrice(double.parse(provider.searchserviceList[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -640,7 +642,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 10,
                                               ),
                                               appText(
-                                                  title: '₹${provider.serviceList[index].subService?[i].price ?? ""}',
+                                                  title: '₹${provider.searchserviceList[index].subService?[i].price ?? ""}',
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey,
@@ -664,7 +666,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '${provider.serviceList[index].subService?[i].timeTaken ?? "0"} Hour Service',
+                                                title: '${provider.searchserviceList[index].subService?[i].timeTaken ?? "0"} Hour Service',
                                               )
                                             ],
                                           ),
@@ -1276,7 +1278,7 @@ class _SearchScreenState extends State<SearchScreen>
             );
           },
         );
-      } else if (provider.membershipList.isEmpty) {
+      } else if (provider.searchmembershipList.isEmpty) {
         return SizedBox(
           height: 200,
           child: Center(
@@ -1293,14 +1295,14 @@ class _SearchScreenState extends State<SearchScreen>
           );
         },
         shrinkWrap: true,
-        itemCount: provider.membershipList.length,
+        itemCount: provider.searchmembershipList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
               slideTransition(
                 context: context,
                 to: MembershipDetail(
-                  data: provider.membershipList[index],
+                  data: provider.searchmembershipList[index],
                 ),
               );
             },
@@ -1325,7 +1327,7 @@ class _SearchScreenState extends State<SearchScreen>
                             children: [
                               appText(
                                 title: provider
-                                        .membershipList[index].membershipName ??
+                                        .searchmembershipList[index].membershipName ??
                                     '',
                                 fontSize: 20,
                                 color: Colors.black,
@@ -1333,7 +1335,7 @@ class _SearchScreenState extends State<SearchScreen>
                               ),
                               appText(
                                 title: provider
-                                        .membershipList[index].service?.name ??
+                                        .searchmembershipList[index].service?.name ??
                                     '',
                                 color: Colors.black,
                               ),
@@ -1350,7 +1352,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   ),
                                   appText(
                                     title:
-                                        '${calculatePrice(provider.membershipList[index].price, provider.membershipList[index].offer)}',
+                                        '${calculatePrice(provider.searchmembershipList[index].price, provider.searchmembershipList[index].offer)}',
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -1393,7 +1395,7 @@ class _SearchScreenState extends State<SearchScreen>
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.membershipList[index].image?.first ?? '',
+                                  image: provider.searchmembershipList[index].image?.first ?? '',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
@@ -1425,7 +1427,7 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                   child: Center(
                       child: appText(
-                    title: '${provider.membershipList[index].offer}% OFF',
+                    title: '${provider.searchmembershipList[index].offer}% OFF',
                     color: appColors.appWhite,
                     fontWeight: FontWeight.bold,
                   )),
@@ -1463,7 +1465,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.searchmembershipList[index].shop!.lat!, provider.searchmembershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -1499,7 +1501,7 @@ class _SearchScreenState extends State<SearchScreen>
             );
           },
         );
-      } else if (provider.packageList.isEmpty) {
+      } else if (provider.searchpackageList.isEmpty) {
         return SizedBox(
           height: 200,
           child: Center(
@@ -1516,14 +1518,14 @@ class _SearchScreenState extends State<SearchScreen>
           );
         },
         shrinkWrap: true,
-        itemCount: provider.packageList.length,
+        itemCount: provider.searchpackageList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
               slideTransition(
                 context: context,
                 to: PackageDetail(
-                  data: provider.packageList[index],
+                  data: provider.searchpackageList[index],
                 ),
               );
             },
@@ -1551,7 +1553,7 @@ class _SearchScreenState extends State<SearchScreen>
                               ),
                               appText(
                                 title:
-                                    provider.packageList[index].packageName ??
+                                    provider.searchpackageList[index].packageName ??
                                         '',
                                 fontSize: 20,
                                 // color: appColors.appGray,
@@ -1560,7 +1562,7 @@ class _SearchScreenState extends State<SearchScreen>
                               ),
                               appText(
                                 title: _getServiceName(
-                                    provider.packageList[index].service ?? []),
+                                    provider.searchpackageList[index].service ?? []),
                                 // color: appColors.appWhite,
                                 color: Colors.black,
 
@@ -1578,7 +1580,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   ),
                                   appText(
                                     title:
-                                        '${calculatePrice(provider.packageList[index].price, provider.packageList[index].discount)}',
+                                        '${calculatePrice(provider.searchpackageList[index].price, provider.searchpackageList[index].discount)}',
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -1621,7 +1623,7 @@ class _SearchScreenState extends State<SearchScreen>
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.packageList[index].image?.first ?? '',
+                                  image: provider.searchpackageList[index].image?.first ?? '',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
@@ -1652,7 +1654,7 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                   child: Center(
                       child: appText(
-                    title: '${provider.packageList[index].discount}% OFF',
+                    title: '${provider.searchpackageList[index].discount}% OFF',
                     color: appColors.appWhite,
                     fontWeight: FontWeight.bold,
                   )),
@@ -1690,7 +1692,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.packageList[index].shop!.lat!, provider.packageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.searchpackageList[index].shop!.lat!, provider.searchpackageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )

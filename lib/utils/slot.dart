@@ -301,11 +301,10 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
-          "subServiceId": 16,
-          "date": "2024-02-29",
-          "currentTime": "03:27"
-          // "date": formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
-          // "currentTime": formatDateTime(_selectedDate.toString(),'hh:mm'),
+          // "subServiceId": widget.subServiceId,
+          "subServiceId": "16",
+          "date": formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+          "currentTime": formatDateTime(_selectedDate.toString(),'hh:mm'),
         };
         provider.getSlotList(
           context: context,

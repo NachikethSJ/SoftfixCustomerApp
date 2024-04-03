@@ -27,6 +27,8 @@ class AppUrls {
  String get slotBooking => '/user/bookingdetails';
 
  String get help => '/user/storesupportusers';
+
+ String get review=> '/user/createreview';
 }
 
 AppUrls appUrls = AppUrls();

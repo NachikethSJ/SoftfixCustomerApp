@@ -55,7 +55,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
       children: [
         SizedBox(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height / 4,
+          height: MediaQuery.of(context).size.height / 5,
           child: PageView.builder(
             controller: _pageController,
             itemCount: widget.imagePaths.length,

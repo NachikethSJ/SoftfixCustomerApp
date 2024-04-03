@@ -35,6 +35,23 @@ class DashboardProvider extends ChangeNotifier {
   List<PackagesModel> _packageList = [];
   List<PackagesModel> get packageList => _packageList;
 
+  //new
+
+  List<NearByShopModel> _searchnearShopList = [];
+  List<NearByShopModel> get newnearShopList => _searchnearShopList;
+
+  List<NearServiceModel> _searchserviceList = [];
+  List<NearServiceModel> get searchserviceList => _searchserviceList;
+
+  List<SubService> _searchsubServiceList = [];
+  List<SubService> get searchsubServiceList => _searchsubServiceList;
+
+  List<MembershipModel> _searchmembershipList = [];
+  List<MembershipModel> get searchmembershipList => _searchmembershipList;
+
+  List<PackagesModel> _searchpackageList = [];
+  List<PackagesModel> get searchpackageList => _searchpackageList;
+
   List<SlotBySubServicesModel> _slotList = [];
   List<SlotBySubServicesModel> get slotList => _slotList;
 
@@ -80,6 +97,36 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
+  //new
+  Future<bool> getSearchShopList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.nearByShopUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _searchnearShopList = res?.data
+          .map<NearByShopModel>((e) => NearByShopModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+
   Future<bool> getServiceList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -102,6 +149,41 @@ class DashboardProvider extends ChangeNotifier {
           .toList();
       for (var element in _serviceList) {
         _subServiceList.addAll(element.subService ?? []);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  //new
+
+  Future<bool> getSearchServiceList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _searchserviceList = [];
+   _searchsubServiceList = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.nearByServicesUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _searchserviceList = res?.data
+          .map<NearServiceModel>((e) => NearServiceModel.fromJson(e))
+          .toList();
+      for (var element in _searchserviceList) {
+        _searchsubServiceList.addAll(element.subService ?? []);
       }
       _setShowLoader(false);
       notifyListeners();
@@ -137,6 +219,40 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      print("=====Exception=============$e");
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  //new
+
+  Future<bool> getSearchMembershipList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _searchmembershipList = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.membershipUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _searchmembershipList = res?.data
+          .map<MembershipModel>((e) => MembershipModel.fromJson(e))
+          .toList();
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception=============$e");
       _setShowLoader(false);
       notifyListeners();
       return false;
@@ -167,11 +283,45 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      print("=====Exception=============$e");
       _setShowLoader(false);
       notifyListeners();
       return false;
     }
   }
+
+  //new
+
+  Future<bool> getSearchPackagesList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _searchpackageList = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.packagesUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _searchpackageList = res?.data
+          .map<PackagesModel>((e) => PackagesModel.fromJson(e))
+          .toList();
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
 
   Future<bool> getSlotList({
     required BuildContext context,
