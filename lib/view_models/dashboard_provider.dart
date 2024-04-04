@@ -8,6 +8,7 @@ import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/accounts/get_booking_details_model.dart';
+import '../models/booking/create_order_model.dart';
 import '../models/common_models/response_model.dart';
 import '../models/dashboard_models/membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
@@ -64,6 +65,8 @@ class DashboardProvider extends ChangeNotifier {
   List<SupportModel> _help = [];
   List<SupportModel> get helpuser => _help;
 
+  List<CreateOrderModel> _createOrderSlot = [];
+  List<CreateOrderModel> get createOrderSlot => _createOrderSlot;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -453,6 +456,38 @@ class DashboardProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       print("=====Exception===$e");
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+
+  }
+
+  Future<bool> createOrder({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _createOrderSlot = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.createOrder,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _createOrderSlot = res?.data
+          .map<CreateOrderModel>((e) => CreateOrderModel().toJson())
+          .toList();
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception=============$e");
       _setShowLoader(false);
       notifyListeners();
       return false;

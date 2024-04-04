@@ -3,9 +3,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/near_by_service_model.dart';
+import 'package:salon_customer_app/screens/inner_screens/cart/cart_screen.dart';
+import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
+
+import '../common_screens/bottom_navigation.dart';
 
 class SubServiceDetail extends StatefulWidget {
   final SubService data;
@@ -314,29 +318,34 @@ class SubServiceDetailState extends State<SubServiceDetail> {
             ),
           ),
         )
-            : Container(
-          color: Colors.grey.shade200,
-          height: 70,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8,right: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    margin: const EdgeInsets.only(left: 15),
-                    child: Text("${count} Service Added")),
-                Container(
-                  height: 70,
-                  width: 130,
-                  decoration: BoxDecoration(
-                      color: appColors.appGreen
-                  ),
-                  child: const Center(child: Text("₹ 2500 View Cart",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                )
-              ],
-            ),
-          ),
-        )
+            : GestureDetector(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavigation()));
+          },
+              child: Container(
+                        color: Colors.grey.shade200,
+                        height: 70,
+                        child: Padding(
+              padding: const EdgeInsets.only(left: 8,right: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      margin: const EdgeInsets.only(left: 15),
+                      child: Text("${count} Service Added")),
+                  Container(
+                    height: 70,
+                    width: 130,
+                    decoration: BoxDecoration(
+                        color: appColors.appGreen
+                    ),
+                    child: const Center(child: Text("₹ 2500 View Cart",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                  )
+                ],
+              ),
+                        ),
+                      ),
+            )
 
 
     );

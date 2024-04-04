@@ -5,6 +5,7 @@ import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
+import '../inner_screens/cart/cart_screen.dart';
 import '../inner_screens/profile.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -97,6 +98,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
       const Dashboard(personType: '0'),
       const Dashboard(personType: '1'),
       const Dashboard(personType: '2'),
+      const CartScreen(),
       const Profile()
     ];
     return Scaffold(
@@ -236,7 +238,25 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
-                Icons.account_circle_outlined,
+                Icons.shopping_cart_outlined,
+                color: appColors.appColor,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+            ],
+          ),
+          icon: Icon(
+            Icons.shopping_cart_outlined,
+            color: appColors.appBlack,
+          ),
+          label: texts.cart),
+      BottomNavigationBarItem(
+          activeIcon: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.shopping_cart_outlined,
                 color: appColors.appColor,
               ),
               const SizedBox(

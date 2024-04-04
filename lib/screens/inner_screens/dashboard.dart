@@ -410,9 +410,13 @@ class _DashboardState extends State<Dashboard>
                             width: 50,
                             height: 46,
                             child: Center(
-                              child: Icon(
-                                Icons.notifications,
-                                color: appColors.appBlack,
+                              child: Badge(
+                                label: const Text("0"),
+                                backgroundColor: Colors.teal,
+                                child: Icon(
+                                  Icons.notifications,
+                                  color: appColors.appBlack,
+                                ),
                               ),
                             ),
                           ),
@@ -584,27 +588,16 @@ class _DashboardState extends State<Dashboard>
                                                       //Select Slot Dialog
                                                   showSlotBookingDialog(context,'${subService[index].id}');
                                                 },
-                                                child: Card(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: appColors.appColor, // Specify the desired border color here
-                                                      width: 1, // Specify the desired border width
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(30),
-                                                  ),
+                                                child: Container(
+                                                  height: 25,
+                                                  width: 45,
+                                                  decoration: BoxDecoration(border: Border.all(color: appColors.appColor,),borderRadius: BorderRadius.circular(5)),
                                                   child: Center(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              14, 6, 14, 6),
-                                                      child: appText(
-                                                        title: texts.book,
-                                                        fontSize: 10,
-                                                        color: appColors.appColor,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
+                                                    child: appText(
+                                                      title: texts.book,
+                                                      fontSize: 12,
+                                                      color: appColors.appColor,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -625,7 +618,7 @@ class _DashboardState extends State<Dashboard>
                         ),
                         //Slider.........
                          DynamicPageView(
-                          imagePaths: [
+                          imagePaths: const [
                             "assets/images/ban1.jpg",
                             "assets/images/ban2.jpg",
                             "assets/images/ban3.jpg",
@@ -1025,11 +1018,11 @@ class _DashboardState extends State<Dashboard>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(20, 20))),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(10, 10))),
                       width: double.infinity,
                       height: 120,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.elliptical(20, 20)),
+                        borderRadius: BorderRadius.all(Radius.elliptical(10, 10)),
                         child: Image.network(
                           shopsData[index].imageUrl?[0] ?? '',
                           fit: BoxFit.fill,

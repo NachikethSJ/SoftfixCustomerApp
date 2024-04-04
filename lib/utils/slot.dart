@@ -259,6 +259,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            createSlotOrder();
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),)));// Close the dialog
                           },
                           style: ButtonStyle(
@@ -301,8 +302,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
-          // "subServiceId": widget.subServiceId,
-          "subServiceId": "16",
+          "subServiceId": widget.subServiceId,
           "date": formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
           "currentTime": formatDateTime(_selectedDate.toString(),'hh:mm'),
         };
@@ -314,5 +314,18 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
     );
   }
 
-
+createSlotOrder(){
+  WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) {
+      var provider = Provider.of<DashboardProvider>(context, listen: false);
+      var body = {
+        "id": widget.subServiceId,
+      };
+      provider.createOrder(
+        context: context,
+        body: body,
+      );
+    },
+  );
+}
 }

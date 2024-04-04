@@ -24,12 +24,16 @@ class PaymentContinueScreen extends StatefulWidget {
 }
 
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
-  CashFreePayment cashFreePayment = CashFreePayment();
   int count = 1;
 bool isSuccess = true;
   @override
   void initState() {
     super.initState();
+    @override
+    void initState() {
+      super.initState();
+    }
+
   }
 
   @override
@@ -59,7 +63,7 @@ bool isSuccess = true;
                     builder: (context, provider, child) {
                       return ListView.builder(
                           shrinkWrap: true,
-                          itemCount: 4,
+                          itemCount: 1,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(
@@ -77,7 +81,7 @@ bool isSuccess = true;
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.personal_injury_sharp,
                                                   color: Colors.grey,
                                                 ),
@@ -92,12 +96,12 @@ bool isSuccess = true;
                                                 fontSize: 14),
                                             Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.video_library_outlined,
                                                   color: Colors.blueGrey,
                                                 ),
                                                 appText(
-                                                    title: "Reshedule",
+                                                    title: "Add more",
                                                     fontSize: 14)
                                               ],
                                             )
@@ -197,19 +201,85 @@ bool isSuccess = true;
                           });
                     },
                   ),
+                  Card(
+                    elevation: 2,
+                    child: SizedBox(
+                      height: 100,
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                            children: [
+                            Column(
+                              children: [
+                                appText(title: "Bill Details",fontSize: 18,fontWeight: FontWeight.bold),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.event_note_outlined),
+                                      SizedBox(width: 2,),
+                                      appText(title: "Services "),
+
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8,right: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.shopping_bag_outlined),
+                                      appText(title: "Grand Total"),
+
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: appText(title: "Total",fontSize: 12,fontWeight: FontWeight.bold),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: appText(title: '$count'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: appText(title: "1000"),
+                                ),
+                              ],
+                            )
+                          ],),
+
+
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   Row(
                     children: [
                       Container(
                           decoration: BoxDecoration(
                               color: appColors.appColor,
                               borderRadius: BorderRadius.circular(12)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
+                          child: const Padding(
+                            padding: EdgeInsets.only(
                                 left: 5, right: 5, top: 5, bottom: 5),
-                            child: Icon(Icons.monetization_on_outlined,
+                            child: Icon(Icons.currency_rupee,
                                 color: Colors.white),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Container(
@@ -223,20 +293,15 @@ bool isSuccess = true;
                             )),
                         child: Center(
                             child: appText(
-                                title: "Pay using", color: Colors.grey,fontSize: 14)),
+                                title: "500", color: Colors.grey,fontSize: 14)),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async{
                           // bookingSlot();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CashFreePayment(), // Instantiate CashFreePayment widget
-                            ),
-                          );
+                      await  CashFreepayment().pay();
                         },
                         child: Container(
                           height: 45,

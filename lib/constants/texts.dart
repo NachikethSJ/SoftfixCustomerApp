@@ -28,6 +28,8 @@ class Texts {
 
   String get account => 'Account';
 
+  String get cart => 'Cart';
+
   String get serviceAtHome => 'Service At Home';
 
   String get serviceAtShop => 'Service At Shop';

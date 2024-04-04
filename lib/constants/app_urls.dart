@@ -29,6 +29,8 @@ class AppUrls {
  String get help => '/user/storesupportusers';
 
  String get review=> '/user/createreview';
+
+ String get  createOrder=> '/user/createOrder';
 }
 
 AppUrls appUrls = AppUrls();
