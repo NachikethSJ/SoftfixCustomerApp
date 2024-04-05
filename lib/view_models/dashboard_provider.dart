@@ -65,8 +65,8 @@ class DashboardProvider extends ChangeNotifier {
   List<SupportModel> _help = [];
   List<SupportModel> get helpuser => _help;
 
-  List<CreateOrderModel> _createOrderSlot = [];
-  List<CreateOrderModel> get createOrderSlot => _createOrderSlot;
+  CreateOrderModel _createOrderSlot = CreateOrderModel();
+ CreateOrderModel get createOrderSlot => _createOrderSlot;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -468,7 +468,7 @@ class DashboardProvider extends ChangeNotifier {
     required Map<String, dynamic> body,
   }) async {
     _setShowLoader(true);
-    _createOrderSlot = [];
+    _createOrderSlot = CreateOrderModel();
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -479,9 +479,7 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      _createOrderSlot = res?.data
-          .map<CreateOrderModel>((e) => CreateOrderModel().toJson())
-          .toList();
+      _createOrderSlot =  CreateOrderModel.fromJson(res?.data);
 
       _setShowLoader(false);
       notifyListeners();

@@ -41,7 +41,7 @@
 
         </activity>
         <service
-            android:name="com.example.salon_customer_app.PushNotificationService"
+            android:name="com.salonCustomer.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

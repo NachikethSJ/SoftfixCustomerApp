@@ -1,4 +1,5 @@
 class CreateOrderModel {
+  dynamic cartDetails;
   String? cfOrderId;
   String? createdAt;
   CustomerDetails? customerDetails;
@@ -8,11 +9,16 @@ class CreateOrderModel {
   String? orderExpiryTime;
   String? orderId;
   OrderMeta? orderMeta;
+  dynamic orderNote;
+  dynamic orderSplits;
   String? orderStatus;
+  dynamic orderTags;
   String? paymentSessionId;
+  dynamic terminalData;
 
   CreateOrderModel(
-      {this.cfOrderId,
+      {this.cartDetails,
+        this.cfOrderId,
         this.createdAt,
         this.customerDetails,
         this.entity,
@@ -21,14 +27,19 @@ class CreateOrderModel {
         this.orderExpiryTime,
         this.orderId,
         this.orderMeta,
+        this.orderNote,
+        this.orderSplits,
         this.orderStatus,
-        this.paymentSessionId});
+        this.orderTags,
+        this.paymentSessionId,
+        this.terminalData});
 
   CreateOrderModel.fromJson(Map<String, dynamic> json) {
+    cartDetails = json['cart_details'];
     cfOrderId = json['cf_order_id'];
     createdAt = json['created_at'];
     customerDetails = json['customer_details'] != null
-        ? new CustomerDetails.fromJson(json['customer_details'])
+        ? CustomerDetails.fromJson(json['customer_details'])
         : null;
     entity = json['entity'];
     orderAmount = json['order_amount'];
@@ -36,80 +47,55 @@ class CreateOrderModel {
     orderExpiryTime = json['order_expiry_time'];
     orderId = json['order_id'];
     orderMeta = json['order_meta'] != null
-        ? new OrderMeta.fromJson(json['order_meta'])
+        ? OrderMeta.fromJson(json['order_meta'])
         : null;
+    orderNote = json['order_note'];
+    orderSplits=json['order_splits'];
+
     orderStatus = json['order_status'];
+    orderTags = json['order_tags'];
     paymentSessionId = json['payment_session_id'];
+    terminalData = json['terminal_data'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cf_order_id'] = this.cfOrderId;
-    data['created_at'] = this.createdAt;
-    if (this.customerDetails != null) {
-      data['customer_details'] = this.customerDetails!.toJson();
-    }
-    data['entity'] = this.entity;
-    data['order_amount'] = this.orderAmount;
-    data['order_currency'] = this.orderCurrency;
-    data['order_expiry_time'] = this.orderExpiryTime;
-    data['order_id'] = this.orderId;
-    if (this.orderMeta != null) {
-      data['order_meta'] = this.orderMeta!.toJson();
-    }
-    data['order_status'] = this.orderStatus;
-    data['payment_session_id'] = this.paymentSessionId;
-    return data;
-  }
+  
 }
 
 class CustomerDetails {
   String? customerId;
-  String? customerName;
-  String? customerEmail;
+  dynamic customerName;
+  dynamic customerEmail;
   String? customerPhone;
+  dynamic customerUid;
 
   CustomerDetails(
       {this.customerId,
         this.customerName,
         this.customerEmail,
-        this.customerPhone});
+        this.customerPhone,
+        this.customerUid});
 
   CustomerDetails.fromJson(Map<String, dynamic> json) {
     customerId = json['customer_id'];
     customerName = json['customer_name'];
     customerEmail = json['customer_email'];
     customerPhone = json['customer_phone'];
+    customerUid = json['customer_uid'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['customer_id'] = this.customerId;
-    data['customer_name'] = this.customerName;
-    data['customer_email'] = this.customerEmail;
-    data['customer_phone'] = this.customerPhone;
-    return data;
-  }
 }
 
 class OrderMeta {
   String? returnUrl;
-
+  dynamic notifyUrl;
   String? paymentMethods;
 
-  OrderMeta({this.returnUrl,  this.paymentMethods});
+  OrderMeta({this.returnUrl, this.notifyUrl, this.paymentMethods});
 
   OrderMeta.fromJson(Map<String, dynamic> json) {
     returnUrl = json['return_url'];
-
+    notifyUrl = json['notify_url'];
     paymentMethods = json['payment_methods'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['return_url'] = this.returnUrl;
-
-    data['payment_methods'] = this.paymentMethods;
-    return data;
-  }
 }

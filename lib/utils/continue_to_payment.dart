@@ -25,15 +25,16 @@ class PaymentContinueScreen extends StatefulWidget {
 
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
   int count = 1;
-bool isSuccess = true;
+  bool isSuccess = true;
   @override
   void initState() {
     super.initState();
-    @override
-    void initState() {
-      super.initState();
-    }
-
+    print("======Init State===");
+    var data=Provider.of<DashboardProvider>(context,listen: false).createOrderSlot;
+    print("===Payment Session===${data.paymentSessionId}");
+    CashFreepayment(paymentSessionId: data.paymentSessionId??'', orderId: data.orderId??'')
+        .cfPaymentGatewayService
+        .setCallback((p0) {}, (p0, p1) {});
   }
 
   @override
@@ -210,56 +211,60 @@ bool isSuccess = true;
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                            Column(
-                              children: [
-                                appText(title: "Bill Details",fontSize: 18,fontWeight: FontWeight.bold),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.event_note_outlined),
-                                      SizedBox(width: 2,),
-                                      appText(title: "Services "),
-
-                                    ],
+                              Column(
+                                children: [
+                                  appText(
+                                      title: "Bill Details",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.event_note_outlined),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        appText(title: "Services "),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8,right: 8),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.shopping_bag_outlined),
-                                      appText(title: "Grand Total"),
-
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.shopping_bag_outlined),
+                                        appText(title: "Grand Total"),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: appText(
+                                        title: "Total",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: appText(title: "Total",fontSize: 12,fontWeight: FontWeight.bold),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: appText(title: '$count'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: appText(title: "1000"),
-                                ),
-                              ],
-                            )
-                          ],),
-
-
-
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: appText(title: '$count'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: appText(title: "1000"),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -276,8 +281,8 @@ bool isSuccess = true;
                           child: const Padding(
                             padding: EdgeInsets.only(
                                 left: 5, right: 5, top: 5, bottom: 5),
-                            child: Icon(Icons.currency_rupee,
-                                color: Colors.white),
+                            child:
+                                Icon(Icons.currency_rupee, color: Colors.white),
                           )),
                       const SizedBox(
                         width: 5,
@@ -293,28 +298,41 @@ bool isSuccess = true;
                             )),
                         child: Center(
                             child: appText(
-                                title: "500", color: Colors.grey,fontSize: 14)),
+                                title: "500",
+                                color: Colors.grey,
+                                fontSize: 14)),
                       ),
                       const SizedBox(
                         width: 5,
                       ),
-                      GestureDetector(
-                        onTap: () async{
-                          // bookingSlot();
-                      await  CashFreepayment().pay();
+                      Consumer<DashboardProvider>(
+                        builder: (context, provider, child) {
+                          return GestureDetector(
+                            onTap: () async {
+                              // bookingSlot();
+                              await CashFreepayment(
+                                      orderId:
+                                          provider.createOrderSlot.orderId ??
+                                              '',
+                                      paymentSessionId: provider.createOrderSlot
+                                              .paymentSessionId ??
+                                          '')
+                                  .pay();
+                            },
+                            child: Container(
+                              height: 45,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Center(
+                                  child: appText(
+                                      title: "Pay",
+                                      color: Colors.white,
+                                      fontSize: 16)),
+                            ),
+                          );
                         },
-                        child: Container(
-                          height: 45,
-                          width: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.teal,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Center(
-                              child: appText(
-                                  title: "Pay",
-                                  color: Colors.white,
-                                  fontSize: 16)),
-                        ),
                       )
                     ],
                   )
@@ -326,8 +344,6 @@ bool isSuccess = true;
       ),
     );
   }
-
-
 
   bookingSlot() {
     WidgetsBinding.instance.addPostFrameCallback(

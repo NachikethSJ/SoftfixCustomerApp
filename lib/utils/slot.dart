@@ -260,7 +260,6 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         child: ElevatedButton(
                           onPressed: () {
                             createSlotOrder();
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),)));// Close the dialog
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -278,6 +277,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            Navigator.pop(context);
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -324,7 +324,12 @@ createSlotOrder(){
       provider.createOrder(
         context: context,
         body: body,
-      );
+      ).then((value) {
+        if(value){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),)));// Close the dialog
+
+        }
+      });
     },
   );
 }

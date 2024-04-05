@@ -8,6 +8,9 @@ import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfexceptions.dart';
 
 class CashFreepayment {
+  final String orderId;
+  final String paymentSessionId;
+   CashFreepayment({required this.orderId,required this.paymentSessionId});
   // Cashfree Payment Instance
   CFPaymentGatewayService cfPaymentGatewayService = CFPaymentGatewayService();
 // Cashfree Payment Instance
@@ -29,7 +32,7 @@ class CashFreepayment {
     print("Error while making payment");
   }
 
-  String orderId = "my_order_id1";
+
 
   Future<CFSession?> createSession() async {
     try {
@@ -54,6 +57,11 @@ class CashFreepayment {
   Future<void> pay() async {
     try {
       var session = await createSession();
+      if (session == null) {
+       print("==========Null Session===============");
+        return;
+      }
+
       List<CFPaymentModes> components = <CFPaymentModes>[];
 
       // If you want to set payment mode to be shown to the customer
@@ -69,7 +77,7 @@ class CashFreepayment {
 
       // Create checkout with all the settings we have set earlier
       var cfDropCheckoutPayment = CFDropCheckoutPaymentBuilder()
-          .setSession(session!)
+          .setSession(session)
           .setPaymentComponent(paymentComponent)
           .setTheme(theme)
           .build();
@@ -78,22 +86,23 @@ class CashFreepayment {
       var result = await cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
 
       // Verify payment based on result
-      if (result.success) {
+      if (result.success==true) {
+        print("=====Exception====${result}");
         verifyPayment(orderId);
       } else {
-        onError(result.errorResponse!, orderId);
+        print("=====Exception====${result.errorResponse}");
+        onError(result.errorResponse, orderId);
       }
     } on CFException catch (e) {
-      print(e.message);
+      print("===============Payment Exception=============${e.message}");
     }
   }
 
   Future<Map<String, dynamic>> createSessionID(String orderID) async {
     // Sample response data (replace with your desired test/demo data)
     Map<String, dynamic> sampleResponse = {
-      "order_id": "2",
-      "payment_session_id":
-      "session_xAHlmElTPqji92xD3oXc5RuD2Nvsn2XnsCb_7CWK6DXB0ttuBhWvhmZA9MY-qe4TStYnxttn9w9k-iRlzB0ikvH7NYp6nCP6MfaRByM3LPkY",
+      "order_id": orderId,
+      "payment_session_id":paymentSessionId,
       // Add any other fields you need to simulate
     };
     // Simulate an asynchronous delay to mimic API call
