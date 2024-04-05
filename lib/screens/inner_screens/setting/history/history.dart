@@ -198,7 +198,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                           12)),
                                               child: const Center(
                                                   child: Text(
-                                                "Reshedule",
+                                                "Book Again",
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -251,7 +251,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Padding(
@@ -281,7 +281,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                             color: appColors.appWhite,
                                             fontSize: 8,
                                           ),
-                                          Icon(
+                                          const Icon(
                                             Icons.directions,
                                             color: Colors.white,
                                           ),
@@ -300,7 +300,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     );
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],

@@ -8,10 +8,12 @@ import 'package:flutter_cashfree_pg_sdk/api/cftheme/cftheme.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfexceptions.dart';
 import 'package:provider/provider.dart';
+import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/validator.dart';
 
+import '../screens/common_screens/bottom_navigation.dart';
 import '../screens/common_screens/cash_free_payment.dart';
 import '../view_models/dashboard_provider.dart';
 
@@ -95,16 +97,21 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                                 title: "2500",
                                                 color: Colors.brown,
                                                 fontSize: 14),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.video_library_outlined,
-                                                  color: Colors.blueGrey,
-                                                ),
-                                                appText(
-                                                    title: "Add more",
-                                                    fontSize: 14)
-                                              ],
+                                            GestureDetector(
+                                              onTap: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavigation()));
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.video_library_outlined,
+                                                    color: Colors.blueGrey,
+                                                  ),
+                                                  appText(
+                                                      title: "Add more",
+                                                      fontSize: 14)
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),

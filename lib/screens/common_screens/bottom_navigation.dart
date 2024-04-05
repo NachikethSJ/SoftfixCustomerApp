@@ -237,18 +237,26 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
           activeIcon: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                Icons.shopping_cart_outlined,
-                color: appColors.appColor,
+              Badge(
+                label: const Text("0"),
+                backgroundColor: Colors.teal,
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: appColors.appColor,
+                ),
               ),
               const SizedBox(
                 height: 4,
               ),
             ],
           ),
-          icon: Icon(
-            Icons.shopping_cart_outlined,
-            color: appColors.appBlack,
+          icon: Badge(
+            label: const Text("0"),
+            backgroundColor: Colors.teal,
+            child: Icon(
+              Icons.shopping_cart_outlined,
+              color: appColors.appBlack,
+            ),
           ),
           label: texts.cart),
       BottomNavigationBarItem(
@@ -256,7 +264,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
-                Icons.shopping_cart_outlined,
+                Icons.account_circle_outlined,
                 color: appColors.appColor,
               ),
               const SizedBox(

@@ -374,7 +374,7 @@ class _DashboardState extends State<Dashboard>
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       suffixIcon: Icon(
-                                        Icons.water_drop,
+                                        Icons.search,
                                         color: appColors.appGray,
                                       ),
                                       contentPadding: const EdgeInsets.only(
@@ -515,7 +515,7 @@ class _DashboardState extends State<Dashboard>
                                                 width: double.infinity,
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(16),
+                                                      BorderRadius.circular(5),
                                                   child: Image.network(
                                                     subService[index]
                                                             .image
@@ -887,13 +887,13 @@ class _DashboardState extends State<Dashboard>
                                     children: [
                                       Icon(
                                         Icons.badge,
-                                        color: appColors.appGray,
+                                        color: appColors.appColor,
                                       ),
                                       const SizedBox(
                                         width: 4,
                                       ),
                                       appText(
-                                        color: appColors.appGray,
+                                        color: appColors.appColor,
                                         title: texts.filter,
                                         fontWeight: FontWeight.w600,
                                       )
@@ -1012,86 +1012,83 @@ class _DashboardState extends State<Dashboard>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 0,bottom: 0,left: 5,right: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.elliptical(10, 10))),
-                      width: double.infinity,
-                      height: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.elliptical(10, 10)),
-                        child: Image.network(
-                          shopsData[index].imageUrl?[0] ?? '',
-                          fit: BoxFit.fill,
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration:  BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    width: double.infinity,
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        shopsData[index].imageUrl?[0] ?? '',
+                        fit: BoxFit.fill,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            appText(
-                              title: shopsData[index].name??'',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                            const SizedBox(
-                              height: 1,
-                            ),
-                            appText(
-                              title: truncateWithEllipsis(
-                                  40, shopsData[index].description??""),
-                              fontSize: 14,
-                              color: Colors.grey.shade600
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset('assets/images/time_icon1.png',height: 20,width: 20,),
-                                    // Icon(
-                                    //   Icons.train,
-                                    //   color: appColors.appGreen,
-                                    // ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    appText(
-                                      color:  Colors.grey.shade600,
-                                      title:
-                                          '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, shopsData[index].lat!, shopsData[index].lng!) / 1000).toStringAsFixed(2)} KM',
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Image.asset('assets/images/offer_icon.png',height: 20,width: 20,),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    appText(
-                                      title: '50% OFF up to 250',
-                                      color: Colors.lightBlue.shade800
-                                    )
-                                  ],
-                                )
-                              ],
-                            )
-                          ]),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          appText(
+                            title: shopsData[index].name??'',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          const SizedBox(
+                            height: 1,
+                          ),
+                          appText(
+                            title: truncateWithEllipsis(
+                                40, shopsData[index].description??""),
+                            fontSize: 14,
+                            color: Colors.grey.shade600
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/time_icon1.png',height: 15,width: 15,),
+                                  // Icon(
+                                  //   Icons.train,
+                                  //   color: appColors.appGreen,
+                                  // ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  appText(
+                                    color:  Colors.grey.shade600,
+                                    title:
+                                        '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, shopsData[index].lat!, shopsData[index].lng!) / 1000).toStringAsFixed(2)} KM',
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/offer_icon.png',height: 15,width: 15,),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  appText(
+                                    title: '50% OFF up to 250',
+                                    color: Colors.lightBlue.shade800
+                                  )
+                                ],
+                              )
+                            ],
+                          )
+                        ]),
+                  )
+                ],
               ),
             ),
           );
@@ -1611,35 +1608,42 @@ class _DashboardState extends State<Dashboard>
                             fontSize: 12,
                           ),
                         ),
+
                         Expanded(
                           child: Theme(
                             data: ThemeData(
-                                sliderTheme: SliderThemeData(
-                              valueIndicatorTextStyle: TextStyle(
-                                color: appColors.appBlack,
+                              sliderTheme: SliderThemeData(
+                                valueIndicatorTextStyle: TextStyle(
+                                  color: appColors.appBlack,
+                                ),
+                                thumbColor: appColors.appColor,
+                                activeTrackColor: appColors.appColor,
+                                inactiveTrackColor: appColors.appGray,
+                                valueIndicatorColor: appColors.appColor,
+                                activeTickMarkColor: appColors.appColor,
                               ),
-                              thumbColor: appColors.appColor,
-                              activeTrackColor: appColors.appColor,
-                              inactiveTrackColor: appColors.appGray,
-                              valueIndicatorColor: appColors.appColor,
-                              activeTickMarkColor: appColors.appColor,
-                            )),
+                            ),
                             child: RangeSlider(
-                                divisions: 5,
-                                min: 1,
-                                max: 50000,
-                                values: values,
-                                labels: labels,
-                                onChanged: (value) {
-                                  setState(() {
-                                    values = value;
-                                    labels = RangeLabels(
-                                        value.start.toInt().toString(),
-                                        value.end.toInt().toString());
-                                  });
-                                }),
+                              divisions: 50000,
+                              min: 1,
+                              max: 50000,
+                              values: values,
+                              labels: labels,
+                              onChanged: (value) {
+                                setState(() {
+                                  values = value;
+                                  // Update labels dynamically
+                                  labels = RangeLabels(
+                                    value.start.toInt().toString(),
+                                    value.end.toInt().toString(),
+                                  );
+                                });
+                              },
+                            ),
                           ),
                         ),
+
+
                         appText(
                           title: '50000',
                           fontSize: 12,
@@ -1666,35 +1670,70 @@ class _DashboardState extends State<Dashboard>
                             fontSize: 12,
                           ),
                         ),
+                        // Expanded(
+                        //   child: Theme(
+                        //     data: ThemeData(
+                        //         sliderTheme: SliderThemeData(
+                        //       valueIndicatorTextStyle: TextStyle(
+                        //         color: appColors.appBlack,
+                        //       ),
+                        //       thumbColor: appColors.appColor,
+                        //       activeTrackColor: appColors.appColor,
+                        //       inactiveTrackColor: appColors.appGray,
+                        //       valueIndicatorColor: appColors.appColor,
+                        //       activeTickMarkColor: appColors.appColor,
+                        //     )),
+                        //     child: RangeSlider(
+                        //         divisions: 5,
+                        //         min: 1,
+                        //         max: 40,
+                        //         values: rangeValue,
+                        //         labels: rangeLabels,
+                        //         onChanged: (value) {
+                        //           setState(() {
+                        //             rangeValue = value;
+                        //             rangeLabels = RangeLabels(
+                        //                 value.start.toInt().toString(),
+                        //                 value.end.toInt().toString());
+                        //           });
+                        //         }),
+                        //   ),
+                        // ),
                         Expanded(
                           child: Theme(
                             data: ThemeData(
-                                sliderTheme: SliderThemeData(
-                              valueIndicatorTextStyle: TextStyle(
-                                color: appColors.appBlack,
+                              sliderTheme: SliderThemeData(
+                                valueIndicatorTextStyle: TextStyle(
+                                  color: appColors.appBlack,
+                                ),
+                                thumbColor: appColors.appColor,
+                                activeTrackColor: appColors.appColor,
+                                inactiveTrackColor: appColors.appGray,
+                                valueIndicatorColor: appColors.appColor,
+                                activeTickMarkColor: appColors.appColor,
                               ),
-                              thumbColor: appColors.appColor,
-                              activeTrackColor: appColors.appColor,
-                              inactiveTrackColor: appColors.appGray,
-                              valueIndicatorColor: appColors.appColor,
-                              activeTickMarkColor: appColors.appColor,
-                            )),
+                            ),
                             child: RangeSlider(
-                                divisions: 5,
-                                min: 1,
-                                max: 40,
-                                values: rangeValue,
-                                labels: rangeLabels,
-                                onChanged: (value) {
-                                  setState(() {
-                                    rangeValue = value;
-                                    rangeLabels = RangeLabels(
-                                        value.start.toInt().toString(),
-                                        value.end.toInt().toString());
-                                  });
-                                }),
+                              divisions: 40,
+                              min: 1,
+                              max: 40,
+                              values: rangeValue,
+                              labels: rangeLabels,
+                              onChanged: (value) {
+                                setState(() {
+                                  rangeValue = value;
+                                  // Update labels with specific intervals
+                                  int interval = (rangeValue.end - rangeValue.start) ~/ 1; // Calculate interval
+                                  rangeLabels = RangeLabels(
+                                    rangeValue.start.toInt().toString(),
+                                    (rangeValue.start.toInt() + interval).toString(),
+                                  );
+                                });
+                              },
+                            ),
                           ),
                         ),
+
                         appText(
                           title: '40 KM',
                           fontSize: 12,
@@ -1729,32 +1768,39 @@ class _DashboardState extends State<Dashboard>
                         Expanded(
                           child: Theme(
                             data: ThemeData(
-                                sliderTheme: SliderThemeData(
-                                  valueIndicatorTextStyle: TextStyle(
-                                    color: appColors.appBlack,
-                                  ),
-                                  thumbColor: appColors.appColor,
-                                  activeTrackColor: appColors.appColor,
-                                  inactiveTrackColor: appColors.appGray,
-                                  valueIndicatorColor: appColors.appColor,
-                                  activeTickMarkColor: appColors.appColor,
-                                )),
+                              sliderTheme: SliderThemeData(
+                                valueIndicatorTextStyle: TextStyle(
+                                  color: appColors.appBlack,
+                                ),
+                                thumbColor: appColors.appColor,
+                                activeTrackColor: appColors.appColor,
+                                inactiveTrackColor: appColors.appGray,
+                                valueIndicatorColor: appColors.appColor,
+                                activeTickMarkColor: appColors.appColor,
+                              ),
+                            ),
                             child: RangeSlider(
-                                divisions: 5,
-                                min: 1,
-                                max: 100,
-                                values: offerValue,
-                                labels: offerLabels,
-                                onChanged: (value) {
-                                  setState(() {
-                                    offerValue = value;
-                                    offerLabels = RangeLabels(
-                                        value.start.toInt().toString(),
-                                        value.end.toInt().toString());
-                                  });
-                                }),
+                              divisions: 100,
+                              min: 1,
+                              max: 100,
+                              values: offerValue,
+                              labels: offerLabels,
+                              onChanged: (value) {
+                                setState(() {
+                                  offerValue = value;
+                                  // Calculate interval between each division
+                                  double interval = (offerValue.end - offerValue.start) / 1;
+                                  // Update labels with specific intervals
+                                  offerLabels = RangeLabels(
+                                    offerValue.start.toInt().toString(),
+                                    (offerValue.start + interval).toInt().toString(),
+                                  );
+                                });
+                              },
+                            ),
                           ),
                         ),
+
                         appText(
                           title: '100 %',
                           fontSize: 12,

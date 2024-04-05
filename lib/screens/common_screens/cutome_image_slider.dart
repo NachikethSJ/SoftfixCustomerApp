@@ -114,7 +114,7 @@ class ImagePlaceHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(5),
       child: Image.asset(
         imagePath!,
         fit: BoxFit.cover,

@@ -185,21 +185,6 @@ class _MyBookingState extends State<MyBooking> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
-                                                Container(
-                                                  height: 45,
-                                                  decoration: BoxDecoration(
-                                                      color: appColors.appColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12)),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    "Reshedule",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )),
-                                                ),
                                                 SizedBox(
                                                   height: 70,
                                                   child: Padding(
