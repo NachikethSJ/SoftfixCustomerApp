@@ -387,7 +387,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                           borderRadius: BorderRadius.circular(5),
                                           color: appColors.appColor
                                         ),
-                                        child: const Center(child: Text("+Book")),
+                                        child: const Center(child: Text("Book")),
                                       )
 
                                       // AppButton(

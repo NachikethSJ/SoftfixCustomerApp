@@ -222,130 +222,35 @@ class SubServiceDetailState extends State<SubServiceDetail> {
           ),
         ),
       ),
-        bottomNavigationBar: isbottom == false
-            ? SizedBox(
+        bottomNavigationBar:
+            SizedBox(
           height: 70,
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: appColors.appBlue,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            if (count > 1) {
-                              setState(() {
-                                count--;
-                              });
-                            }
-                          },
-                          child: Icon(
-                            Icons.remove,
-                            color: appColors.appBlack,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Center(
-                          child: appText(
-                            title: '$count',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: appColors.appBlack,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              count++;
-                            });
-                          },
-                          child: Icon(
-                            Icons.add,
-                            color: appColors.appBlack,
-                            size: 20,
-                          ),
-                        )
-                      ],
-                    ),
+            child: GestureDetector(
+              onTap: (){
+               //item Add to cart
+              },
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: appColors.appGreen,
+                ),
+                child: Center(
+                  child: appText(
+                    title: texts.book,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: appColors.appWhite,
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
-                GestureDetector(
-                  onTap: (){
-                    if(count == 1 || count >1){
-                      setState(() {
-                        isbottom = true;
-                      });
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: appColors.appGreen,
-                    ),
-                    child: Center(
-                      child: appText(
-                        title: texts.book,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: appColors.appWhite,
-                      ),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
           ),
         )
-            : GestureDetector(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavigation()));
-          },
-              child: Container(
-                        color: Colors.grey.shade200,
-                        height: 70,
-                        child: Padding(
-              padding: const EdgeInsets.only(left: 8,right: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      margin: const EdgeInsets.only(left: 15),
-                      child: Text("${count} Service Added")),
-                  Container(
-                    height: 70,
-                    width: 130,
-                    decoration: BoxDecoration(
-                        color: appColors.appGreen
-                    ),
-                    child: const Center(child: Text("₹ 2500 View Cart",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                  )
-                ],
-              ),
-                        ),
-                      ),
-            )
+
 
 
     );

@@ -683,7 +683,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               onPressed: () {
                                                 showSlotBookingDialog(context);
                                               },
-                                              title: '+ Book',
+                                              title: 'Book',
                                               fontSize: 12,
                                               textColor: appColors.appColor,
                                               fontWeight: FontWeight.w900,
