@@ -31,6 +31,19 @@ class AppUrls {
  String get review=> '/user/createreview';
 
  String get  createOrder=> '/user/createOrder';
+
+ String get  addCart=> '/user/addToCart';
+
+ String get  getCartDetails=> '/user/getCartLists';
+
+ String get  deleteCart=> '/user/cart/delete';
+
+ String get  updateCart=> '/user/cart';
+
+ String get  getOrder=> '/user/getOrder';
+
+
+
 }
 
 AppUrls appUrls = AppUrls();

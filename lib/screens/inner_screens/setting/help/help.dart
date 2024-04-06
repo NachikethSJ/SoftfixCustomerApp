@@ -43,24 +43,24 @@ class _HelpPageState extends State<HelpPage> {
                       size: 50,
                       color: appColors.appColor,
                     ),
-                    Text(
+                    const Text(
                       "How can i help you?",
                       style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Align(
                         alignment: Alignment.topLeft,
                         child: appText(title: "Subject", fontSize: 16)),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     CustomTextField(
                       controller: subjectController,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Align(
@@ -117,7 +117,6 @@ class _HelpPageState extends State<HelpPage> {
       ),
     );
   }
-
   helpQueryUser() {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<DashboardProvider>(context, listen: false);

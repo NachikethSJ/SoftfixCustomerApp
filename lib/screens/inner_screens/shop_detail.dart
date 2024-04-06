@@ -234,6 +234,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                   provider.subServiceList[index].shop!,
                                   lat: latitude,
                                   lng: longitude,
+                                  subServiceid: provider.subServiceList[index].id.toString(),
                                 ));
                             },
                           child: Padding(

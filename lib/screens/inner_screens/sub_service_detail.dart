@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/near_by_service_model.dart';
 import 'package:salon_customer_app/screens/inner_screens/cart/cart_screen.dart';
@@ -8,7 +9,9 @@ import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
+import 'package:salon_customer_app/view_models/cart_provider.dart';
 
+import '../../utils/validate_connectivity.dart';
 import '../common_screens/bottom_navigation.dart';
 
 class SubServiceDetail extends StatefulWidget {
@@ -16,12 +19,13 @@ class SubServiceDetail extends StatefulWidget {
   final Shop shopData;
   final double lat;
   final double lng;
+  final String subServiceid;
   const SubServiceDetail(
       {super.key,
       required this.data,
       required this.shopData,
       required this.lat,
-      required this.lng});
+      required this.lng,required this.subServiceid});
 
   @override
   State<StatefulWidget> createState() => SubServiceDetailState();
@@ -230,6 +234,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
             child: GestureDetector(
               onTap: (){
                //item Add to cart
+                addCartService();
               },
               child: Container(
                 height: 50,
@@ -291,5 +296,25 @@ class SubServiceDetailState extends State<SubServiceDetail> {
 
   calculatePrice(double price, double discount) {
     return (price * (100 - discount) / 100).toStringAsFixed(0);
+  }
+
+  addCartService() {
+    validateConnectivity(context: context, provider: () {
+      var provider = Provider.of<CartProvider>(context, listen: false);
+
+      var body =
+      {
+          "subServiceId":widget.subServiceid,
+          "quantity":1,
+      };
+      provider.addCart(
+        context: context,
+        body: body,
+      ).then((value) {
+        if (value) {
+          Navigator.pop(context);
+        }
+      });
+    });
   }
 }

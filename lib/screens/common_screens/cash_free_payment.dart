@@ -10,10 +10,12 @@ import 'package:flutter_cashfree_pg_sdk/utils/cfexceptions.dart';
 class CashFreepayment {
   final String orderId;
   final String paymentSessionId;
-   CashFreepayment({required this.orderId,required this.paymentSessionId});
+
+  CashFreepayment({required this.orderId, required this.paymentSessionId});
+
   // Cashfree Payment Instance
   CFPaymentGatewayService cfPaymentGatewayService = CFPaymentGatewayService();
-// Cashfree Payment Instance
+
   bool? isSuccess;
 
   void verifyPayment(String orderId) {
@@ -32,12 +34,10 @@ class CashFreepayment {
     print("Error while making payment");
   }
 
-
-
   Future<CFSession?> createSession() async {
     try {
-      final mySessionIDData =
-      await createSessionID(orderId); // This will create session id from flutter itself
+      final mySessionIDData = await createSessionID(
+          orderId); // This will create session id from flutter itself
 
       // Now we will set some parameters like orderID, environment, payment sessionID
       // after that we will create the checkout session
@@ -58,7 +58,7 @@ class CashFreepayment {
     try {
       var session = await createSession();
       if (session == null) {
-       print("==========Null Session===============");
+        print("==========Null Session===============");
         return;
       }
 
@@ -83,14 +83,15 @@ class CashFreepayment {
           .build();
 
       // Launching the payment page
-      var result = await cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
+      var result =
+      await cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
 
       // Verify payment based on result
-      if (result.success==true) {
-        print("=====Exception====${result}");
+      if (result.success == true) {
+        print("Payment successful");
         verifyPayment(orderId);
       } else {
-        print("=====Exception====${result.errorResponse}");
+        print("Payment failed");
         onError(result.errorResponse, orderId);
       }
     } on CFException catch (e) {
@@ -102,11 +103,11 @@ class CashFreepayment {
     // Sample response data (replace with your desired test/demo data)
     Map<String, dynamic> sampleResponse = {
       "order_id": orderId,
-      "payment_session_id":paymentSessionId,
+      "payment_session_id": paymentSessionId,
       // Add any other fields you need to simulate
     };
     // Simulate an asynchronous delay to mimic API call
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
 
     // Return the sample response
     return sampleResponse;

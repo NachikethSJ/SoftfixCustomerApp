@@ -41,7 +41,9 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<DashboardProvider>(
+  builder: (context, provider, child) {
+  return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: const Text("Continue to payment"),
@@ -266,7 +268,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: appText(title: "1000"),
+                                    child: appText(title: provider.createOrderSlot.orderAmount.toString()),
                                   ),
                                 ],
                               )
@@ -305,7 +307,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                             )),
                         child: Center(
                             child: appText(
-                                title: "500",
+                                title: provider.createOrderSlot.orderAmount.toString(),
                                 color: Colors.grey,
                                 fontSize: 14)),
                       ),
@@ -350,6 +352,8 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         ),
       ),
     );
+  },
+);
   }
 
   bookingSlot() {

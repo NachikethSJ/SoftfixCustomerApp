@@ -13,21 +13,21 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  NotificationServices notificationServices=NotificationServices();
+  // NotificationServices notificationServices=NotificationServices();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    notificationServices.requestNotificationPermission();
-    notificationServices.forgroundMessage();
-    notificationServices.firebaseInit(context);
-    notificationServices.setupInteractMessage(context);
-    notificationServices.getDeviceToken().then((value) {});
+    // notificationServices.requestNotificationPermission();
+    // notificationServices.forgroundMessage();
+    // notificationServices.firebaseInit(context);
+    // notificationServices.setupInteractMessage(context);
+    // notificationServices.getDeviceToken().then((value) {});
   }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: navigatorKey,
+      // navigatorKey: navigatorKey,
       themeMode: ThemeMode.light,
       theme: AppTheme.appTheme,
       debugShowCheckedModeBanner: false,

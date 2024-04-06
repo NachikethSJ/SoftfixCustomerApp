@@ -358,7 +358,6 @@ class _HistoryPageState extends State<HistoryPage> {
           setState(() {
             israteShowList[index] = false;
           });
-          Navigator.pop(context);
         }
       });
     });

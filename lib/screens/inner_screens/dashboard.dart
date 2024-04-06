@@ -491,6 +491,7 @@ class _DashboardState extends State<Dashboard>
                                               provider.subServiceList[index].shop!,
                                           lat: latitude,
                                           lng: longitude,
+                                          subServiceid: provider.subServiceList[index].id.toString(),
                                         ));
                                   },
                                   child: Container(
@@ -2048,9 +2049,9 @@ class _DashboardState extends State<Dashboard>
                             ),
                           ),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         appText(title: "To"),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         SizedBox(
                           width: 80, // Specified width for the container
                           child: Container(

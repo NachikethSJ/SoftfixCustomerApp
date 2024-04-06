@@ -320,6 +320,20 @@ createSlotOrder(){
       var provider = Provider.of<DashboardProvider>(context, listen: false);
       var body = {
         "id": widget.subServiceId,
+        "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+        "bookingDetailsArray":[
+          {
+            "startTime":"16:00",
+            "endTime":"17:00",
+            "employeeId":"EMP1016"
+          },
+          {
+            "startTime":"18:00",
+            "endTime":"19:00",
+            "employeeId":"EMP1017"
+          }
+        ]
+
       };
       provider.createOrder(
         context: context,

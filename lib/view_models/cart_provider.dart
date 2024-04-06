@@ -4,35 +4,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constants/app_urls.dart';
+import '../models/cart/cart_details_model.dart';
 import '../models/help_model.dart';
 import '../utils/show_toast.dart';
 import 'auth_provider.dart';
 
-class AccountsProvider extends ChangeNotifier {
+class CartProvider extends ChangeNotifier {
   bool _showLoader = false;
 
   bool get showLoader => _showLoader;
 
-  List<SupportModel> _review = [];
+  List<SupportModel> _addCart = [];
 
-  List<SupportModel> get reviewuser => _review;
+  List<SupportModel> get addCartItem => _addCart;
 
+
+  List<CartDetailsModel> _cartDetail = [];
+
+  List<CartDetailsModel> get showCartDetails => _cartDetail;
 
   _setShowLoader(bool value) {
     _showLoader = value;
   }
 
-  Future<bool> review({
+  Future<bool> addCart({
     required BuildContext context,
     required Map<String, dynamic> body,
   }) async {
     _setShowLoader(true);
-    _review = [];
+    _addCart = [];
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
       var res = await ApiClient.postApi(
-        url: appUrls.review,
+        url: appUrls.addCart,
         body: body,
         headers: {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
@@ -40,7 +45,7 @@ class AccountsProvider extends ChangeNotifier {
       );
 
       if (res?.data is List) {
-        _review = (res?.data as List<dynamic>)
+        _addCart = (res?.data as List<dynamic>)
             .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
 
@@ -48,7 +53,7 @@ class AccountsProvider extends ChangeNotifier {
         // validateConnectivity(context: context, provider: provider)
         print("dfhjfghdsgfhsdfsdh");
         showToast(
-           res?.message, isSuccess: true);
+            res?.message, isSuccess: true);
       } else {
         _setShowLoader(false);
         showToast(
@@ -69,4 +74,35 @@ class AccountsProvider extends ChangeNotifier {
       return false;
     }
   }
+
+
+  Future<bool> cartDetails({
+    required BuildContext context,
+  }) async {
+    _setShowLoader(true);
+    _cartDetail = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: appUrls.getBookingDetails,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _cartDetail = res?.data
+          .map<CartDetailsModel>((e) => CartDetailsModel.fromJson(e))
+          .toList();
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
 }

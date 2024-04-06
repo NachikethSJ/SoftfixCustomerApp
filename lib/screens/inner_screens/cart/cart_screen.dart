@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
+import 'package:salon_customer_app/view_models/cart_provider.dart';
+
+import '../../../utils/validate_connectivity.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -230,4 +234,24 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
+  // cartDeatils() {
+  //   validateConnectivity(context: context, provider: () {
+  //     var provider = Provider.of<CartProvider>(context, listen: false);
+  //
+  //     var body = {
+  //       "vendorId": "36",
+  //       "name": subjectController.text,
+  //       "message": messageController.text
+  //     };
+  //     provider.help(
+  //       context: context,
+  //       body: body,
+  //     ).then((value) {
+  //       if (value) {
+  //         Navigator.pop(context);
+  //       }
+  //     });
+  //   });
+  // }
 }

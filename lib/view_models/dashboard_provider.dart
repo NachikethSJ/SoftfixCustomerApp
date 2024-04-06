@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/accounts/get_booking_details_model.dart';
 import '../models/booking/create_order_model.dart';
 import '../models/common_models/response_model.dart';
+import '../models/common_models/server_error.dart';
 import '../models/dashboard_models/membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
 import '../models/dashboard_models/slot_booking_model.dart';
@@ -440,8 +441,6 @@ class DashboardProvider extends ChangeNotifier {
         _help = (res?.data as List<dynamic>)
             .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
-
-
         // validateConnectivity(context: context, provider: provider)
         print("dfhjfghdsgfhsdfsdh");
         showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
@@ -486,6 +485,9 @@ class DashboardProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       print("=====Exception=============$e");
+      if(e is ServerError){
+        showToast(e.message);
+      }
       _setShowLoader(false);
       notifyListeners();
       return false;
