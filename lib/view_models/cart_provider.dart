@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:salon_customer_app/models/common_models/response_model.dart';
 import 'package:salon_customer_app/models/common_models/server_error.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,10 +19,15 @@ class CartProvider extends ChangeNotifier {
 
   List<SupportModel> get addCartItem => _addCart;
 
-
   List<CartDetailsModel> _cartDetail = [];
 
   List<CartDetailsModel> get showCartDetails => _cartDetail;
+
+  List<ResponseModel> _deleteCart = [];
+  List<ResponseModel> get deleteCartItem => _deleteCart;
+
+  List<ResponseModel> _updateCart = [];
+  List<ResponseModel> get UpdateCartItem => _updateCart;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -49,15 +55,12 @@ class CartProvider extends ChangeNotifier {
             .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
 
-
         // validateConnectivity(context: context, provider: provider)
         print("dfhjfghdsgfhsdfsdh");
-        showToast(
-            res?.message, isSuccess: true);
+        showToast(res?.message, isSuccess: true);
       } else {
         _setShowLoader(false);
-        showToast(
-            res?.message, isSuccess: true);
+        showToast(res?.message, isSuccess: true);
         // Handle the case where res?.data is not a List
         print('Response data is not a List');
       }
@@ -66,7 +69,7 @@ class CartProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       print("=====Exception===$e");
-      if(e is ServerError){
+      if (e is ServerError) {
         showToast(e.message);
       }
       _setShowLoader(false);
@@ -74,7 +77,6 @@ class CartProvider extends ChangeNotifier {
       return false;
     }
   }
-
 
   Future<bool> cartDetails({
     required BuildContext context,
@@ -85,7 +87,7 @@ class CartProvider extends ChangeNotifier {
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
       var res = await ApiClient.getApi(
-        url: appUrls.getBookingDetails,
+        url: appUrls.getCartDetails,
         headers: {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
@@ -105,4 +107,91 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> deleteToCart({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _deleteCart = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.deleteCart,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+
+      if (res?.data is List) {
+        _deleteCart = (res?.data as List<dynamic>)
+            .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+            .toList();
+
+        // validateConnectivity(context: context, provider: provider)
+        print("dfhjfghdsgfhsdfsdh");
+        showToast(res?.message, isSuccess: true);
+      } else {
+        _setShowLoader(false);
+        showToast(res?.message, isSuccess: true);
+        // Handle the case where res?.data is not a List
+        print('Response data is not a List');
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      if (e is ServerError) {
+        showToast(e.message);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updateToCart({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _updateCart = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.putApi(
+        url: appUrls.updateCart,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+
+      if (res?.data is List) {
+        _updateCart = (res?.data as List<dynamic>)
+            .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+            .toList();
+        print("dfhjfghdsgfhsdfsdh");
+        showToast(res?.message, isSuccess: true);
+      } else {
+        _setShowLoader(false);
+        showToast(res?.message, isSuccess: true);
+// Handle the case where res?.data is not a List
+        print('Response data is not a List');
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      if (e is ServerError) {
+        showToast(e.message);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
 }

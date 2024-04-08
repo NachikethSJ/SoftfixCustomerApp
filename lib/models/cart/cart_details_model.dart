@@ -1,8 +1,8 @@
 class CartDetailsModel {
   int? cartId;
   int? productId;
-  double? price;
-  double? time;
+  int? price;
+  int? time;
   String? offer;
   String? type;
   String? name;

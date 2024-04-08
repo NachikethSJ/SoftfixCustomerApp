@@ -69,6 +69,11 @@ class DashboardProvider extends ChangeNotifier {
   CreateOrderModel _createOrderSlot = CreateOrderModel();
  CreateOrderModel get createOrderSlot => _createOrderSlot;
 
+
+  List<ResponseModel> _orderSuccess = [];
+  List<ResponseModel> get orerSuccess => _orderSuccess;
+
+
   _setShowLoader(bool value) {
     _showLoader = value;
   }
@@ -495,4 +500,32 @@ class DashboardProvider extends ChangeNotifier {
 
   }
 
+  Future<bool> orderSuccess({
+    required BuildContext context,
+    required int orderId,
+
+  }) async {
+    _orderSuccess = [];
+    _setShowLoader(true);
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: '${appUrls.getOrder}/$orderId',
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _orderSuccess = res?.data
+          .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
 }
