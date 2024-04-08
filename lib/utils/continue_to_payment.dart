@@ -15,6 +15,7 @@ import 'package:salon_customer_app/utils/validator.dart';
 
 import '../screens/common_screens/bottom_navigation.dart';
 import '../screens/common_screens/cash_free_payment.dart';
+import '../screens/inner_screens/successful_payment.dart';
 import '../view_models/dashboard_provider.dart';
 
 class PaymentContinueScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class PaymentContinueScreen extends StatefulWidget {
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
   int count = 1;
   bool isSuccess = true;
-  var orderbookingId;
+  String orderbookingId='';
 
   @override
   void initState() {
@@ -39,9 +40,14 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         .createOrderSlot;
     print("===Payment Session===${data.paymentSessionId}");
     CashFreepayment(paymentSessionId: data.paymentSessionId ?? '',
-        orderId: data.orderId ?? '')
+        orderId: data.orderId ?? '',orderStatus: data.orderStatus ?? '')
         .cfPaymentGatewayService
-        .setCallback((p0) {}, (p0, p1) {});
+        .setCallback((p0) {
+      successOrder().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SuccessScreen())));
+          print("=======Success====$p0");
+    }, (p0, p1) {
+      print("=======failed====$p0");
+    });
   }
 
   @override
@@ -338,14 +344,14 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                 onTap: () async {
                                   // bookingSlot();
                                   orderbookingId =
-                                      provider.createOrderSlot.orderId;
+                                      provider.createOrderSlot.orderId.toString();
                                   await CashFreepayment(
                                       orderId:
                                       provider.createOrderSlot.orderId ??
                                           '',
                                       paymentSessionId: provider.createOrderSlot
                                           .paymentSessionId ??
-                                          '')
+                                          '',orderStatus: provider.createOrderSlot.orderStatus ?? '')
                                       .pay();
                                 },
                                 child: Container(
@@ -380,7 +386,6 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
           (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
-
         var body = {
           "employeeId": "12",
           "serviceTypeId": "1",
@@ -408,7 +413,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     var res = await Provider.of<DashboardProvider>(context, listen: false)
         .orderSuccess(
       context: context,
-      orderId: orderbookingId,
+      orderId: orderbookingId.toString(),
     );
     return res;
   }

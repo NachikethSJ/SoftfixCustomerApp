@@ -502,7 +502,7 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<bool> orderSuccess({
     required BuildContext context,
-    required int orderId,
+    required String orderId,
 
   }) async {
     _orderSuccess = [];

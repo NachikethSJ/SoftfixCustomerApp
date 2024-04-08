@@ -20,6 +20,7 @@ class _CartScreenState extends State<CartScreen> {
     // TODO: implement initState
     super.initState();
     cartDeatils();
+
   }
 
   @override
@@ -53,15 +54,10 @@ class _CartScreenState extends State<CartScreen> {
                       )
                     ],
                   ),
-                  ListView.separated(
+                  ListView.builder(
                     padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 12,
-                      );
-                    },
-                    itemCount:provider.showCartDetails.length,
+                    itemCount:2,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -120,7 +116,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     color: Colors.blue),
                                                 child: Center(
                                                     child: Text(
-                                                  "${provider.showCartDetails[index].offer} Off",
+                                                  "{provider.showCartDetails[index].offer} Off",
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
@@ -142,7 +138,7 @@ class _CartScreenState extends State<CartScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           appText(
-                                            title: "${provider.showCartDetails[index].name}",
+                                            title: "{provider.showCartDetails[index].name}",
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -150,7 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                                             height: 2,
                                           ),
                                           appText(
-                                            title: '${provider.showCartDetails[index].type}',
+                                            title: '{provider.showCartDetails[index].type}',
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.grey,

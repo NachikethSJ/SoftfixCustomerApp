@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cferrorresponse/cferrorresponse.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpayment/cfdropcheckoutpayment.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cfpaymentcomponents/cfpaymentcomponent.dart';
@@ -8,13 +9,15 @@ import 'package:flutter_cashfree_pg_sdk/api/cftheme/cftheme.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfexceptions.dart';
 
+import '../../utils/continue_to_payment.dart';
 import '../../view_models/dashboard_provider.dart';
 
 class CashFreepayment {
   final String orderId;
   final String paymentSessionId;
+  final String orderStatus;
 
-  CashFreepayment({required this.orderId, required this.paymentSessionId});
+  CashFreepayment({required this.orderId, required this.paymentSessionId,required this.orderStatus});
 
   // Cashfree Payment Instance
   CFPaymentGatewayService cfPaymentGatewayService = CFPaymentGatewayService();
@@ -25,9 +28,11 @@ class CashFreepayment {
 
     // Here we will only print the statement
     // to check payment is done or not
-
     isSuccess = true;
     print("Verify Payment $orderId");
+
+    // Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavigation()));
+    // PaymentContinueScreen().
   }
 
   // If some error occur during payment this will trigger
@@ -41,20 +46,15 @@ class CashFreepayment {
 
   Future<CFSession?> createSession() async {
     try {
-      final mySessionIDData = await createSessionID(
-          orderId); // This will create session id from flutter itself
 
-      // Now we will set some parameters like orderID, environment, payment sessionID
-      // after that we will create the checkout session
-      // which will launch through which user can pay.
       var session = CFSessionBuilder()
           .setEnvironment(CFEnvironment.SANDBOX)
-          .setOrderId(mySessionIDData["order_id"])
-          .setPaymentSessionId(mySessionIDData["payment_session_id"])
+          .setOrderId(orderId)
+          .setPaymentSessionId(paymentSessionId)
           .build();
       return session;
     } on CFException catch (e) {
-      print(e.message);
+      print("EXCEPTION====${e.message}");
     }
     return null;
   }
@@ -92,13 +92,14 @@ class CashFreepayment {
       await cfPaymentGatewayService.doPayment(cfDropCheckoutPayment);
 
       // Verify payment based on result
-      if (result.success == true) {
-        print("Payment successful");
-        verifyPayment(orderId);
-      } else {
-        print("Payment failed");
-        onError(result.errorResponse, orderId);
-      }
+      print("Callback Response===$result=====");
+      // if (result.success == true) {
+      //   print("Payment successful");
+      //   verifyPayment(orderId);
+      // } else {
+      //   print("Payment failed");
+      //   onError(result.errorResponse, orderId);
+      // }
     } on CFException catch (e) {
       print("===============Payment Exception=============${e.message}");
     }

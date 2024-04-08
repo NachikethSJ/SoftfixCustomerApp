@@ -318,9 +318,11 @@ createSlotOrder(){
   WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
       var provider = Provider.of<DashboardProvider>(context, listen: false);
+      // List<Map<String, String>> dynamicBookingDetailsArray = [{'startTime': }];
       var body = {
         "id": widget.subServiceId,
         "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+
         "bookingDetailsArray":[
           {
             "startTime":"16:00",
