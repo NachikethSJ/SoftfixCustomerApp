@@ -41,219 +41,215 @@ class _ProfileState extends State<Profile> {
     {'icon': Icons.book, 'title': texts.myBooking},
     {'icon': Icons.pattern, 'title': texts.package},
     {'icon': Icons.card_membership, 'title': texts.membership},
-    {'icon': Icons.headset_mic_rounded, 'title': texts.help},
     {'icon': Icons.chat_bubble_outline, 'title': texts.history},
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: appBar(
-      //   context,
-      //   bgColor: appColors.appColor,
-      //   leading: const SizedBox(),
-      //   actions: [
-      //     appText(
-      //       title: number,
-      //       fontSize: 12,
-      //       fontWeight: FontWeight.w500,
-      //     ),
-      //     const SizedBox(
-      //       width: 10,
-      //     ),
-      //     Icon(
-      //       Icons.account_circle_sharp,
-      //       color: appColors.appBlack,
-      //       size: 50,
-      //     ),
-      //     const SizedBox(
-      //       width: 20,
-      //     ),
-      //   ],
-      // ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 5,left: 0,right: 0,bottom: 14),
-          child: Column(
-            children: [
-              Container(
-                height: 80,
-                decoration: BoxDecoration(color: Colors.orangeAccent,),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20,right: 20),
-                      child: appText(
-                        title: number,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+    return SafeArea(
+      child: Scaffold(
+        // appBar: appBar(
+        //   context,
+        //   bgColor: appColors.appColor,
+        //   leading: const SizedBox(),
+        //   actions: [
+        //     appText(
+        //       title: number,
+        //       fontSize: 12,
+        //       fontWeight: FontWeight.w500,
+        //     ),
+        //     const SizedBox(
+        //       width: 10,
+        //     ),
+        //     Icon(
+        //       Icons.account_circle_sharp,
+        //       color: appColors.appBlack,
+        //       size: 50,
+        //     ),
+        //     const SizedBox(
+        //       width: 20,
+        //     ),
+        //   ],
+        // ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 0,left: 2,right: 2,bottom: 0),
+            child: Column(
+              children: [
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(color: appColors.appColor,),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 20),
+                        child: appText(
+                          title: number,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-
-                    Icon(
-                      Icons.personal_injury_sharp,
-                      color: appColors.appBlack,
-                      size: 40,
-                    ),
-
-                  ],
+      
+                      Icon(
+                        Icons.personal_injury_sharp,
+                        color: appColors.appBlack,
+                        size: 40,
+                      ),
+      
+                    ],
+                  ),
                 ),
-              ),
-              Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
+                Container(
+                  decoration: BoxDecoration(
+                   border: Border.all( color: appColors.appColor)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            width: 60,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
-                                height: 50,
-                                width: 50,
+                                height: 45,
+                                width: 45,
                                 child: Image.asset(
                                   'assets/images/whatsapp.png',
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: appText(
-                            title: texts.shareUs,
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: appText(
+                              title: texts.shareUs,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: appColors.appGray,
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Icon(
+                              Icons.content_copy_sharp,
+                              color: appColors.appBlack,
+                              size: 40,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          appText(
+                            title: texts.copyLink,
                             fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             color: appColors.appGray,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 60,
-                          width: 60,
-                          child: Icon(
-                            Icons.content_copy_sharp,
-                            color: appColors.appBlack,
-                            size: 40,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        appText(
-                          title: texts.copyLink,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: appColors.appGray,
-                        )
-                      ],
-                    )
-                  ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              Card(
-                elevation: 1,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: Divider(
-                              color: Colors.grey.shade100,
-                            ),
-                          );
-                        },
-                        itemCount: navigationData.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return _navigationCard(
-                            navigationData[index]['icon'],
-                            navigationData[index]['title'],
-                            index,
-                          );
-                        },
+                const SizedBox(
+                  height: 20,
+                ),
+                Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Divider(
+                                color: Colors.grey.shade100,
+                              ),
+                            );
+                          },
+                          itemCount: navigationData.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return _navigationCard(
+                              navigationData[index]['icon'],
+                              navigationData[index]['title'],
+                              index,
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () async {
-                          await alert(
-                            heading: 'Logout',
-                            subTitle: 'Are you sure, Do you want to log out?',
-                            acceptTitle: 'Yes',
-                            context: context,
-                            denyTitle: 'No',
-                            height: 210,
-                            onPressed: () {
-                              _logout();
-                            },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: appColors.appGray100,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 12, bottom: 12, left: 10, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                appText(
-                                  title: texts.logout,
-                                  fontSize: 16,
-                                ),
-                                Icon(
-                                  Icons.logout,
-                                  color: appColors.appBlack,
-                                )
-                              ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () async {
+                            await alert(
+                              heading: 'Logout',
+                              subTitle: 'Are you sure, Do you want to log out?',
+                              acceptTitle: 'Yes',
+                              context: context,
+                              denyTitle: 'No',
+                              height: 210,
+                              onPressed: () {
+                                _logout();
+                              },
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: appColors.appGray100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 12, bottom: 12, left: 10, right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  appText(
+                                    title: texts.logout,
+                                    fontSize: 16,
+                                  ),
+                                  Icon(
+                                    Icons.logout,
+                                    color: appColors.appBlack,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -295,7 +291,7 @@ class _ProfileState extends State<Profile> {
                   height: 24,
                   child: Icon(
                     icon,
-                    color: appColors.appGray,
+                    color: Colors.grey.shade600,
                   ),
                 ),
                 const SizedBox(
@@ -305,15 +301,15 @@ class _ProfileState extends State<Profile> {
                   flex: 6,
                   child: appText(
                     title: title,
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: appColors.appGray,
+                    color: Colors.grey.shade600,
                   ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
-                  color: Colors.grey,
+                  color: appColors.appColor,
                 ),
               ],
             ),

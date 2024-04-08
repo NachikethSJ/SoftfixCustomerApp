@@ -861,14 +861,15 @@ class _DashboardState extends State<Dashboard>
                           height: 4,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             appText(
                               title: texts.nearBy,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: appColors.appGray,
+                              color: appColors.appColor,
                             ),
+                            const SizedBox(width: 25,),
                             InkWell(
                               onTap: () {
                                 _showFilter();
@@ -1021,7 +1022,7 @@ class _DashboardState extends State<Dashboard>
                     width: double.infinity,
                     height: 120,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(0),
                       child: Image.network(
                         shopsData[index].imageUrl?[0] ?? '',
                         fit: BoxFit.fill,
@@ -1055,6 +1056,21 @@ class _DashboardState extends State<Dashboard>
                             children: [
                               Row(
                                 children: [
+                                  Image.asset('assets/images/offer_icon.png',height: 15,width: 15,),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  appText(
+                                      title: '50% OFF up to 250',
+                                      color: Colors.indigo.shade400
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Row(
+                                children: [
                                   Image.asset('assets/images/time_icon1.png',height: 15,width: 15,),
                                   // Icon(
                                   //   Icons.train,
@@ -1066,25 +1082,19 @@ class _DashboardState extends State<Dashboard>
                                   appText(
                                     color:  Colors.grey.shade600,
                                     title:
-                                        '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, shopsData[index].lat!, shopsData[index].lng!) / 1000).toStringAsFixed(2)} KM',
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Image.asset('assets/images/offer_icon.png',height: 15,width: 15,),
-                                  const SizedBox(
-                                    width: 6,
+                                        '20 Min • ',
+                                    fontWeight: FontWeight.w500
                                   ),
+                                  Icon(Icons.location_on,color: Colors.green.shade300,size: 15,),
                                   appText(
-                                    title: '50% OFF up to 250',
-                                    color: Colors.lightBlue.shade800
+                                    color:  Colors.grey.shade600,
+                                    title:
+                                    '${(Geolocator.distanceBetween(latitude, longitude, shopsData[index].lat!, shopsData[index].lng!) / 1000).toStringAsFixed(2)} KM',
                                   )
                                 ],
-                              )
+                              ),
+
+
                             ],
                           )
                         ]),
@@ -2006,7 +2016,7 @@ class _DashboardState extends State<Dashboard>
                         )
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.grey,
                       indent: 15,
                       endIndent: 15,

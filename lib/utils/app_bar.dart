@@ -12,7 +12,7 @@ AppBar appBar(BuildContext context,
     backgroundColor: bgColor ?? appColors.appWhite,
     elevation: elevation ?? 0,
     surfaceTintColor: bgColor ?? appColors.appWhite,
-    title: appText(title: title ?? '', color: appColors.appBlack, fontSize: 16),
+    title: appText(title: title ?? '', color: appColors.appBlack, fontSize: 16,fontWeight: FontWeight.w600),
     centerTitle: true,
     actions: actions,
     leading: leading ??

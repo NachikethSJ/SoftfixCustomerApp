@@ -43,8 +43,12 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         orderId: data.orderId ?? '',orderStatus: data.orderStatus ?? '')
         .cfPaymentGatewayService
         .setCallback((p0) {
-      successOrder().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SuccessScreen())));
-          print("=======Success====$p0");
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        successOrder().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SuccessScreen())));
+
+      });
+
+      print("=======Success====$p0");
     }, (p0, p1) {
       print("=======failed====$p0");
     });

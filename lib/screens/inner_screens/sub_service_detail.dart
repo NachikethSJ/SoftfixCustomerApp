@@ -37,7 +37,26 @@ class SubServiceDetailState extends State<SubServiceDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
+      appBar: appBar(context,title: widget.shopData.name ?? '',actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Row(
+            children: [
+              Icon(
+                Icons.location_on,
+                color: appColors.appGreen,
+              ),
+              const SizedBox(
+                width: 3,
+              ),
+              appText(
+                title:
+                '20 Min • ${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km',
+              )
+            ],
+          ),
+        )
+      ]),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -48,10 +67,10 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                 alignment: Alignment.bottomLeft,
                 children: [
                   SizedBox(
-                    height: 200,
+                    height: 180,
                     width: double.infinity,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(5),
                       child: Image.network(
                         widget.data.image?.first ?? '',
                         fit: BoxFit.fill,
@@ -59,17 +78,17 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                     ),
                   ),
                   Container(
-                    height: 30,
-                    width: 60,
+                    height: 25,
+                    width: 65,
                     decoration: BoxDecoration(
                       color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Center(
                         child: appText(
                       title: '${widget.data.offer}% OFF',
                       color: appColors.appWhite,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14,
                     )),
                   ),
@@ -79,89 +98,40 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                 height: 20,
               ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   appText(
-                    title: widget.shopData.name ?? '',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  appText(
                     title: widget.data.type ?? '',
-                    fontSize: 14,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87
                   ),
+                  Container(
+                    height: 30,
+                    width: 50,
+                    decoration: BoxDecoration(color: appColors.appColor,borderRadius: BorderRadius.circular(5)),
+                    child: const Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text("5.0",style: TextStyle(color: Colors.white),),
+                        ),
+                        Icon(Icons.star,size: 20,color: Colors.white,)
+                      ],
+                    ),
+                  )
                 ],
               ),
               const SizedBox(
                 height: 3,
               ),
-              RatingBar.builder(
-                wrapAlignment: WrapAlignment.start,
-                itemSize: 20,
-                initialRating: 4.5,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (value) {},
-              ),
-              // const SizedBox(
-              //   height: 6,
-              // ),
-              Row(
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        color: appColors.appGreen,
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      appText(
-                        title:
-                            '20 Min • ${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km',
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.timelapse,
-                        color: appColors.appBlue,
-                      ),
-                      const SizedBox(
-                        width: 6,
-                      ),
-                      appText(
-                        title:
-                            '${widget.data.timeTaken?.toString()} Min Service',
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               Row(
                 children: [
                   appText(
                     title:
-                        '₹${calculatePrice(double.parse(widget.data.price?.toString() ?? '0'), double.parse(widget.data.offer?.toString() ?? '0'))}',
+                    '₹${calculatePrice(double.parse(widget.data.price?.toString() ?? '0'), double.parse(widget.data.offer?.toString() ?? '0'))}',
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                   const SizedBox(
                     width: 10,
@@ -174,15 +144,17 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                   ),
                 ],
               ),
+              appText(
+                title:
+                    '${widget.data.timeTaken?.toString()} Min Service',
+                fontSize: 15,
+              ),
               const SizedBox(
                 height: 5,
               ),
               dataCard(
                 texts.detail,
                 widget.data.details ?? '',
-              ),
-              const SizedBox(
-                height: 2,
               ),
               dataCard(
                 texts.terms,
@@ -193,7 +165,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
               ),
               Container(
                 margin:const EdgeInsets.only(left: 10),
-                  child: const Text("Reviews",style: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.bold),),
+                  child:  Text("Reviews",style: TextStyle(color: appColors.appColor,fontSize: 16,fontWeight: FontWeight.bold),),
               ),
               const SizedBox(
                 height: 5,
@@ -204,7 +176,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                   text: const TextSpan(
                     text: 'John : ',
                     style: TextStyle(
-                      color: Colors.brown,
+                      color: Colors.green,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -241,14 +213,14 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: appColors.appGreen,
+                  border: Border.all(color: appColors.appColor)
                 ),
                 child: Center(
                   child: appText(
                     title: texts.book,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: appColors.appWhite,
+                    fontSize: 18,
+                    color: appColors.appColor,
                   ),
                 ),
               ),
@@ -265,19 +237,20 @@ class SubServiceDetailState extends State<SubServiceDetail> {
     return SizedBox(
       width: double.infinity,
       child: Card(
-        elevation: 2,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               appText(
-                title: '• $title',
+                title: '$title',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
+                color: appColors.appColor
               ),
               const SizedBox(
                 height: 6,
