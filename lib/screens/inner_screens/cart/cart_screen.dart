@@ -26,7 +26,9 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
+
       builder: (context, provider, child) {
+        print('Cart item${provider.showCartDetails.length}');
         return Scaffold(
           appBar: AppBar(
             title: appText(title: "My Cart", fontSize: 18),
@@ -57,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
                   ListView.builder(
                     padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount:2,
+                    itemCount:provider.showCartDetails.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -99,12 +101,12 @@ class _CartScreenState extends State<CartScreen> {
                                             SizedBox(
                                               height: 120,
                                               width: 130,
-                                              child: Image.asset(
-                                                'assets/images/placeholder.png',
-                                                width: 90,
-                                                height: 90,
-                                                fit: BoxFit.cover,
-                                              ),
+                                                child: Image.network(
+                                                provider.showCartDetails[index]
+                                                    .image
+                                                    ?.first ??
+                                                    '',
+                                              )
                                             ),
                                             Positioned(
                                               left: 0,
@@ -116,8 +118,8 @@ class _CartScreenState extends State<CartScreen> {
                                                     color: Colors.blue),
                                                 child: Center(
                                                     child: Text(
-                                                  "{provider.showCartDetails[index].offer} Off",
-                                                  style: TextStyle(
+                                                  "${provider.showCartDetails[index].offer} Off",
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -137,16 +139,26 @@ class _CartScreenState extends State<CartScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          appText(
-                                            title: "{provider.showCartDetails[index].name}",
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              appText(
+                                                title: "${provider.showCartDetails[index].name}",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              GestureDetector(
+                                                onTap: (){
+                                                   deleteCartItem(index);
+                                                },
+                                                  child: Icon(Icons.delete))
+                                            ],
                                           ),
                                           const SizedBox(
                                             height: 2,
                                           ),
                                           appText(
-                                            title: '{provider.showCartDetails[index].type}',
+                                            title: '${provider.showCartDetails[index].type}',
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.grey,
@@ -164,7 +176,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '10 Hour Service',
+                                                title: '${provider.showCartDetails[index].time} Hour Service',
                                               )
                                             ],
                                           ),
@@ -174,7 +186,7 @@ class _CartScreenState extends State<CartScreen> {
                                           Row(
                                             children: [
                                               appText(
-                                                title: '₹4000',
+                                                title: '₹${provider.showCartDetails[index].price}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -196,48 +208,33 @@ class _CartScreenState extends State<CartScreen> {
                                           const SizedBox(
                                             height: 4,
                                           ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.train,
-                                                color: Colors.green,
-                                              ),
-                                              const Text(
-                                                "5 min-5km",
-                                                style: TextStyle(fontSize: 10),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  // showSlotBookingDialog(context);
-                                                },
-                                                child: SizedBox(
-                                                    width: 70,
-                                                    height: 34,
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          color: appColors
-                                                              .appColor),
-                                                      child: const Center(
-                                                          child: Text("+Book")),
-                                                    )
+                                          GestureDetector(
+                                            onTap: () {
+                                              // showSlotBookingDialog(context);
+                                            },
+                                            child: SizedBox(
+                                                width: 70,
+                                                height: 34,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(5),
+                                                      color: appColors
+                                                          .appColor),
+                                                  child: const Center(
+                                                      child: Text("Book")),
+                                                )
 
-                                                    // AppButton(
-                                                    //   radius: 8,
-                                                    //   onPressed: () {
-                                                    //     showSlotBookingDialog(context);
-                                                    //   },
-                                                    //   title: '+ Book',
-                                                    //   fontSize: 12,
-                                                    // ),
-                                                    ),
-                                              )
-                                            ],
+                                                // AppButton(
+                                                //   radius: 8,
+                                                //   onPressed: () {
+                                                //     showSlotBookingDialog(context);
+                                                //   },
+                                                //   title: '+ Book',
+                                                //   fontSize: 12,
+                                                // ),
+                                                ),
                                           ),
                                         ],
                                       ),
@@ -267,6 +264,26 @@ class _CartScreenState extends State<CartScreen> {
           var provider = Provider.of<CartProvider>(context, listen: false);
           provider.cartDetails(
             context: context,
+          );
+          //     .then((value) {
+          //   if (value) {
+          //     Navigator.pop(context);
+          //   }
+          // });
+        });
+  }
+  deleteCartItem(int index) {
+    validateConnectivity(
+        context: context,
+        provider: () {
+          var provider = Provider.of<CartProvider>(context, listen: false);
+          provider.deleteToCart(
+            context: context,
+            body:
+            {
+              "cartId": provider.showCartDetails[index].cartId
+            },
+
           );
           //     .then((value) {
           //   if (value) {

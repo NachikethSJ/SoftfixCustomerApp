@@ -16,11 +16,9 @@ class CartProvider extends ChangeNotifier {
   bool get showLoader => _showLoader;
 
   List<SupportModel> _addCart = [];
-
   List<SupportModel> get addCartItem => _addCart;
 
   List<CartDetailsModel> _cartDetail = [];
-
   List<CartDetailsModel> get showCartDetails => _cartDetail;
 
   List<ResponseModel> _deleteCart = [];
@@ -38,7 +36,7 @@ class CartProvider extends ChangeNotifier {
     required Map<String, dynamic> body,
   }) async {
     _setShowLoader(true);
-    _addCart = [];
+
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -50,26 +48,13 @@ class CartProvider extends ChangeNotifier {
         },
       );
 
-      if (res?.data is List) {
-        _addCart = (res?.data as List<dynamic>)
-            .map<SupportModel>((e) => SupportModel.fromJson(e))
-            .toList();
-
-        // validateConnectivity(context: context, provider: provider)
-        print("dfhjfghdsgfhsdfsdh");
-        showToast(res?.message, isSuccess: true);
-      } else {
-        _setShowLoader(false);
-        showToast(res?.message, isSuccess: true);
-        // Handle the case where res?.data is not a List
-        print('Response data is not a List');
-      }
+     showToast(res?.message,isSuccess: true);
       _setShowLoader(false);
       notifyListeners();
       return true;
     } catch (e) {
-      print("=====Exception===$e");
       if (e is ServerError) {
+        print("=====Exception===${e.message}");
         showToast(e.message);
       }
       _setShowLoader(false);
@@ -92,6 +77,7 @@ class CartProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
+      print("============Response====${res?.data}");
       _cartDetail = res?.data
           .map<CartDetailsModel>((e) => CartDetailsModel.fromJson(e))
           .toList();

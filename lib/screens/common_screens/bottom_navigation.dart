@@ -6,6 +6,7 @@ import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
+import '../../utils/validate_connectivity.dart';
 import '../inner_screens/cart/cart_screen.dart';
 import '../inner_screens/profile.dart';
 
@@ -91,6 +92,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
   void initState() {
     getLatLongitude();
     super.initState();
+    cartDeatils();
   }
 
   @override
@@ -242,8 +244,8 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Badge(
-              isLabelVisible:provider.showCartDetails.length>0,
-                    label:  Text("${provider.showCartDetails.length}"),
+                    isLabelVisible: provider.showCartDetails.length > 0,
+                    label: Text("${provider.showCartDetails.length}"),
                     backgroundColor: Colors.teal,
 
 
@@ -259,13 +261,18 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
               );
             },
           ),
-          icon: Badge(
-            label: const Text("0"),
-            backgroundColor: Colors.teal,
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              color: appColors.appBlack,
-            ),
+          icon: Consumer<CartProvider>(
+            builder: (context, provider, child) {
+              return Badge(
+                isLabelVisible: provider.showCartDetails.length > 0,
+                label: Text("${provider.showCartDetails.length}"),
+                backgroundColor: Colors.teal,
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: appColors.appBlack,
+                ),
+              );
+            },
           ),
           label: texts.cart),
       BottomNavigationBarItem(
@@ -287,5 +294,21 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
           ),
           label: texts.account),
     ];
+  }
+
+  cartDeatils() {
+    validateConnectivity(
+        context: context,
+        provider: () {
+          var provider = Provider.of<CartProvider>(context, listen: false);
+          provider.cartDetails(
+            context: context,
+          );
+          //     .then((value) {
+          //   if (value) {
+          //     Navigator.pop(context);
+          //   }
+          // });
+        });
   }
 }

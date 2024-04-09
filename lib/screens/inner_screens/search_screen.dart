@@ -25,7 +25,9 @@ import 'membership_detail.dart';
 
 class SearchScreen extends StatefulWidget {
   final String personType;
-  const SearchScreen({required this.personType,super.key});
+  final double? lang;
+  final double? lat;
+  const SearchScreen({required this.personType,required this.lang, required this.lat,super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -43,8 +45,8 @@ class _SearchScreenState extends State<SearchScreen>
   bool isNearest = false;
   bool isPackage = false;
   bool isMemberShip = false;
-  double latitude = 28.7041;
-  double longitude = 77.1025;
+  // double latitude = 28.7041;
+  // double longitude = 77.1025;
   DateTime _selectedDate = DateTime.now();
   String? selectedTimeFrom;
   String? selectedTimeTo;
@@ -77,84 +79,84 @@ class _SearchScreenState extends State<SearchScreen>
       return secondContainerItems;
     }
   }
-  _openMap() async {
-    var permission = await Geolocator.checkPermission();
-    permission = await Geolocator.requestPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    } else {
-      var res = await showModalBottomSheet(
-        isScrollControlled: true,
-        enableDrag: false,
-        useSafeArea: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
-        ),
-        context: context,
-        builder: (context) {
-          return Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-            ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.cancel))
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: MapScreen(
-                    lat: latitude,
-                    lng: longitude,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-      // var res = await navigateTo(
-      //   context: context,
-      //   to: MapScreen(
-      //     lat: latitude,
-      //     lng: longitude,
-      //   ),
-      // );
-      if (res != null) {
-        setState(() {
-          addressController.text = res['address'];
-          latitude = res['latitude'];
-          longitude = res['longitude'];
-        });
-        await setLatLng(latitude, longitude);
-        _getNearByData();
-      }
-    }
-  }
+  // _openMap() async {
+  //   var permission = await Geolocator.checkPermission();
+  //   permission = await Geolocator.requestPermission();
+  //
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //   } else {
+  //     var res = await showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       enableDrag: false,
+  //       useSafeArea: true,
+  //       shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //           topLeft: Radius.circular(20.0),
+  //           topRight: Radius.circular(20.0),
+  //         ),
+  //       ),
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //           decoration: const BoxDecoration(
+  //             borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(20.0),
+  //               topRight: Radius.circular(20.0),
+  //             ),
+  //           ),
+  //           child: Column(
+  //             children: [
+  //               SizedBox(
+  //                 height: 40,
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.end,
+  //                   children: [
+  //                     IconButton(
+  //                         onPressed: () {
+  //                           Navigator.pop(context);
+  //                         },
+  //                         icon: const Icon(Icons.cancel))
+  //                   ],
+  //                 ),
+  //               ),
+  //               Expanded(
+  //                 child: MapScreen(
+  //                   lat: latitude,
+  //                   lng: longitude,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     );
+  //     // var res = await navigateTo(
+  //     //   context: context,
+  //     //   to: MapScreen(
+  //     //     lat: latitude,
+  //     //     lng: longitude,
+  //     //   ),
+  //     // );
+  //     if (res != null) {
+  //       setState(() {
+  //         addressController.text = res['address'];
+  //         latitude = res['latitude'];
+  //         longitude = res['longitude'];
+  //       });
+  //       await setLatLng(latitude, longitude);
+  //       _getNearByData();
+  //     }
+  //   }
+  // }
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
           (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
-          'lat': latitude,
-          'lng': longitude,
+          'lat': widget.lat,
+          'lng': widget.lang,
           // "lat": "26.8310467",
           // "lng": "80.9243877",
           'personType': widget.personType,
@@ -192,6 +194,7 @@ class _SearchScreenState extends State<SearchScreen>
   void initState() {
     _tabController = TabController(vsync: this, length: 3);
     super.initState();
+    _getNearByData();
   }
 
   @override
@@ -208,62 +211,62 @@ class _SearchScreenState extends State<SearchScreen>
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.0,
-                      child: InkWell(
-                        onTap: () async {
-                          await _openMap();
-                        },
-                        child: IgnorePointer(
-                          child: TextField(
-                            style: const TextStyle(fontSize: 12),
-                            controller: addressController,
-                            decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: appColors.appColor,
-                                  ),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: appColors.appColor,
-                                  ),
-                                ),
-                                suffixIcon: Icon(
-                                  Icons.location_on,
-                                  color: appColors.appColor,
-                                )),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // FlutterToggleTab(
-                    //   height: 50,
-                    //   selectedBackgroundColors: [appColors.appWhite],
-                    //   unSelectedBackgroundColors: [appColors.appColor],
-                    //   width: MediaQuery.of(context).size.width / 5.5,
-                    //   borderRadius: 30,
-                    //   selectedTextStyle: TextStyle(
-                    //       color: appColors.appBlack,
-                    //       fontSize: 10,
-                    //       fontWeight: FontWeight.w500),
-                    //   unSelectedTextStyle: TextStyle(
-                    //       color: Colors.black,
-                    //       fontSize: 10,
-                    //       fontWeight: FontWeight.w500),
-                    //   labels: label,
-                    //   icons: icon,
-                    //   selectedIndex: index,
-                    //   selectedLabelIndex: (i) {
-                    //     setState(() {
-                    //       index = i;
-                    //     });
-                    //   },
-                    // ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: MediaQuery.of(context).size.width / 2.0,
+                //       child: InkWell(
+                //         onTap: () async {
+                //           await _openMap();
+                //         },
+                //         child: IgnorePointer(
+                //           child: TextField(
+                //             style: const TextStyle(fontSize: 12),
+                //             controller: addressController,
+                //             decoration: InputDecoration(
+                //                 enabledBorder: UnderlineInputBorder(
+                //                   borderSide: BorderSide(
+                //                     color: appColors.appColor,
+                //                   ),
+                //                 ),
+                //                 border: UnderlineInputBorder(
+                //                   borderSide: BorderSide(
+                //                     color: appColors.appColor,
+                //                   ),
+                //                 ),
+                //                 suffixIcon: Icon(
+                //                   Icons.location_on,
+                //                   color: appColors.appColor,
+                //                 )),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     // FlutterToggleTab(
+                //     //   height: 50,
+                //     //   selectedBackgroundColors: [appColors.appWhite],
+                //     //   unSelectedBackgroundColors: [appColors.appColor],
+                //     //   width: MediaQuery.of(context).size.width / 5.5,
+                //     //   borderRadius: 30,
+                //     //   selectedTextStyle: TextStyle(
+                //     //       color: appColors.appBlack,
+                //     //       fontSize: 10,
+                //     //       fontWeight: FontWeight.w500),
+                //     //   unSelectedTextStyle: TextStyle(
+                //     //       color: Colors.black,
+                //     //       fontSize: 10,
+                //     //       fontWeight: FontWeight.w500),
+                //     //   labels: label,
+                //     //   icons: icon,
+                //     //   selectedIndex: index,
+                //     //   selectedLabelIndex: (i) {
+                //     //     setState(() {
+                //     //       index = i;
+                //     //     });
+                //     //   },
+                //     // ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -488,7 +491,7 @@ class _SearchScreenState extends State<SearchScreen>
                       Row(
                         children: [
                           appText(
-                            title: '${(Geolocator.distanceBetween(latitude, longitude, provider.newnearShopList[index].lat!, provider.newnearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
+                            title: '${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, provider.newnearShopList[index].lat!, provider.newnearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.blueGrey.shade400
@@ -1449,7 +1452,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.searchmembershipList[index].shop!.lat!, provider.searchmembershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, provider.searchmembershipList[index].shop!.lat!, provider.searchmembershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -1676,7 +1679,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.searchpackageList[index].shop!.lat!, provider.searchpackageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, provider.searchpackageList[index].shop!.lat!, provider.searchpackageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )

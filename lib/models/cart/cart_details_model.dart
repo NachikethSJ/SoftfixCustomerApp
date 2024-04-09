@@ -1,12 +1,12 @@
 class CartDetailsModel {
-  int? cartId;
-  int? productId;
-  int? price;
-  int? time;
+  dynamic cartId;
+  dynamic productId;
+  dynamic price;
+  dynamic time;
   String? offer;
   String? type;
   String? name;
-  List<String>? image;
+  List<dynamic>? image;
 
   CartDetailsModel(
       {this.cartId,
@@ -26,19 +26,7 @@ class CartDetailsModel {
     offer = json['offer'];
     type = json['type'];
     name = json['name'];
-    image = json['image'].cast<String>();
+    image = json['image'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cartId'] = this.cartId;
-    data['productId'] = this.productId;
-    data['price'] = this.price;
-    data['time'] = this.time;
-    data['offer'] = this.offer;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    return data;
-  }
 }

@@ -6,6 +6,7 @@ import 'package:salon_customer_app/utils/show_toast.dart';
 import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/utils/validator.dart';
 
+import '../view_models/cart_provider.dart';
 import '../view_models/dashboard_provider.dart';
 import 'app_text.dart';
 import 'continue_to_payment.dart';
@@ -279,6 +280,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            addCartService();
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
@@ -362,4 +364,23 @@ createSlotOrder(){
     },
   );
 }
+  addCartService() {
+    validateConnectivity(context: context, provider: () {
+      var provider = Provider.of<CartProvider>(context, listen: false);
+
+      var body =
+      {
+        "subServiceId":widget.subServiceId,
+        "quantity":1,
+      };
+      provider.addCart(
+        context: context,
+        body: body,
+      ).then((value) {
+        if (value) {
+          Navigator.pop(context);
+        }
+      });
+    });
+  }
 }

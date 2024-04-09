@@ -135,24 +135,25 @@ class _MapScreenState extends State<MapScreen> {
             // ToDO: add markers
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: GooglePlacesAutoCompleteTextFormField(
                 focusNode: focusNode,
+
                 decoration: InputDecoration(
                     fillColor: appColors.appWhite,
                     filled: true,
                     hintText: 'Type to search',
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -190,6 +191,7 @@ class _MapScreenState extends State<MapScreen> {
           Positioned(
             bottom: 30,
             child: AppButton(
+              radius: 8,
               onPressed: () {
                 Navigator.pop(context, {
                   'address': searchController.text,

@@ -11,6 +11,7 @@ import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 
+import '../../utils/slot.dart';
 import '../../utils/validate_connectivity.dart';
 import '../common_screens/bottom_navigation.dart';
 
@@ -205,8 +206,9 @@ class SubServiceDetailState extends State<SubServiceDetail> {
             padding: const EdgeInsets.all(12),
             child: GestureDetector(
               onTap: (){
+                showSlotBookingDialog(context,widget.data.id.toString());
                //item Add to cart
-                addCartService();
+               //  addCartService();
               },
               child: Container(
                 height: 50,
@@ -289,5 +291,14 @@ class SubServiceDetailState extends State<SubServiceDetail> {
         }
       });
     });
+  }
+
+  void showSlotBookingDialog(BuildContext context,String id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return  SlotBookingDialog(subServiceId: int.tryParse(id),);
+      },
+    );
   }
 }

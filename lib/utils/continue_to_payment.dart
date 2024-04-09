@@ -21,7 +21,7 @@ import '../view_models/dashboard_provider.dart';
 class PaymentContinueScreen extends StatefulWidget {
   final String? date;
   final String? ordrId;
-  const PaymentContinueScreen({super.key, this.date,this.ordrId});
+  const PaymentContinueScreen({super.key, this.date, this.ordrId});
 
   @override
   State<PaymentContinueScreen> createState() => _PaymentContinueScreenState();
@@ -30,7 +30,7 @@ class PaymentContinueScreen extends StatefulWidget {
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
   int count = 1;
   bool isSuccess = true;
-  String orderbookingId='';
+  String orderbookingId = '';
 
   @override
   void initState() {
@@ -38,18 +38,18 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     print("======Init State===");
     print("======Init order id ===${widget.ordrId}");
     slotOrderDetail();
-    var data = Provider
-
-        .of<DashboardProvider>(context, listen: false)
-        .createOrderSlot;
+    var data =
+        Provider.of<DashboardProvider>(context, listen: false).createOrderSlot;
     print("===Payment Session===${data.paymentSessionId}");
-    CashFreepayment(paymentSessionId: data.paymentSessionId ?? '',
-        orderId: data.orderId ?? '',orderStatus: data.orderStatus ?? '')
+    CashFreepayment(
+            paymentSessionId: data.paymentSessionId ?? '',
+            orderId: data.orderId ?? '',
+            orderStatus: data.orderStatus ?? '')
         .cfPaymentGatewayService
         .setCallback((p0) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        successOrder().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SuccessScreen())));
-
+        successOrder().then((value) => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SuccessScreen())));
       });
 
       print("=======Success====$p0");
@@ -80,159 +80,179 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                   child: Column(
                     children: [
                       appText(
-                          title: "Billing(gif or graphics)",
+                          title: "Billing",
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                       Consumer<DashboardProvider>(
                         builder: (context, provider, child) {
                           return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: 1,
+                              itemCount: provider.slotOrderDeatil.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, right: 20, top: 10),
+                                      left: 5, right: 5, top: 10),
                                   child: Container(
                                       height: 100,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Expanded(
                                             flex: 1,
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Row(
                                                   children: [
-                                                    const Icon(
-                                                      Icons
-                                                          .personal_injury_sharp,
-                                                      color: Colors.grey,
+                                                    SizedBox(
+                                                        height: 40,
+                                                        width: 60,
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.circular(8),
+                                                          child: Image.network(
+                                                            provider
+                                                                    .slotOrderDeatil[
+                                                                        index]
+                                                                    .image
+                                                                    ?.first ??
+                                                                '',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        )),
+                                                    const SizedBox(width: 5,),
+                                                    Column(
+                                                      children: [
+                                                        appText(
+                                                            title:
+                                                                "${provider.slotOrderDeatil[index].subServiceName}",
+                                                            fontSize: 14),
+                                                        appText(
+                                                            title:
+                                                                "₹${provider.slotOrderDeatil[index].price}",
+                                                            color: Colors.brown,
+                                                            fontSize: 14),
+                                                      ],
                                                     ),
-                                                    appText(
-                                                        title: "HairCut",
-                                                        fontSize: 14)
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: SizedBox(
+                                                        height: 70,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 15,
+                                                                  right: 15,
+                                                                  top: 12,
+                                                                  bottom: 12),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  color: appColors
+                                                                      .appColor,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: appColors
+                                                                        .appBlue,
+                                                                  ),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          10,
+                                                                          10,
+                                                                          14),
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          if (count >
+                                                                              1) {
+                                                                            setState(() {
+                                                                              count--;
+                                                                            });
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .remove,
+                                                                          color:
+                                                                              appColors.appBlack,
+                                                                          size:
+                                                                              20,
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            12,
+                                                                      ),
+                                                                      Center(
+                                                                        child:
+                                                                            appText(
+                                                                          title:
+                                                                              '$count',
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          color:
+                                                                              appColors.appBlack,
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            12,
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          setState(
+                                                                              () {
+                                                                            count++;
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .add,
+                                                                          color:
+                                                                              appColors.appBlack,
+                                                                          size:
+                                                                              20,
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
                                                   ],
                                                 ),
-                                                appText(
-                                                    title: "2500",
-                                                    color: Colors.brown,
-                                                    fontSize: 14),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                            builder: (
-                                                                context) =>
-                                                                BottomNavigation()));
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons
-                                                            .video_library_outlined,
-                                                        color: Colors.blueGrey,
-                                                      ),
-                                                      appText(
-                                                          title: "Add more",
-                                                          fontSize: 14)
-                                                    ],
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: SizedBox(
-                                              height: 70,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 15,
-                                                    right: 15,
-                                                    top: 12,
-                                                    bottom: 12),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            12),
-                                                        color: appColors
-                                                            .appColor,
-                                                        border: Border.all(
-                                                          color: appColors
-                                                              .appBlue,
-                                                        ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                            10, 10, 10, 14),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: () {
-                                                                if (count > 1) {
-                                                                  setState(() {
-                                                                    count--;
-                                                                  });
-                                                                }
-                                                              },
-                                                              child: Icon(
-                                                                Icons.remove,
-                                                                color: appColors
-                                                                    .appBlack,
-                                                                size: 20,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 12,
-                                                            ),
-                                                            Center(
-                                                              child: appText(
-                                                                title: '$count',
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                FontWeight.bold,
-                                                                color: appColors
-                                                                    .appBlack,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 12,
-                                                            ),
-                                                            InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  count++;
-                                                                });
-                                                              },
-                                                              child: Icon(
-                                                                Icons.add,
-                                                                color: appColors
-                                                                    .appBlack,
-                                                                size: 20,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          )
                                         ],
                                       )),
                                 );
@@ -248,8 +268,8 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     children: [
@@ -298,8 +318,9 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: appText(
-                                            title: provider.createOrderSlot
-                                                .orderAmount.toString()),
+                                            title: provider
+                                                .createOrderSlot.orderAmount
+                                                .toString()),
                                       ),
                                     ],
                                   )
@@ -321,8 +342,8 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                               child: const Padding(
                                 padding: EdgeInsets.only(
                                     left: 5, right: 5, top: 5, bottom: 5),
-                                child:
-                                Icon(Icons.currency_rupee, color: Colors.white),
+                                child: Icon(Icons.currency_rupee,
+                                    color: Colors.white),
                               )),
                           const SizedBox(
                             width: 5,
@@ -351,15 +372,20 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                               return GestureDetector(
                                 onTap: () async {
                                   // bookingSlot();
-                                  orderbookingId =
-                                      provider.createOrderSlot.orderId.toString();
+                                  orderbookingId = provider
+                                      .createOrderSlot.orderId
+                                      .toString();
                                   await CashFreepayment(
-                                      orderId:
-                                      provider.createOrderSlot.orderId ??
-                                          '',
-                                      paymentSessionId: provider.createOrderSlot
-                                          .paymentSessionId ??
-                                          '',orderStatus: provider.createOrderSlot.orderStatus ?? '')
+                                          orderId: provider
+                                                  .createOrderSlot.orderId ??
+                                              '',
+                                          paymentSessionId: provider
+                                                  .createOrderSlot
+                                                  .paymentSessionId ??
+                                              '',
+                                          orderStatus: provider.createOrderSlot
+                                                  .orderStatus ??
+                                              '')
                                       .pay();
                                 },
                                 child: Container(
@@ -392,7 +418,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
 
   bookingSlot() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
+      (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
           "employeeId": "12",
@@ -425,6 +451,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     );
     return res;
   }
+
   Future<bool> slotOrderDetail() async {
     var res = await Provider.of<DashboardProvider>(context, listen: false)
         .orderSlotDetail(

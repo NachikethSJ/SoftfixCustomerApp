@@ -356,7 +356,7 @@ class _DashboardState extends State<Dashboard>
                         child: InkWell(
                           onTap: () {
                             slideTransition(
-                                context: context, to:  SearchScreen(personType: personType,));
+                                context: context, to:  SearchScreen(personType: personType, lang: longitude, lat: latitude,));
                           },
                           child: IgnorePointer(
                             child: Card(
@@ -486,12 +486,12 @@ class _DashboardState extends State<Dashboard>
                                     slideTransition(
                                         context: context,
                                         to: SubServiceDetail(
-                                          data: provider.subServiceList[index],
+                                          data: subService[index],
                                           shopData:
-                                              provider.subServiceList[index].shop!,
+                                          subService[index].shop!,
                                           lat: latitude,
                                           lng: longitude,
-                                          subServiceid: provider.subServiceList[index].id.toString(),
+                                          subServiceid: subService[index].id.toString(),
                                         ));
                                   },
                                   child: Container(
