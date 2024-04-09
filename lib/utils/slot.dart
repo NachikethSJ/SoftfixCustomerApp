@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
+import 'package:salon_customer_app/utils/show_toast.dart';
+import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/utils/validator.dart';
 
 import '../view_models/dashboard_provider.dart';
@@ -317,33 +319,44 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
 createSlotOrder(){
   WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
-      var provider = Provider.of<DashboardProvider>(context, listen: false);
-      // List<Map<String, String>> dynamicBookingDetailsArray = [{'startTime': }];
-      var body = {
-        "id": widget.subServiceId,
-        "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+      validateConnectivity(context: context, provider: (){
+        var provider = Provider.of<DashboardProvider>(context, listen: false);
+        List<Map<String,dynamic>> bookingDetailsArray=[];
+        int flag=0;
+        provider.slotList.forEach((element) {
+          element.slots?.forEach((e) {
+            if(e.isChecked==true){
+              flag=1;
+              bookingDetailsArray.add({
+                "startTime":e.start,
+                "endTime":e.end,
+                "employeeId":element.employId,
+              });
+            }
+          });
+        });
 
-        "bookingDetailsArray":[
-          {
-            "startTime":"16:00",
-            "endTime":"17:00",
-            "employeeId":"EMP1016"
-          },
-          {
-            "startTime":"18:00",
-            "endTime":"19:00",
-            "employeeId":"EMP1017"
-          }
-        ]
+        if(flag==1){
+          var body = {
+            "id": widget.subServiceId,
+            "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
 
-      };
-      provider.createOrder(
-        context: context,
-        body: body,
-      ).then((value) {
-        if(value){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),)));// Close the dialog
+            "bookingDetailsArray":bookingDetailsArray
 
+          };
+
+          print("=====Request Body===$body");
+          provider.createOrder(
+            context: context,
+            body: body,
+          ).then((value) {
+            if(value){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
+
+            }
+          });
+        }else{
+          showToast('Please select slot.');
         }
       });
     },

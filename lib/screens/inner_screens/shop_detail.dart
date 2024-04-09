@@ -285,17 +285,11 @@ class _ShopDetailState extends State<ShopDetail> {
                             crossAxisAlignment:
                             CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  appText(
+                              appText(
                                     title: '${provider.serviceList[index].name ?? ""}',
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                  SizedBox(width: 20,),
-                                  Text("View Details",style: TextStyle(color: Colors.blueGrey,decoration: TextDecoration.underline,fontSize: 12),)
-                                ],
-                              ),
                               const SizedBox(
                                 height: 2,
                               ),
@@ -371,8 +365,20 @@ class _ShopDetailState extends State<ShopDetail> {
                               ),
                                 Row(
                                 children: [
-                                  const Icon(Icons.train,color: Colors.green,),
-                                  const Text("5 min-5km",style: TextStyle(fontSize: 10),),
+                                  RatingBar.builder(
+                                    wrapAlignment: WrapAlignment.start,
+                                    itemSize: 14,
+                                    initialRating: 4,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (value) {},
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -381,14 +387,14 @@ class _ShopDetailState extends State<ShopDetail> {
                                       showSlotBookingDialog(context);
                                     },
                                     child: SizedBox(
-                                      width: 70,
-                                      height: 34,
+                                      width: 60,
+                                      height: 30,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5),
-                                          color: appColors.appColor
+                                         border:Border.all( color: appColors.appColor)
                                         ),
-                                        child: const Center(child: Text("Book")),
+                                        child:  Center(child: Text("Book",style:TextStyle(color:appColors.appColor))),
                                       )
 
                                       // AppButton(

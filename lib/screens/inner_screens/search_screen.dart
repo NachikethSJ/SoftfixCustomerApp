@@ -211,7 +211,7 @@ class _SearchScreenState extends State<SearchScreen>
                 Row(
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 3.6,
+                      width: MediaQuery.of(context).size.width / 2.0,
                       child: InkWell(
                         onTap: () async {
                           await _openMap();
@@ -239,29 +239,29 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                       ),
                     ),
-                    FlutterToggleTab(
-                      height: 50,
-                      selectedBackgroundColors: [appColors.appWhite],
-                      unSelectedBackgroundColors: [appColors.appColor],
-                      width: MediaQuery.of(context).size.width / 5.5,
-                      borderRadius: 30,
-                      selectedTextStyle: TextStyle(
-                          color: appColors.appBlack,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500),
-                      unSelectedTextStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500),
-                      labels: label,
-                      icons: icon,
-                      selectedIndex: index,
-                      selectedLabelIndex: (i) {
-                        setState(() {
-                          index = i;
-                        });
-                      },
-                    ),
+                    // FlutterToggleTab(
+                    //   height: 50,
+                    //   selectedBackgroundColors: [appColors.appWhite],
+                    //   unSelectedBackgroundColors: [appColors.appColor],
+                    //   width: MediaQuery.of(context).size.width / 5.5,
+                    //   borderRadius: 30,
+                    //   selectedTextStyle: TextStyle(
+                    //       color: appColors.appBlack,
+                    //       fontSize: 10,
+                    //       fontWeight: FontWeight.w500),
+                    //   unSelectedTextStyle: TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 10,
+                    //       fontWeight: FontWeight.w500),
+                    //   labels: label,
+                    //   icons: icon,
+                    //   selectedIndex: index,
+                    //   selectedLabelIndex: (i) {
+                    //     setState(() {
+                    //       index = i;
+                    //     });
+                    //   },
+                    // ),
                   ],
                 ),
                 const SizedBox(
@@ -301,26 +301,7 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Card(
-                      color: appColors.appColor,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: SizedBox(
-                        width: 50,
-                        height: 46,
-                        child: Center(
-                          child: Icon(
-                            Icons.notifications,
-                            color: appColors.appBlack,
-                          ),
-                        ),
-                      ),
-                    )
+
                   ],
                 ),
                 const SizedBox(
@@ -455,7 +436,8 @@ class _SearchScreenState extends State<SearchScreen>
                   appText(
                     title: '${provider.searchserviceList[index].name}',
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black
                   ),
                   const SizedBox(
                     height: 10,
@@ -493,9 +475,10 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${provider.searchserviceList[index].subService?[0].price ?? ""}',
+                            title: '${provider.searchserviceList[index].subService?[0].timeTaken ?? ""}',
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey.shade400
                           ),
                         ],
                       ),
@@ -504,11 +487,12 @@ class _SearchScreenState extends State<SearchScreen>
                       ),
                       Row(
                         children: [
-                          // appText(
-                          //   title: '${(Geolocator.distanceBetween(latitude, longitude, provider.searchserviceList[index].lat!, provider.newnearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
-                          //   fontSize: 14,
-                          //   fontWeight: FontWeight.bold,
-                          // ),
+                          appText(
+                            title: '${(Geolocator.distanceBetween(latitude, longitude, provider.newnearShopList[index].lat!, provider.newnearShopList[index].lng!) / 1000).toStringAsFixed(2)}Km',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey.shade400
+                          ),
                           const SizedBox(
                             width: 2,
                           ),
@@ -550,7 +534,7 @@ class _SearchScreenState extends State<SearchScreen>
                                       height: 120,
                                       width: 120,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(17),
+                                        borderRadius: BorderRadius.circular(5),
                                         child: Image.network(
                                           provider.searchserviceList?[index].subService?[i].image?.first ?? "",
                                           fit: BoxFit.fill,

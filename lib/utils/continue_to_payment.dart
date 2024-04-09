@@ -20,7 +20,8 @@ import '../view_models/dashboard_provider.dart';
 
 class PaymentContinueScreen extends StatefulWidget {
   final String? date;
-  const PaymentContinueScreen({super.key, this.date});
+  final String? ordrId;
+  const PaymentContinueScreen({super.key, this.date,this.ordrId});
 
   @override
   State<PaymentContinueScreen> createState() => _PaymentContinueScreenState();
@@ -35,7 +36,10 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
   void initState() {
     super.initState();
     print("======Init State===");
+    print("======Init order id ===${widget.ordrId}");
+    slotOrderDetail();
     var data = Provider
+
         .of<DashboardProvider>(context, listen: false)
         .createOrderSlot;
     print("===Payment Session===${data.paymentSessionId}");
@@ -418,6 +422,14 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         .orderSuccess(
       context: context,
       orderId: orderbookingId.toString(),
+    );
+    return res;
+  }
+  Future<bool> slotOrderDetail() async {
+    var res = await Provider.of<DashboardProvider>(context, listen: false)
+        .orderSlotDetail(
+      context: context,
+      orderId: widget.ordrId.toString(),
     );
     return res;
   }

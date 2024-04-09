@@ -8,6 +8,7 @@ import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/accounts/get_booking_details_model.dart';
+import '../models/booking/booking_slot_details.dart';
 import '../models/booking/create_order_model.dart';
 import '../models/common_models/response_model.dart';
 import '../models/common_models/server_error.dart';
@@ -73,7 +74,8 @@ class DashboardProvider extends ChangeNotifier {
   List<ResponseModel> _orderSuccess = [];
   List<ResponseModel> get orerSuccess => _orderSuccess;
 
-
+  List<BookSlotDetailsModel> _slotOrderDetail = [];
+  List<BookSlotDetailsModel> get slotOrderDeatil => _slotOrderDetail;
   _setShowLoader(bool value) {
     _showLoader = value;
   }
@@ -518,6 +520,36 @@ class DashboardProvider extends ChangeNotifier {
       );
       _orderSuccess = res?.data
           .map<ResponseModel>((e) => ResponseModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+
+  Future<bool> orderSlotDetail({
+    required BuildContext context,
+    required String orderId,
+
+  }) async {
+    _slotOrderDetail = [];
+    _setShowLoader(true);
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: '${appUrls.getOrderDetails}/$orderId',
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _slotOrderDetail = res?.data
+          .map<BookSlotDetailsModel>((e) => BookSlotDetailsModel.fromJson(e))
           .toList();
       _setShowLoader(false);
       notifyListeners();

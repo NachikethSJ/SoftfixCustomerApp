@@ -4,6 +4,7 @@ import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
+import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 import '../inner_screens/cart/cart_screen.dart';
 import '../inner_screens/profile.dart';
@@ -19,6 +20,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
   int index = 0;
   double latitude = 0;
   double longitude = 0;
+
   Future getLatLongitude() async {
     var data = await getLatLng();
     setState(() {
@@ -29,7 +31,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
+          (timeStamp) {
         getLatLongitude().then((value) {
           var provider = Provider.of<DashboardProvider>(context, listen: false);
           var body = {
@@ -37,23 +39,23 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
             'lng': longitude,
 
             'serviceTypeId': "1",
-            'minOffer':1,
-            'maxOffer':100,
+            'minOffer': 1,
+            'maxOffer': 100,
             'minPrice': 1,
             'maxPrice': 5000,
             'minDistance': 1,
-            'maxDistance':40,
-            'search':  '',
+            'maxDistance': 40,
+            'search': '',
 
             'personType': index == 0
                 ? ''
                 : index == 1
-                    ? '0'
-                    : index == 2
-                        ? '1'
-                        : index == 3
-                            ? '2'
-                            : '',
+                ? '0'
+                : index == 2
+                ? '1'
+                : index == 3
+                ? '2'
+                : '',
           };
           provider.getShopList(
             context: context,
@@ -234,21 +236,28 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
         label: texts.kid,
       ),
       BottomNavigationBarItem(
-          activeIcon: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Badge(
-                label: const Text("0"),
-                backgroundColor: Colors.teal,
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  color: appColors.appColor,
-                ),
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-            ],
+          activeIcon: Consumer<CartProvider>(
+            builder: (context, provider, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Badge(
+              isLabelVisible:provider.showCartDetails.length>0,
+                    label:  Text("${provider.showCartDetails.length}"),
+                    backgroundColor: Colors.teal,
+
+
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: appColors.appColor,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                ],
+              );
+            },
           ),
           icon: Badge(
             label: const Text("0"),

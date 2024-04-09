@@ -42,6 +42,7 @@ class AppUrls {
 
  String get  getOrder=> '/user/getOrder';
 
+ String get getOrderDetails=> '/user/getOrderDetails';
 
 
 }
