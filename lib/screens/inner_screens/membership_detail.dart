@@ -6,12 +6,15 @@ import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/validator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/slot.dart';
 
 class MembershipDetail extends StatefulWidget {
   final MembershipModel data;
-  const MembershipDetail({super.key, required this.data});
+  final int lat;
+  final int lang;
+  const MembershipDetail({super.key, required this.data, required this.lat, required this.lang});
 
   @override
   State<MembershipDetail> createState() => _MembershipDetailState();
@@ -21,12 +24,74 @@ class _MembershipDetailState extends State<MembershipDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
+      appBar: AppBar(
+          leading: GestureDetector(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back,)),
+          title: Row(
+            children: [
+              Icon(Icons.location_on,color: appColors.appColor,),
+              Text("${widget.data.shop?.name} ",style: TextStyle(fontSize: 14),),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Icon(Icons.search,color: appColors.appColor,),
+            )
+          ]
+      ),
+
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Stack(
+              children: [
+                SizedBox(
+                  height: 120,
+                  width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      widget.data.image?.first ?? '',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: ()async {
+                       await openMap(widget.lat.toDouble(), widget.lang.toDouble());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 140,
+                      decoration:  BoxDecoration(
+                          color: Colors.teal.shade800,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.directions,color: appColors.appColor,),
+                          InkWell(
+                              onTap: (){
+                                 openMap(widget.lat.toDouble(),widget.lang.toDouble());
+                              },
+                              child: const Text("Get Direction",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -67,18 +132,18 @@ class _MembershipDetailState extends State<MembershipDetail> {
                         const SizedBox(
                           width: 10,
                         ),
-                        SizedBox(
-                          width: 120,
-                          height: 40,
-                          child: AppButton(
-                            onPressed: () {
-                              showSlotBookingDialog(context);
-                            },
-                            title: texts.bookSlot,
-                            radius: 8,
-                            fontSize: 14,
-                          ),
-                        )
+                        // SizedBox(
+                        //   width: 120,
+                        //   height: 40,
+                        //   child: AppButton(
+                        //     onPressed: () {
+                        //       showSlotBookingDialog(context);
+                        //     },
+                        //     title: texts.bookSlot,
+                        //     radius: 8,
+                        //     fontSize: 14,
+                        //   ),
+                        // )
                       ],
                     ),
                     const SizedBox(
@@ -261,5 +326,14 @@ class _MembershipDetailState extends State<MembershipDetail> {
         return  SlotBookingDialog();
       },
     );
+  }
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 }

@@ -150,6 +150,9 @@ class _CartScreenState extends State<CartScreen> {
                                               GestureDetector(
                                                 onTap: (){
                                                    deleteCartItem(index);
+                                                   //     .then((value){
+                                                   //   cartDeatils();
+                                                   // });
                                                 },
                                                   child: Icon(Icons.delete))
                                             ],
@@ -272,6 +275,7 @@ class _CartScreenState extends State<CartScreen> {
           // });
         });
   }
+
   deleteCartItem(int index) {
     validateConnectivity(
         context: context,

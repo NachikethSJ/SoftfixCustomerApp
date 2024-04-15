@@ -59,9 +59,9 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
   @override
   Widget build(BuildContext context) {
     DateTime? startDate =
-        _selectedDate?.subtract(Duration(days: _selectedDate!.weekday - 1));
+    _selectedDate?.subtract(Duration(days: _selectedDate!.weekday - 1));
     DateTime? endDate =
-        _selectedDate?.add(Duration(days: 7 - _selectedDate!.weekday));
+    _selectedDate?.add(Duration(days: 7 - _selectedDate!.weekday));
     return Consumer<DashboardProvider>(
       builder: (context, provider, child) {
         if (provider.showLoader) {
@@ -149,14 +149,25 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Column(
+                    provider.slotList.isEmpty
+                        ? const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'No slots available.',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                        : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text("Please Select Time"),
                         Wrap(
                           children: [
                             ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: provider.slotList.length,
                               itemBuilder: (context, index) {
@@ -266,7 +277,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                           },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.yellow),
+                            MaterialStateProperty.all<Color>(Colors.yellow),
                           ),
                           child: const Text('Continue To Payment'),
                         ),
@@ -281,11 +292,14 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         child: ElevatedButton(
                           onPressed: () {
                             addCartService();
+                            //     .then((value) {
+                            //   cartDeatils();
+                            // });
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.green),
+                            MaterialStateProperty.all<Color>(Colors.green),
                           ),
                           child: Text('Book For More Services'),
                         ),
@@ -300,6 +314,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
       },
     );
   }
+
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -382,5 +397,20 @@ createSlotOrder(){
         }
       });
     });
+  }
+  cartDeatils() {
+    validateConnectivity(
+        context: context,
+        provider: () {
+          var provider = Provider.of<CartProvider>(context, listen: false);
+          provider.cartDetails(
+            context: context,
+          );
+          //     .then((value) {
+          //   if (value) {
+          //     Navigator.pop(context);
+          //   }
+          // });
+        });
   }
 }

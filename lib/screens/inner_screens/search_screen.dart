@@ -1290,6 +1290,8 @@ class _SearchScreenState extends State<SearchScreen>
                 context: context,
                 to: MembershipDetail(
                   data: provider.searchmembershipList[index],
+                  lang: widget.lang?.toInt()??0,
+                  lat: widget.lat?.toInt()??0,
                 ),
               );
             },
@@ -1513,6 +1515,8 @@ class _SearchScreenState extends State<SearchScreen>
                 context: context,
                 to: PackageDetail(
                   data: provider.searchpackageList[index],
+                  lat: widget.lat?.toInt() ??0,
+                  lang: widget.lang?.toInt() ??0,
                 ),
               );
             },

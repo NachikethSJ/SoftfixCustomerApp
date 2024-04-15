@@ -482,6 +482,8 @@ class _ShopDetailState extends State<ShopDetail> {
                 context: context,
                 to: MembershipDetail(
                   data: provider.membershipList[index],
+                  lat:latitude.toInt() ,
+                  lang: longitude.toInt(),
                 ),
               );
             },
@@ -706,6 +708,8 @@ class _ShopDetailState extends State<ShopDetail> {
                 context: context,
                 to: PackageDetail(
                   data: provider.packageList[index],
+                  lang:longitude.toInt() ,
+                  lat: latitude.toInt(),
                 ),
               );
             },

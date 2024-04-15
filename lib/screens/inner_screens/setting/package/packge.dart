@@ -83,6 +83,8 @@ class _PackageScreenState extends State<PackageScreen> {
                 context: context,
                 to: PackageDetail(
                   data: provider.packageList[index],
+                  lat: latitude.toInt(),
+                  lang: longitude.toInt(),
                 ),
               );
             },

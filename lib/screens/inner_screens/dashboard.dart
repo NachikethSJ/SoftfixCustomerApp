@@ -28,7 +28,9 @@ import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
 import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../utils/slot.dart';
+import '../../utils/validate_connectivity.dart';
 import '../../utils/validator.dart';
+import '../../view_models/cart_provider.dart';
 import '../common_screens/cutome_image_slider.dart';
 import '../common_screens/local_notifications.dart';
 import '../common_screens/notification.dart';
@@ -168,6 +170,7 @@ class _DashboardState extends State<Dashboard>
     getLatLongitude().then((value) {
       _getAddressFromLatLng(latitude, longitude);
       _getNearByData();
+
     });
     // Initialise  localnotification
     // LocalNotificationService.initialize();
@@ -189,6 +192,7 @@ class _DashboardState extends State<Dashboard>
     //   print("on message opened app");
     // });
     super.initState();
+    cartDeatils();
   }
 
   _openMap() async {
@@ -1152,6 +1156,8 @@ class _DashboardState extends State<Dashboard>
                 context: context,
                 to: MembershipDetail(
                   data: provider.membershipList[index],
+                  lat: latitude.toInt(),
+                  lang: longitude.toInt(),
                 ),
               );
             },
@@ -1373,6 +1379,8 @@ class _DashboardState extends State<Dashboard>
                 context: context,
                 to: PackageDetail(
                   data: provider.packageList[index],
+                  lang: longitude.toInt(),
+                  lat: latitude.toInt(),
                 ),
               );
             },
@@ -2172,6 +2180,20 @@ class _DashboardState extends State<Dashboard>
       },
     );
   }
-
+  cartDeatils() {
+    validateConnectivity(
+        context: context,
+        provider: () {
+          var provider = Provider.of<CartProvider>(context, listen: false);
+          provider.cartDetails(
+            context: context,
+          );
+          //     .then((value) {
+          //   if (value) {
+          //     Navigator.pop(context);
+          //   }
+          // });
+        });
+  }
 
 }

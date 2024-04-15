@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../constants/texts.dart';
 import '../../../../styles/app_colors.dart';
 import '../../../../utils/app_text.dart';
+import '../../../../view_models/accounts_provider.dart';
 import '../../../../view_models/dashboard_provider.dart';
 import '../help/help.dart';
 
@@ -72,10 +73,10 @@ class _MyBookingState extends State<MyBooking> {
               const SizedBox(
                 height: 5,
               ),
-              Consumer<DashboardProvider>(
+              Consumer<AccountsProvider>(
                 builder: (context, provider, child) {
                   return ListView.builder(
-                      itemCount: 5,
+                      itemCount: provider.showbookingDetails.length,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, index) {
@@ -83,7 +84,7 @@ class _MyBookingState extends State<MyBooking> {
                           padding:
                               const EdgeInsets.only(left: 8, right: 8, top: 5),
                           child: SizedBox(
-                            height: 300,
+                            height: 250,
                             width: double.infinity,
                             child: Card(
                               elevation: 4,
@@ -115,7 +116,7 @@ class _MyBookingState extends State<MyBooking> {
                                               Row(
                                                 children: [
                                                   appText(
-                                                    title: "Green Trends",
+                                                    title: provider.showbookingDetails[index].shop ?? '',
                                                     fontSize: 15,
                                                     color: Colors.teal.shade500,
                                                     fontWeight: FontWeight.bold,
@@ -130,43 +131,34 @@ class _MyBookingState extends State<MyBooking> {
                                                 ],
                                               ),
                                               appText(
-                                                  title: "Eye brow",
+                                                  title: provider.showbookingDetails[index].service ?? '',
                                                   color: Colors.blueGrey,
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold),
                                               appText(
-                                                  title: "Eye brow shaping",
-                                                  color: Colors.black,
+                                                  title: provider.showbookingDetails[index].subServiceType ?? '',
+                                                  color: Colors.blueGrey,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.bold),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
                                               appText(
-                                                title:
-                                                    '12:00:00-12:00:00(Sat,Apr,2024)',
+                                                title: '${provider.showbookingDetails[index].startTime ?? ''}-${provider.showbookingDetails[index].endTime??''}(${provider.showbookingDetails[index].bookingDate})',
                                                 color: Colors.black,
                                                 fontSize: 12,
                                               ),
                                               appText(
-                                                title: '₹500',
+                                                title: '₹${provider.showbookingDetails[index].price??''}',
                                                 color: Colors.black,
                                                 fontSize: 12,
                                               ),
                                               appText(
-                                                title: 'Offer:10%',
+                                                title: 'Offer:${provider.showbookingDetails[index].offer??''}%',
                                                 color: Colors.black,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               appText(
-                                                title: 'Stylish:Prabhat',
+                                                title: 'Stylish:${provider.showbookingDetails[index].employName??''}',
                                                 color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              appText(
-                                                title: '4 hrs.5 min.left',
-                                                color: Colors.green,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -185,107 +177,107 @@ class _MyBookingState extends State<MyBooking> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
-                                                SizedBox(
-                                                  height: 70,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 5,
-                                                            right: 5,
-                                                            top: 12,
-                                                            bottom: 12),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12),
-                                                            color: appColors
-                                                                .appColor,
-                                                            border: Border.all(
-                                                              color: appColors
-                                                                  .appBlue,
-                                                            ),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    10,
-                                                                    14,
-                                                                    10,
-                                                                    14),
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    if (count >
-                                                                        1) {
-                                                                      setState(
-                                                                          () {
-                                                                        count--;
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .remove,
-                                                                    color: appColors
-                                                                        .appBlack,
-                                                                    size: 20,
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 12,
-                                                                ),
-                                                                Center(
-                                                                  child:
-                                                                      appText(
-                                                                    title:
-                                                                        '$count',
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: appColors
-                                                                        .appBlack,
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 12,
-                                                                ),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    setState(
-                                                                        () {
-                                                                      count++;
-                                                                    });
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons.add,
-                                                                    color: appColors
-                                                                        .appBlack,
-                                                                    size: 20,
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
+                                                // SizedBox(
+                                                //   height: 70,
+                                                //   child: Padding(
+                                                //     padding:
+                                                //         const EdgeInsets.only(
+                                                //             left: 5,
+                                                //             right: 5,
+                                                //             top: 12,
+                                                //             bottom: 12),
+                                                //     child: Row(
+                                                //       mainAxisAlignment:
+                                                //           MainAxisAlignment
+                                                //               .spaceBetween,
+                                                //       children: [
+                                                //         Container(
+                                                //           decoration:
+                                                //               BoxDecoration(
+                                                //             borderRadius:
+                                                //                 BorderRadius
+                                                //                     .circular(
+                                                //                         12),
+                                                //             color: appColors
+                                                //                 .appColor,
+                                                //             border: Border.all(
+                                                //               color: appColors
+                                                //                   .appBlue,
+                                                //             ),
+                                                //           ),
+                                                //           child: Padding(
+                                                //             padding:
+                                                //                 const EdgeInsets
+                                                //                     .fromLTRB(
+                                                //                     10,
+                                                //                     14,
+                                                //                     10,
+                                                //                     14),
+                                                //             child: Row(
+                                                //               crossAxisAlignment:
+                                                //                   CrossAxisAlignment
+                                                //                       .center,
+                                                //               children: [
+                                                //                 InkWell(
+                                                //                   onTap: () {
+                                                //                     if (count >
+                                                //                         1) {
+                                                //                       setState(
+                                                //                           () {
+                                                //                         count--;
+                                                //                       });
+                                                //                     }
+                                                //                   },
+                                                //                   child: Icon(
+                                                //                     Icons
+                                                //                         .remove,
+                                                //                     color: appColors
+                                                //                         .appBlack,
+                                                //                     size: 20,
+                                                //                   ),
+                                                //                 ),
+                                                //                 const SizedBox(
+                                                //                   width: 12,
+                                                //                 ),
+                                                //                 Center(
+                                                //                   child:
+                                                //                       appText(
+                                                //                     title:
+                                                //                         '$count',
+                                                //                     fontSize:
+                                                //                         16,
+                                                //                     fontWeight:
+                                                //                         FontWeight
+                                                //                             .bold,
+                                                //                     color: appColors
+                                                //                         .appBlack,
+                                                //                   ),
+                                                //                 ),
+                                                //                 const SizedBox(
+                                                //                   width: 12,
+                                                //                 ),
+                                                //                 InkWell(
+                                                //                   onTap: () {
+                                                //                     setState(
+                                                //                         () {
+                                                //                       count++;
+                                                //                     });
+                                                //                   },
+                                                //                   child: Icon(
+                                                //                     Icons.add,
+                                                //                     color: appColors
+                                                //                         .appBlack,
+                                                //                     size: 20,
+                                                //                   ),
+                                                //                 )
+                                                //               ],
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //       ],
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 GestureDetector(
                                                   onTap: (){
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>const HelpPage()));
@@ -379,8 +371,8 @@ class _MyBookingState extends State<MyBooking> {
   bookingDetails() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        var provider = Provider.of<DashboardProvider>(context, listen: false);
-        provider.BookingDetails(
+        var provider = Provider.of<AccountsProvider>(context, listen: false);
+        provider.bookingHistoryDetails(
           context: context,
         );
       },

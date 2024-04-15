@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constants/app_urls.dart';
+import '../models/booking/booking_history_detail_model.dart';
 import '../models/help_model.dart';
 import '../utils/show_toast.dart';
 import 'auth_provider.dart';
@@ -14,8 +15,10 @@ class AccountsProvider extends ChangeNotifier {
   bool get showLoader => _showLoader;
 
   List<SupportModel> _review = [];
-
   List<SupportModel> get reviewuser => _review;
+
+  List<BookingDetailListModel> _bookingDetail = [];
+  List<BookingDetailListModel> get showbookingDetails => _bookingDetail;
 
 
   _setShowLoader(bool value) {
@@ -64,6 +67,37 @@ class AccountsProvider extends ChangeNotifier {
       if(e is ServerError){
         showToast(e.message);
       }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+
+  Future<bool> bookingHistoryDetails({
+    required BuildContext context,
+  }) async {
+    _setShowLoader(true);
+    _bookingDetail = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: appUrls.bookingDetailList,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      print("============Response====${res?.data}");
+      _bookingDetail = res?.data
+          .map<BookingDetailListModel>((e) => BookingDetailListModel.fromJson(e))
+          .toList();
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
       _setShowLoader(false);
       notifyListeners();
       return false;

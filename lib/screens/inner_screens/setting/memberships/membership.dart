@@ -80,6 +80,8 @@ class _MemberShipspageState extends State<MemberShipspage> {
                 context: context,
                 to: MembershipDetail(
                   data: provider.membershipList[index],
+                  lang: longitude.toInt(),
+                  lat: latitude.toInt(),
                 ),
               );
             },

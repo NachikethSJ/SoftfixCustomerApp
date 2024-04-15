@@ -25,6 +25,7 @@ class PaymentContinueScreen extends StatefulWidget {
 
   @override
   State<PaymentContinueScreen> createState() => _PaymentContinueScreenState();
+
 }
 
 class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
@@ -48,8 +49,8 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         .cfPaymentGatewayService
         .setCallback((p0) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        successOrder().then((value) => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SuccessScreen())));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SuccessScreen(orderbookingId: orderbookingId,)));
       });
 
       print("=======Success====$p0");
@@ -143,8 +144,8 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                                           padding:
                                                               const EdgeInsets
                                                                   .only(
-                                                                  left: 15,
-                                                                  right: 15,
+                                                                  left: 5,
+                                                                  right: 5,
                                                                   top: 12,
                                                                   bottom: 12),
                                                           child: Row(
@@ -183,12 +184,12 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                                                       InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          if (count >
-                                                                              1) {
-                                                                            setState(() {
-                                                                              count--;
-                                                                            });
-                                                                          }
+                                                                          // if (count >
+                                                                          //     1) {
+                                                                          //   setState(() {
+                                                                          //     count--;
+                                                                          //   });
+                                                                          // }
                                                                         },
                                                                         child:
                                                                             Icon(
@@ -197,37 +198,43 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                                                           color:
                                                                               appColors.appBlack,
                                                                           size:
-                                                                              20,
+                                                                              10,
                                                                         ),
                                                                       ),
                                                                       const SizedBox(
                                                                         width:
-                                                                            12,
+                                                                            5,
                                                                       ),
-                                                                      Center(
-                                                                        child:
-                                                                            appText(
-                                                                          title:
-                                                                              '$count',
-                                                                          fontSize:
-                                                                              16,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          color:
-                                                                              appColors.appBlack,
+                                                                      GestureDetector(
+                                                                        onTap: (){
+                                                                          Navigator.pop(context);
+                                                                        },
+                                                                        child: Center(
+                                                                          child:
+                                                                              appText(
+                                                                            title:
+                                                                                'Reschedule',
+                                                                                // 'Reschedule${count}',
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color:
+                                                                                appColors.appBlack,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       const SizedBox(
                                                                         width:
-                                                                            12,
+                                                                            5,
                                                                       ),
                                                                       InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          setState(
-                                                                              () {
-                                                                            count++;
-                                                                          });
+                                                                          // setState(
+                                                                          //     () {
+                                                                          //   count++;
+                                                                          // });
                                                                         },
                                                                         child:
                                                                             Icon(
@@ -236,7 +243,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                                                           color:
                                                                               appColors.appBlack,
                                                                           size:
-                                                                              20,
+                                                                              15,
                                                                         ),
                                                                       )
                                                                     ],
@@ -259,6 +266,15 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                               });
                         },
                       ),
+                      Divider(
+                       color: appColors.appGray,
+                        height: 1,
+                        indent: 10,
+                        endIndent: 10,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Card(
                         elevation: 2,
                         child: SizedBox(
@@ -273,10 +289,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
                                 children: [
                                   Column(
                                     children: [
-                                      appText(
-                                          title: "Bill Details",
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                      appText(title: "Bill Details", fontSize: 18, fontWeight: FontWeight.bold),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -443,14 +456,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     );
   }
 
-  Future<bool> successOrder() async {
-    var res = await Provider.of<DashboardProvider>(context, listen: false)
-        .orderSuccess(
-      context: context,
-      orderId: orderbookingId.toString(),
-    );
-    return res;
-  }
+
 
   Future<bool> slotOrderDetail() async {
     var res = await Provider.of<DashboardProvider>(context, listen: false)

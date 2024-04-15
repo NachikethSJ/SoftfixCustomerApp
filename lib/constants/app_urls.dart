@@ -44,6 +44,10 @@ class AppUrls {
 
  String get getOrderDetails=> '/user/getOrderDetails';
 
+ String get bookingDetailList => '/user/getBookingDetailList';
+
+
+
 
 }
 

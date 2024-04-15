@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/view_models/accounts_provider.dart';
+import 'package:salon_customer_app/view_models/cart_provider.dart';
 
 import '../../../../styles/app_colors.dart';
 import '../../../../utils/app_bar.dart';
@@ -24,6 +25,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
+    bookingDetails();
     for (int i = 0; i < 2; i++) {
       reviewControllers.add(TextEditingController());
       ratings.add(0);
@@ -70,7 +72,7 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Column(
                 children: [
                   ListView.builder(
-                    itemCount: 2,
+                    itemCount: provider.showbookingDetails.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, index) {
@@ -103,238 +105,238 @@ class _HistoryPageState extends State<HistoryPage> {
               color: appColors.appColor,
             ),
           ),
-          child: Column(
-            children: [
-              Row(
+          child: Consumer<AccountsProvider>(
+            builder: (context, provider, child) {
+              return Column(
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30, bottom: 30, top: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, bottom: 30, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              appText(
-                                title: "Green Trends",
-                                fontSize: 16,
-                                color: Colors.teal.shade500,
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  appText(
+                                    title: provider.showbookingDetails[index].shop ?? '',
+                                    fontSize: 16,
+                                    color: Colors.teal.shade500,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  appText(
+                                    title: " (Completed)",
+                                    fontSize: 12,
+                                    color: Colors.orangeAccent,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
                               ),
                               appText(
-                                title: " (Completed)",
+                                  title: provider.showbookingDetails[index].service ?? '',
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                              appText(
+                                  title: provider.showbookingDetails[index].subServiceType ?? '',
+                                  color: Colors.blueGrey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                              appText(
+                                title: '${provider.showbookingDetails[index].startTime ?? ''}-${provider.showbookingDetails[index].endTime??''}(${provider.showbookingDetails[index].bookingDate})',
+                                color: Colors.black,
                                 fontSize: 12,
-                                color: Colors.orangeAccent,
+                              ),
+                              appText(
+                                title: '₹${provider.showbookingDetails[index].price??''}',
+                                color: Colors.black,
+                                fontSize: 12,
+                              ),
+                              appText(
+                                title: 'Offer:${provider.showbookingDetails[index].offer??''}%',
+                                color: Colors.black,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
+                              appText(
+                                title: 'Stylish:${provider.showbookingDetails[index].employName??''}',
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+
+                              const SizedBox(
+                                height: 2,
+                              ),
+
                             ],
                           ),
-                          appText(
-                              title: "Eye brow",
-                              color: Colors.blueGrey,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                          appText(
-                              title: "Eye brow shaping",
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          appText(
-                            title: '12:00:00-12:00:00(Sat,Apr,2024)',
-                            color: Colors.black,
-                            fontSize: 12,
-                          ),
-                          appText(
-                            title: '₹500',
-                            color: Colors.black,
-                            fontSize: 12,
-                          ),
-                          appText(
-                            title: 'Offer:10%',
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          appText(
-                            title: 'Stylish:Prabhat',
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          appText(
-                            title: '4 hrs.5 min.left',
-                            color: Colors.green,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                        padding: const EdgeInsets.only(top: 10, right: 10),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  color: appColors.appColor,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: const Center(
-                                  child: Text(
-                                    "Book Again",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ),
-                          ],
-                        )),
-                  ),
-                ],
-              ),
-
-              Visibility(
-                visible: israteShowList[index],
-                child: Container(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18,bottom: 2),
-                        child: Row(
-                          children: [
-                            appText(
-                                title: "Rating:",
-                                fontWeight: FontWeight.bold),
-                            RatingBar.builder(
-                              wrapAlignment:
-                              WrapAlignment.start,
-                              itemSize: 25,
-                              initialRating: 0,
-                              minRating: 0,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemBuilder: (context, _) =>
-                              const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (value) {
-                                setState(() {
-                                  ratings[index] = value;
-                                });
-                              },
-                            ),
-                          ],
                         ),
                       ),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20,),
-                            child: appText(title: "Review Vendor"),
-                          )),
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10),
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 190,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: appColors.appColor)),
-                              child: TextField(
-                                controller: reviewControllers[index],
-                                decoration: const InputDecoration(
-                                  border: InputBorder
-                                      .none,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                reviewUser(context, index);
-                              },
-                              child: Container(
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                            padding: const EdgeInsets.only(top: 10, right: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 50,
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: appColors.appColor,),
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child:
-                                    appText(title: "Submit Review"),
-                                  )),
-                            )
-                          ],
-                        ),
+                                      color: appColors.appColor,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: const Center(
+                                      child: Text(
+                                        "Book Again",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ),
+                              ],
+                            )),
                       ),
                     ],
                   ),
-                ),
-              ),
 
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding:
-                const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.teal.shade800,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                  Visibility(
+                    visible: israteShowList[index],
+                    child: Container(
+                      child: Column(
                         children: [
-                          const Icon(
-                            Icons.location_on,
-                            color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 18, bottom: 2),
+                            child: Row(
+                              children: [
+                                appText(
+                                    title: "Rating:",
+                                    fontWeight: FontWeight.bold),
+                                RatingBar.builder(
+                                  wrapAlignment:
+                                  WrapAlignment.start,
+                                  itemSize: 25,
+                                  initialRating: 0,
+                                  minRating: 0,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemBuilder: (context, _) =>
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (value) {
+                                    setState(() {
+                                      ratings[index] = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          appText(
-                            title: "Follow map to visit shop",
-                            fontWeight: FontWeight.w900,
-                            color: appColors.appWhite,
-                            fontSize: 8,
-                          ),
-                          const Icon(
-                            Icons.directions,
-                            color: Colors.white,
+                          Align(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20,),
+                                child: appText(title: "Review Vendor"),
+                              )),
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(left: 10, right: 10),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  width: 190,
+                                  // decoration: BoxDecoration(
+                                  //     border: Border.all(
+                                  //         color: appColors.appColor)),
+                                  child: TextField(
+                                    controller: reviewControllers[index],
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.only(bottom: 10,left: 8),
+                                      border: InputBorder
+                                          .none,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    reviewUser(context, index);
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: appColors.appColor,),
+                                          borderRadius: BorderRadius.circular(
+                                              10)
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child:
+                                        appText(title: "Submit Review"),
+                                      )),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(left: 10, right: 10),
+                    child: Container(
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.teal.shade800,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.white,
+                              ),
+                              appText(
+                                title: "Follow map to visit shop",
+                                fontWeight: FontWeight.w900,
+                                color: appColors.appWhite,
+                                fontSize: 8,
+                              ),
+                              const Icon(
+                                Icons.directions,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -361,5 +363,16 @@ class _HistoryPageState extends State<HistoryPage> {
         }
       });
     });
+  }
+
+  bookingDetails() {
+    WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+        var provider = Provider.of<AccountsProvider>(context, listen: false);
+        provider.bookingHistoryDetails(
+          context: context,
+        );
+      },
+    );
   }
 }
