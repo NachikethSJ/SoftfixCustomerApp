@@ -55,7 +55,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       if (e is ServerError) {
         print("=====Exception===${e.message}");
-        showToast(e.message);
+        // showToast(e.message);
       }
       _setShowLoader(false);
       notifyListeners();

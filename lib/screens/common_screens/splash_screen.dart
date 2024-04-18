@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> with CacheManager {
   _navigation() async {
     var state = AuthProvider(await SharedPreferences.getInstance());
 
-    timer = Timer(const Duration(seconds: 2), () {
+    timer = Timer(const Duration(seconds: 1), () {
       navigateRemoveUntil(
         context: context,
         to: state.isUserLoggedIn ? const BottomNavigation() : const Login(),
@@ -98,8 +98,12 @@ class _SplashScreenState extends State<SplashScreen> with CacheManager {
 
   @override
   void dispose() {
-    timer.cancel();
+
     super.dispose();
+    if(mounted)
+      {
+        timer.cancel();
+      }
   }
 
   @override

@@ -12,6 +12,7 @@ import '../models/booking/booking_slot_details.dart';
 import '../models/booking/create_order_model.dart';
 import '../models/common_models/response_model.dart';
 import '../models/common_models/server_error.dart';
+import '../models/dashboard_models/latest_update_model.dart';
 import '../models/dashboard_models/membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
 import '../models/dashboard_models/slot_booking_model.dart';
@@ -61,6 +62,9 @@ class DashboardProvider extends ChangeNotifier {
   List<GetBookingDetailsModel> _getBokingDetails = [];
   List<GetBookingDetailsModel> get getbookingDeatils => _getBokingDetails;
 
+  List<GetLatestUpdateModel> _getLatestDetails = [];
+  List<GetLatestUpdateModel> get getLatestDetails => _getLatestDetails;
+
   List<SlotBookingModel> _slotBooking = [];
   List<SlotBookingModel> get slotBooking => _slotBooking;
 
@@ -76,6 +80,10 @@ class DashboardProvider extends ChangeNotifier {
 
   List<BookSlotDetailsModel> _slotOrderDetail = [];
   List<BookSlotDetailsModel> get slotOrderDeatil => _slotOrderDetail;
+
+  List<String> _imageList=[];
+  List<String> get imageList=> _imageList;
+
   _setShowLoader(bool value) {
     _showLoader = value;
   }
@@ -366,7 +374,7 @@ class DashboardProvider extends ChangeNotifier {
   }
 
 
-  Future<bool> BookingDetails({
+  Future<bool> bookingDetails({
     required BuildContext context,
   }) async {
     _setShowLoader(true);
@@ -555,6 +563,43 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> latestDetails({
+    required BuildContext context,
+  }) async {
+    _setShowLoader(true);
+    _imageList=[];
+    _getLatestDetails = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: appUrls.getLatestUpdate,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _getLatestDetails = res?.data
+          .map<GetLatestUpdateModel>((e) => GetLatestUpdateModel.fromJson(e))
+          .toList();
+      _getLatestDetails.forEach((element) {
+        print("Image Url==${element.imageUrl}");
+        if(element.imageUrl!=null){
+          _imageList.add(element.imageUrl?[0]?.toString()??'');
+        }
+
+      });
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
       _setShowLoader(false);
       notifyListeners();
       return false;

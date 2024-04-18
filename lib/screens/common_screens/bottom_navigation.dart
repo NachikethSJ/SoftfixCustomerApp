@@ -53,7 +53,7 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
                 : index == 1
                 ? '0'
                 : index == 2
-                ? '1'
+                ?' 1'
                 : index == 3
                 ? '2'
                 : '',

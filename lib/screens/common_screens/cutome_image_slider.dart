@@ -104,6 +104,21 @@ class _DynamicPageViewState extends State<DynamicPageView> {
       ],
     );
   }
+
+  _navigation(String type){
+    switch(type){
+
+      case 'shop':
+
+        break;
+      case 'service':
+
+        break;
+      case 'membership':
+
+        break;
+    }
+  }
 }
 
 class ImagePlaceHolder extends StatelessWidget {
@@ -115,7 +130,7 @@ class ImagePlaceHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: Image.asset(
+      child: Image.network(
         imagePath!,
         fit: BoxFit.cover,
       ),
