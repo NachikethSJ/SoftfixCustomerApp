@@ -14,7 +14,8 @@ import 'fixed_gridview_height.dart';
 
 class SlotBookingDialog extends StatefulWidget {
   final int? subServiceId;
-  const SlotBookingDialog({super.key, this.subServiceId});
+  final String? shopName;
+  const SlotBookingDialog({super.key, this.subServiceId, this.shopName});
 
   @override
   _SlotBookingDialogState createState() => _SlotBookingDialogState();
@@ -58,6 +59,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
 
   @override
   Widget build(BuildContext context) {
+
     DateTime? startDate =
     _selectedDate?.subtract(Duration(days: _selectedDate!.weekday - 1));
     DateTime? endDate =
@@ -273,7 +275,14 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            createSlotOrder();
+                            validateConnectivity(context: context, provider: (){
+                              if(provider.slotList.isNotEmpty){
+                                createSlotOrder(provider.slotList[0].shopName.toString());
+                              }else{
+                                showToast('No slot available.');
+                              }
+                            });
+
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -333,7 +342,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
     );
   }
 
-createSlotOrder(){
+createSlotOrder(String shopName){
   WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
       validateConnectivity(context: context, provider: (){
@@ -348,6 +357,7 @@ createSlotOrder(){
                 "startTime":e.start,
                 "endTime":e.end,
                 "employeeId":element.employId,
+                "shopName":shopName
               });
             }
           });

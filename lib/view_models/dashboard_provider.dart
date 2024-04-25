@@ -72,8 +72,7 @@ class DashboardProvider extends ChangeNotifier {
   List<SupportModel> get helpuser => _help;
 
   CreateOrderModel _createOrderSlot = CreateOrderModel();
- CreateOrderModel get createOrderSlot => _createOrderSlot;
-
+  CreateOrderModel get createOrderSlot => _createOrderSlot;
 
   List<ResponseModel> _orderSuccess = [];
   List<ResponseModel> get orerSuccess => _orderSuccess;
@@ -81,8 +80,8 @@ class DashboardProvider extends ChangeNotifier {
   List<BookSlotDetailsModel> _slotOrderDetail = [];
   List<BookSlotDetailsModel> get slotOrderDeatil => _slotOrderDetail;
 
-  List<String> _imageList=[];
-  List<String> get imageList=> _imageList;
+  List<String> _imageList = [];
+  List<String> get imageList => _imageList;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -145,7 +144,6 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-
   Future<bool> getServiceList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -187,7 +185,7 @@ class DashboardProvider extends ChangeNotifier {
   }) async {
     _setShowLoader(true);
     _searchserviceList = [];
-   _searchsubServiceList = [];
+    _searchsubServiceList = [];
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -341,7 +339,6 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-
   Future<bool> getSlotList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -359,7 +356,8 @@ class DashboardProvider extends ChangeNotifier {
         },
       );
       _slotList = res?.data
-          .map<SlotBySubServicesModel>((e) => SlotBySubServicesModel.fromJson(e))
+          .map<SlotBySubServicesModel>(
+              (e) => SlotBySubServicesModel.fromJson(e))
           .toList();
 
       _setShowLoader(false);
@@ -372,7 +370,6 @@ class DashboardProvider extends ChangeNotifier {
       return false;
     }
   }
-
 
   Future<bool> bookingDetails({
     required BuildContext context,
@@ -389,7 +386,8 @@ class DashboardProvider extends ChangeNotifier {
         },
       );
       _getBokingDetails = res?.data
-          .map<GetBookingDetailsModel>((e) => GetBookingDetailsModel.fromJson(e))
+          .map<GetBookingDetailsModel>(
+              (e) => GetBookingDetailsModel.fromJson(e))
           .toList();
 
       _setShowLoader(false);
@@ -402,7 +400,6 @@ class DashboardProvider extends ChangeNotifier {
       return false;
     }
   }
-
 
   Future<bool> SlotBooking({
     required BuildContext context,
@@ -458,10 +455,12 @@ class DashboardProvider extends ChangeNotifier {
             .toList();
         // validateConnectivity(context: context, provider: provider)
         print("dfhjfghdsgfhsdfsdh");
-        showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
+        showToast("Thanks for contacting us. We will look soon!",
+            isSuccess: true);
       } else {
         _setShowLoader(false);
-        showToast("Thanks for contacting us. We will look soon!", isSuccess: true);
+        showToast("Thanks for contacting us. We will look soon!",
+            isSuccess: true);
         // Handle the case where res?.data is not a List
         print('Response data is not a List');
       }
@@ -474,7 +473,6 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
-
   }
 
   Future<bool> createOrder({
@@ -493,27 +491,25 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      _createOrderSlot =  CreateOrderModel.fromJson(res?.data);
+      _createOrderSlot = CreateOrderModel.fromJson(res?.data);
 
       _setShowLoader(false);
       notifyListeners();
       return true;
     } catch (e) {
       print("=====Exception=============$e");
-      if(e is ServerError){
+      if (e is ServerError) {
         showToast(e.message);
       }
       _setShowLoader(false);
       notifyListeners();
       return false;
     }
-
   }
 
   Future<bool> orderSuccess({
     required BuildContext context,
     required String orderId,
-
   }) async {
     _orderSuccess = [];
     _setShowLoader(true);
@@ -539,11 +535,9 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-
   Future<bool> orderSlotDetail({
     required BuildContext context,
     required String orderId,
-
   }) async {
     _slotOrderDetail = [];
     _setShowLoader(true);
@@ -573,7 +567,7 @@ class DashboardProvider extends ChangeNotifier {
     required BuildContext context,
   }) async {
     _setShowLoader(true);
-    _imageList=[];
+    _imageList = [];
     _getLatestDetails = [];
     notifyListeners();
     try {
@@ -589,10 +583,9 @@ class DashboardProvider extends ChangeNotifier {
           .toList();
       _getLatestDetails.forEach((element) {
         print("Image Url==${element.imageUrl}");
-        if(element.imageUrl!=null){
-          _imageList.add(element.imageUrl?[0]?.toString()??'');
+        if (element.imageUrl != null) {
+          _imageList.add(element.imageUrl?[0]?.toString() ?? '');
         }
-
       });
 
       _setShowLoader(false);

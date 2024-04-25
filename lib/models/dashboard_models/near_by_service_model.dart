@@ -68,7 +68,7 @@ class SubService {
   int? status;
   dynamic comment;
   Shop? shop;
-  List<String>? image;
+  List<dynamic>? image;
 
   SubService(
       {this.id,
@@ -114,7 +114,7 @@ class SubService {
     status = json['status'];
     comment = json['comment'];
     shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
-    image = json['image'].cast<String>();
+    image = json['image'];
   }
 }
 

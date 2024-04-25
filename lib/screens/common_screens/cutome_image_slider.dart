@@ -1,17 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:salon_customer_app/models/dashboard_models/membership_model.dart';
+import 'package:salon_customer_app/models/dashboard_models/near_by_shop_model.dart';
+import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
+import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart';
+import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
+import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
+import 'package:salon_customer_app/utils/navigation.dart';
+import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
 class DynamicPageView extends StatefulWidget {
   final List<String> imagePaths;
   final Color indicatorColor;
   final Color activeIndicatorColor;
 
+
   const DynamicPageView({
     Key? key,
     required this.imagePaths,
     this.indicatorColor = Colors.deepOrangeAccent,
-    this.activeIndicatorColor = Colors.blue,
+    this.activeIndicatorColor = Colors.blue, 
   }) : super(key: key);
 
   @override
@@ -65,7 +75,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
               });
             },
             itemBuilder: (context, index) {
-              return ImagePlaceHolder(imagePath: widget.imagePaths[index]);
+              return ImagePlaceHolder(imagePath: widget.imagePaths[index],index:index);
             },
           ),
         ),
@@ -80,7 +90,8 @@ class _DynamicPageViewState extends State<DynamicPageView> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List<Widget>.generate(widget.imagePaths.length, (index) {
+              children:
+                  List<Widget>.generate(widget.imagePaths.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: InkWell(
@@ -105,35 +116,54 @@ class _DynamicPageViewState extends State<DynamicPageView> {
     );
   }
 
-  _navigation(String type){
-    switch(type){
 
-      case 'shop':
-
-        break;
-      case 'service':
-
-        break;
-      case 'membership':
-
-        break;
-    }
-  }
 }
 
 class ImagePlaceHolder extends StatelessWidget {
   final String? imagePath;
+  final int index;
 
-  const ImagePlaceHolder({Key? key, this.imagePath}) : super(key: key);
+  const ImagePlaceHolder({Key? key, this.imagePath, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: Image.network(
-        imagePath!,
-        fit: BoxFit.cover,
+    return Consumer<DashboardProvider>(
+  builder: (context, provider, child) {
+  return InkWell(
+      onTap: () {
+        _navigation(context,provider.getLatestDetails[index].type??'',package: provider.getLatestDetails[index].package,membership: provider.getLatestDetails[index].membership);
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Image.network(
+          imagePath!,
+          fit: BoxFit.cover,
+        ),
       ),
     );
+  },
+);
+  }
+  _navigation(BuildContext context,String type,
+      {PackagesModel? package,
+        MembershipModel? membership,
+        NearByShopModel? service}) {
+    switch (type) {
+      case 'package':
+        navigateTo(
+            context: context,
+            to: PackageDetail(data: package!, lat: 0, lang: 0));
+        break;
+      case 'service':
+      // navigateTo(
+      //     context: context,
+      //     to: SubServiceDetail(data: package!, lat: 0, lang: 0));
+        break;
+      case 'membership':
+        navigateTo(
+            context: context,
+            to: MembershipDetail(data: membership!, lat: 0, lang: 0));
+        break;
+    }
   }
 }

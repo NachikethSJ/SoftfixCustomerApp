@@ -6,7 +6,7 @@ class BookingDetailListModel {
   String? shop;
   String? employName;
   String? subServiceType;
-  int? price;
+  dynamic price;
   String? offer;
 
   BookingDetailListModel(

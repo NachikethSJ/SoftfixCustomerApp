@@ -22,7 +22,7 @@ class MembershipModel {
   String? file;
   dynamic status;
   Shop? shop;
-  List<String>? image;
+  List<dynamic>? image;
   Services? service;
 
   MembershipModel(
@@ -76,9 +76,9 @@ class MembershipModel {
     file = json['file'];
     status = json['status'];
     shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
-    image = json['image'].cast<String>();
+    image = json['image'];
     service =
-        json['service'] != null ? Services.fromJson(json['service']) : null;
+        json['service'] != null || json['serviceDetail']!=null? Services.fromJson(json['service']) : null;
   }
 }
 

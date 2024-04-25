@@ -20,7 +20,7 @@ class PackagesModel {
   int? status;
   Shop? shop;
   List<Service>? service;
-  List<String>? image;
+  List<dynamic>? image;
 
   PackagesModel(
       {this.id,
@@ -73,7 +73,7 @@ class PackagesModel {
         service!.add(new Service.fromJson(v));
       });
     }
-    image = json['image'].cast<String>();
+    image = json['image'];
   }
 
 }

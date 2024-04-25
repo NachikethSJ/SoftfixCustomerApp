@@ -26,11 +26,7 @@ class _HistoryPageState extends State<HistoryPage> {
   void initState() {
     super.initState();
     bookingDetails();
-    for (int i = 0; i < 2; i++) {
-      reviewControllers.add(TextEditingController());
-      ratings.add(0);
-      israteShowList.add(true);
-    }
+
   }
 
   @override
@@ -72,7 +68,7 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Column(
                 children: [
                   ListView.builder(
-                    itemCount: provider.showbookingDetails.length,
+                    itemCount: provider.bookingDetailHistory.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, index) {
@@ -125,7 +121,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               Row(
                                 children: [
                                   appText(
-                                    title: provider.showbookingDetails[index].shop ?? '',
+                                    title: provider.bookingDetailHistory[index].shop ?? '',
                                     fontSize: 16,
                                     color: Colors.teal.shade500,
                                     fontWeight: FontWeight.bold,
@@ -139,33 +135,33 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ],
                               ),
                               appText(
-                                  title: provider.showbookingDetails[index].service ?? '',
+                                  title: provider.bookingDetailHistory[index].service ?? '',
                                   color: Colors.blueGrey,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold),
                               appText(
-                                  title: provider.showbookingDetails[index].subServiceType ?? '',
+                                  title: provider.bookingDetailHistory[index].subServiceType ?? '',
                                   color: Colors.blueGrey,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold),
                               appText(
-                                title: '${provider.showbookingDetails[index].startTime ?? ''}-${provider.showbookingDetails[index].endTime??''}(${provider.showbookingDetails[index].bookingDate})',
+                                title: '${provider.bookingDetailHistory[index].startTime ?? ''}-${provider.bookingDetailHistory[index].endTime??''}(${provider.bookingDetailHistory[index].bookingDate})',
                                 color: Colors.black,
                                 fontSize: 12,
                               ),
                               appText(
-                                title: '₹${provider.showbookingDetails[index].price??''}',
+                                title: '₹${provider.bookingDetailHistory[index].price??''}',
                                 color: Colors.black,
                                 fontSize: 12,
                               ),
                               appText(
-                                title: 'Offer:${provider.showbookingDetails[index].offer??''}%',
+                                title: 'Offer:${provider.bookingDetailHistory[index].offer??''}%',
                                 color: Colors.black,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title: 'Stylish:${provider.showbookingDetails[index].employName??''}',
+                                title: 'Stylish:${provider.bookingDetailHistory[index].employName??''}',
                                 color: Colors.black,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -371,7 +367,16 @@ class _HistoryPageState extends State<HistoryPage> {
         var provider = Provider.of<AccountsProvider>(context, listen: false);
         provider.bookingHistoryDetails(
           context: context,
-        );
+        ).then((value) {
+          if(value){
+            israteShowList=[];
+            for (int i = 0; i < provider.bookingDetailHistory.length; i++) {
+              reviewControllers.add(TextEditingController());
+              ratings.add(0);
+              israteShowList.add(true);
+            }
+          }
+        });
       },
     );
   }

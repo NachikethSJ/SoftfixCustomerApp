@@ -20,6 +20,9 @@ class AccountsProvider extends ChangeNotifier {
   List<BookingDetailListModel> _bookingDetail = [];
   List<BookingDetailListModel> get showbookingDetails => _bookingDetail;
 
+  List<BookingDetailListModel> _bookingDetailHistory = [];
+  List<BookingDetailListModel> get bookingDetailHistory => _bookingDetailHistory;
+
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -89,7 +92,10 @@ class AccountsProvider extends ChangeNotifier {
         },
       );
       print("============Response====${res?.data}");
-      _bookingDetail = res?.data
+      _bookingDetail = res?.data['incompleteBookings']
+          .map<BookingDetailListModel>((e) => BookingDetailListModel.fromJson(e))
+          .toList();
+      _bookingDetailHistory=res?.data['completedBookings']
           .map<BookingDetailListModel>((e) => BookingDetailListModel.fromJson(e))
           .toList();
 

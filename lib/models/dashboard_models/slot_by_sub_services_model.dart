@@ -18,6 +18,7 @@ class SlotBySubServicesModel {
   dynamic approvalByAdmin;
   List<String>? image;
   List<Slots>? slots;
+  String? shopName;
 
   SlotBySubServicesModel(
       {this.id,
@@ -38,7 +39,8 @@ class SlotBySubServicesModel {
         this.file,
         this.approvalByAdmin,
         this.image,
-        this.slots});
+        this.slots,
+        this.shopName});
 
   SlotBySubServicesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +67,7 @@ class SlotBySubServicesModel {
         slots!.add(new Slots.fromJson(v));
       });
     }
+    shopName = json['shopName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +89,7 @@ class SlotBySubServicesModel {
     data['gender'] = this.gender;
     data['file'] = this.file;
     data['approvalByAdmin'] = this.approvalByAdmin;
+    data['shopName'] = this.shopName;
     data['image'] = this.image;
     if (this.slots != null) {
       data['slots'] = this.slots!.map((v) => v.toJson()).toList();
