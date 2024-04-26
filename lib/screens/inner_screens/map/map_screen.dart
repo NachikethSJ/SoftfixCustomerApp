@@ -166,7 +166,7 @@ class _MapScreenState extends State<MapScreen> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 36.0),
                 child: Image.asset(
-                  'assets/images/map_pin.png',
+                  'assets/images/map_pin.jpeg',
                   height: 36,
                 ),
               )),

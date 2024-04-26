@@ -484,6 +484,7 @@ class _ShopDetailState extends State<ShopDetail> {
                   data: provider.membershipList[index],
                   lat:latitude.toInt() ,
                   lang: longitude.toInt(),
+                  memberid: provider.membershipList[index].id,
                 ),
               );
             },
@@ -710,6 +711,7 @@ class _ShopDetailState extends State<ShopDetail> {
                   data: provider.packageList[index],
                   lang:longitude.toInt() ,
                   lat: latitude.toInt(),
+                  packageid:provider.packageList[index].id,
                 ),
               );
             },

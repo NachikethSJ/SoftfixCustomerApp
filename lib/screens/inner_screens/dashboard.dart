@@ -678,7 +678,7 @@ class _DashboardState extends State<Dashboard>
                           //   "assets/images/ban4.jpg",
                           // ],
                           indicatorColor: Colors.teal,
-                          activeIndicatorColor: appColors.appColor,
+                          activeIndicatorColor: appColors.appColor, lat: latitude, lang: longitude,
                         );
                       },
                     ),
@@ -1218,6 +1218,7 @@ class _DashboardState extends State<Dashboard>
                   data: provider.membershipList[index],
                   lat: latitude.toInt(),
                   lang: longitude.toInt(),
+                  memberid:provider.membershipList[index].id ,
                 ),
               );
             },
@@ -1447,6 +1448,7 @@ class _DashboardState extends State<Dashboard>
                   data: provider.packageList[index],
                   lang: longitude.toInt(),
                   lat: latitude.toInt(),
+                  packageid:provider.packageList[index].id,
                 ),
               );
             },

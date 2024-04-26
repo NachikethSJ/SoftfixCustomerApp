@@ -1,88 +1,69 @@
-class GetMemberShipDetailsModel {
-  Membership? membership;
+class GetPackageDetailsModel {
+  Package? package;
   List<dynamic>? imageUrl;
-  ServiceDetail? serviceDetail;
-  SubServiceDetail? subServiceDetail;
   String? shopName;
-  List<dynamic>? shopImageUrl;
+  List<ServiceIdData>? serviceIdData;
 
-  GetMemberShipDetailsModel(
-      {this.membership,
-        this.imageUrl,
-        this.serviceDetail,
-        this.subServiceDetail,
-        this.shopName,
-        this.shopImageUrl});
+  GetPackageDetailsModel(
+      {this.package, this.imageUrl, this.shopName, this.serviceIdData});
 
-  GetMemberShipDetailsModel.fromJson(Map<String, dynamic> json) {
-    membership = json['membership'] != null
-        ? new Membership.fromJson(json['membership'])
-        : null;
+  GetPackageDetailsModel.fromJson(Map<String, dynamic> json) {
+    package =
+    json['package'] != null ? new Package.fromJson(json['package']) : null;
     imageUrl = json['imageUrl'];
-    serviceDetail = json['serviceDetail'] != null
-        ? new ServiceDetail.fromJson(json['serviceDetail'])
-        : null;
-    subServiceDetail = json['subServiceDetail'] != null
-        ? new SubServiceDetail.fromJson(json['subServiceDetail'])
-        : null;
     shopName = json['shopName'];
-    shopImageUrl = json['shopImageUrl'];
+    if (json['serviceIdData'] != null) {
+      serviceIdData = <ServiceIdData>[];
+      json['serviceIdData'].forEach((v) {
+        serviceIdData!.add(new ServiceIdData.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.membership != null) {
-      data['membership'] = this.membership!.toJson();
+    if (this.package != null) {
+      data['package'] = this.package!.toJson();
     }
     data['imageUrl'] = this.imageUrl;
-    if (this.serviceDetail != null) {
-      data['serviceDetail'] = this.serviceDetail!.toJson();
-    }
-    if (this.subServiceDetail != null) {
-      data['subServiceDetail'] = this.subServiceDetail!.toJson();
-    }
     data['shopName'] = this.shopName;
-    data['shopImageUrl'] = this.shopImageUrl;
+    if (this.serviceIdData != null) {
+      data['serviceIdData'] =
+          this.serviceIdData!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
-class Membership {
+class Package {
   dynamic id;
-  String? shopId;
-  String? membershipName;
-  String? serviceId;
-  String? subServiceId;
   dynamic userId;
+  String? packageName;
   String? startDate;
   String? endDate;
   dynamic price;
-  String? serviceTypeId;
-  dynamic offer;
   String? details;
   String? termAndcondition;
   String? createdBy;
-  dynamic updatedBy;
+ dynamic updatedBy;
   String? createdAt;
-  dynamic updatedAt;
-  dynamic mode;
-  dynamic noOfTimes;
-  dynamic isDelete;
+ dynamic updatedAt;
+ dynamic mode;
+  String? shopId;
+  String? serviceId;
+  dynamic discount;
   String? file;
+  dynamic isDelete;
   dynamic status;
+  String? serviceTypeId;
 
-  Membership(
+  Package(
       {this.id,
-        this.shopId,
-        this.membershipName,
-        this.serviceId,
-        this.subServiceId,
         this.userId,
+        this.packageName,
         this.startDate,
         this.endDate,
         this.price,
-        this.serviceTypeId,
-        this.offer,
         this.details,
         this.termAndcondition,
         this.createdBy,
@@ -90,23 +71,21 @@ class Membership {
         this.createdAt,
         this.updatedAt,
         this.mode,
-        this.noOfTimes,
-        this.isDelete,
+        this.shopId,
+        this.serviceId,
+        this.discount,
         this.file,
-        this.status});
+        this.isDelete,
+        this.status,
+        this.serviceTypeId});
 
-  Membership.fromJson(Map<String, dynamic> json) {
+  Package.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    shopId = json['shopId'];
-    membershipName = json['membershipName'];
-    serviceId = json['serviceId'];
-    subServiceId = json['subServiceId'];
     userId = json['userId'];
+    packageName = json['packageName'];
     startDate = json['startDate'];
     endDate = json['endDate'];
     price = json['price'];
-    serviceTypeId = json['serviceTypeId'];
-    offer = json['offer'];
     details = json['details'];
     termAndcondition = json['termAndcondition'];
     createdBy = json['created_by'];
@@ -114,25 +93,23 @@ class Membership {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     mode = json['mode'];
-    noOfTimes = json['noOfTimes'];
-    isDelete = json['isDelete'];
+    shopId = json['shopId'];
+    serviceId = json['serviceId'];
+    discount = json['discount'];
     file = json['file'];
+    isDelete = json['isDelete'];
     status = json['status'];
+    serviceTypeId = json['serviceTypeId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['shopId'] = this.shopId;
-    data['membershipName'] = this.membershipName;
-    data['serviceId'] = this.serviceId;
-    data['subServiceId'] = this.subServiceId;
     data['userId'] = this.userId;
+    data['packageName'] = this.packageName;
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['price'] = this.price;
-    data['serviceTypeId'] = this.serviceTypeId;
-    data['offer'] = this.offer;
     data['details'] = this.details;
     data['termAndcondition'] = this.termAndcondition;
     data['created_by'] = this.createdBy;
@@ -140,29 +117,63 @@ class Membership {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['mode'] = this.mode;
-    data['noOfTimes'] = this.noOfTimes;
-    data['isDelete'] = this.isDelete;
+    data['shopId'] = this.shopId;
+    data['serviceId'] = this.serviceId;
+    data['discount'] = this.discount;
     data['file'] = this.file;
+    data['isDelete'] = this.isDelete;
     data['status'] = this.status;
+    data['serviceTypeId'] = this.serviceTypeId;
     return data;
   }
 }
 
-class ServiceDetail {
+class ServiceIdData {
+  ServiceName? serviceName;
+  List<SubserviceName>? subserviceName;
+
+  ServiceIdData({this.serviceName, this.subserviceName});
+
+  ServiceIdData.fromJson(Map<String, dynamic> json) {
+    serviceName = json['serviceName'] != null
+        ? new ServiceName.fromJson(json['serviceName'])
+        : null;
+    if (json['subserviceName'] != null) {
+      subserviceName = <SubserviceName>[];
+      json['subserviceName'].forEach((v) {
+        subserviceName!.add(new SubserviceName.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.serviceName != null) {
+      data['serviceName'] = this.serviceName!.toJson();
+    }
+    if (this.subserviceName != null) {
+      data['subserviceName'] =
+          this.subserviceName!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ServiceName {
   dynamic id;
   String? name;
   dynamic shopId;
   String? userId;
   String? createdBy;
-  dynamic updatedBy;
+ dynamic updatedBy;
   String? createdAt;
-  dynamic updatedAt;
+ dynamic updatedAt;
   dynamic isDelete;
-  dynamic mode;
+ dynamic mode;
   String? serviceTypeId;
   dynamic status;
 
-  ServiceDetail(
+  ServiceName(
       {this.id,
         this.name,
         this.shopId,
@@ -176,7 +187,7 @@ class ServiceDetail {
         this.serviceTypeId,
         this.status});
 
-  ServiceDetail.fromJson(Map<String, dynamic> json) {
+  ServiceName.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     shopId = json['shopId'];
@@ -209,7 +220,7 @@ class ServiceDetail {
   }
 }
 
-class SubServiceDetail {
+class SubserviceName {
   dynamic id;
   dynamic serviceId;
   dynamic userId;
@@ -222,16 +233,16 @@ class SubServiceDetail {
   String? termAndcondition;
   dynamic file;
   String? createdBy;
-  dynamic updatedBy;
+ dynamic updatedBy;
   String? createdAt;
-  dynamic updatedAt;
+ dynamic updatedAt;
   dynamic isDelete;
-  dynamic rating;
+ dynamic rating;
   dynamic status;
-  dynamic comment;
+ dynamic comment;
   dynamic adminStatus;
 
-  SubServiceDetail(
+  SubserviceName(
       {this.id,
         this.serviceId,
         this.userId,
@@ -253,7 +264,7 @@ class SubServiceDetail {
         this.comment,
         this.adminStatus});
 
-  SubServiceDetail.fromJson(Map<String, dynamic> json) {
+  SubserviceName.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     serviceId = json['serviceId'];
     userId = json['userId'];

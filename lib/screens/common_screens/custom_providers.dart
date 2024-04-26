@@ -6,6 +6,8 @@ import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/connectivity_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
+import '../../view_models/services_details_provider.dart';
+
 class CustomProvider extends StatelessWidget {
   final Widget child;
   final AuthProvider state;
@@ -26,6 +28,7 @@ class CustomProvider extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (context)=> AccountsProvider()),
         ChangeNotifierProvider(create: (context)=> CartProvider()),
+        ChangeNotifierProvider(create: (context)=> ServicesDetailsProvider()),
       ],
       child: child,
     );

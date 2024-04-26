@@ -11,17 +11,21 @@ import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
+import '../../models/dashboard_models/near_by_service_model.dart';
+
 class DynamicPageView extends StatefulWidget {
   final List<String> imagePaths;
   final Color indicatorColor;
   final Color activeIndicatorColor;
+  final dynamic lat;
+  final dynamic lang;
 
 
   const DynamicPageView({
     Key? key,
     required this.imagePaths,
     this.indicatorColor = Colors.deepOrangeAccent,
-    this.activeIndicatorColor = Colors.blue, 
+    this.activeIndicatorColor = Colors.blue,  required this.lat, required this.lang,
   }) : super(key: key);
 
   @override
@@ -75,7 +79,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
               });
             },
             itemBuilder: (context, index) {
-              return ImagePlaceHolder(imagePath: widget.imagePaths[index],index:index);
+              return ImagePlaceHolder(imagePath: widget.imagePaths[index],index:index,lang: widget.lang,lat: widget.lat,);
             },
           ),
         ),
@@ -121,9 +125,9 @@ class _DynamicPageViewState extends State<DynamicPageView> {
 
 class ImagePlaceHolder extends StatelessWidget {
   final String? imagePath;
-  final int index;
+  final int index;final dynamic lat;final dynamic lang;
 
-  const ImagePlaceHolder({Key? key, this.imagePath, required this.index}) : super(key: key);
+  const ImagePlaceHolder({Key? key, this.imagePath, required this.index, this.lat, this.lang}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +135,7 @@ class ImagePlaceHolder extends StatelessWidget {
   builder: (context, provider, child) {
   return InkWell(
       onTap: () {
-        _navigation(context,provider.getLatestDetails[index].type??'',package: provider.getLatestDetails[index].package,membership: provider.getLatestDetails[index].membership);
+        _navigation(context,provider.getLatestDetails[index].type??'',package: provider.getLatestDetails[index].package,membership: provider.getLatestDetails[index].membership,service: provider.getLatestDetails[index].service);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(5),
@@ -147,22 +151,22 @@ class ImagePlaceHolder extends StatelessWidget {
   _navigation(BuildContext context,String type,
       {PackagesModel? package,
         MembershipModel? membership,
-        NearByShopModel? service}) {
+        NearServiceModel? service}) {
     switch (type) {
       case 'package':
         navigateTo(
             context: context,
-            to: PackageDetail(data: package!, lat: 0, lang: 0));
+            to: PackageDetail(data: package!, lat:lat, lang: lang,packageid: package.id,));
         break;
       case 'service':
-      // navigateTo(
-      //     context: context,
-      //     to: SubServiceDetail(data: package!, lat: 0, lang: 0));
+      navigateTo(
+          context: context,
+          to: SubServiceDetail(data: service!.subService![0]!, lat: lat, lng: lang, shopData: service!.subService![0]!.shop!, subServiceid: service!.subService![0]!.id.toString(),));
         break;
       case 'membership':
         navigateTo(
             context: context,
-            to: MembershipDetail(data: membership!, lat: 0, lang: 0));
+            to: MembershipDetail(data: membership!, lat: lat, lang: lang,memberid: membership.id,));
         break;
     }
   }

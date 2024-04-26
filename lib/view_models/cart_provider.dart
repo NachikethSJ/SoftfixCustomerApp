@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_client.dart';
 import '../constants/app_urls.dart';
 import '../models/cart/cart_details_model.dart';
+import '../models/dashboard_models/get_notification_model.dart';
 import '../models/help_model.dart';
 import '../utils/show_toast.dart';
 import 'auth_provider.dart';
@@ -26,6 +27,9 @@ class CartProvider extends ChangeNotifier {
 
   List<ResponseModel> _updateCart = [];
   List<ResponseModel> get UpdateCartItem => _updateCart;
+
+  List<GetNotificationListModel> _notificationDetail = [];
+  List<GetNotificationListModel> get showNotificationDetails => _notificationDetail;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -180,4 +184,34 @@ class CartProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> notificationDetails({
+    required BuildContext context,
+  }) async {
+    _setShowLoader(true);
+    _notificationDetail = [];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.getApi(
+        url: appUrls.appNotification,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      print("============Response====${res?.data}");
+      _notificationDetail = res?.data
+          .map<GetNotificationListModel>((e) => GetNotificationListModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
 }

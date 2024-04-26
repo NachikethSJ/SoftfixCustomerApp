@@ -1292,6 +1292,7 @@ class _SearchScreenState extends State<SearchScreen>
                   data: provider.searchmembershipList[index],
                   lang: widget.lang?.toInt()??0,
                   lat: widget.lat?.toInt()??0,
+                  memberid: provider.membershipList[index].id,
                 ),
               );
             },
@@ -1517,6 +1518,7 @@ class _SearchScreenState extends State<SearchScreen>
                   data: provider.searchpackageList[index],
                   lat: widget.lat?.toInt() ??0,
                   lang: widget.lang?.toInt() ??0,
+                  packageid:provider.packageList[index].id,
                 ),
               );
             },

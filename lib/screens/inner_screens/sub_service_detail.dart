@@ -13,20 +13,21 @@ import 'package:salon_customer_app/view_models/cart_provider.dart';
 
 import '../../utils/slot.dart';
 import '../../utils/validate_connectivity.dart';
+import '../../view_models/services_details_provider.dart';
 import '../common_screens/bottom_navigation.dart';
 
 class SubServiceDetail extends StatefulWidget {
   final SubService data;
   final Shop shopData;
-  final double lat;
-  final double lng;
+  final dynamic lat;
+  final dynamic lng;
   final String subServiceid;
   const SubServiceDetail(
       {super.key,
       required this.data,
       required this.shopData,
       required this.lat,
-      required this.lng,required this.subServiceid});
+      required this.lng,required this.subServiceid, });
 
   @override
   State<StatefulWidget> createState() => SubServiceDetailState();
@@ -35,6 +36,12 @@ class SubServiceDetail extends StatefulWidget {
 class SubServiceDetailState extends State<SubServiceDetail> {
   int count = 1;
   bool isbottom = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getDetail();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -298,6 +305,21 @@ class SubServiceDetailState extends State<SubServiceDetail> {
       context: context,
       builder: (BuildContext context) {
         return  SlotBookingDialog(subServiceId: int.tryParse(id),);
+      },
+    );
+  }
+
+  _getDetail() {
+    WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+        var provider = Provider.of<ServicesDetailsProvider>(context, listen: false);
+        var body = {
+          "serviceId":33
+        };
+        provider.packageDetail(
+          context: context,
+          body: body,
+        );
       },
     );
   }

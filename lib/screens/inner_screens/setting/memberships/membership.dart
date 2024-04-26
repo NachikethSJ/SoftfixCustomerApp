@@ -82,6 +82,7 @@ class _MemberShipspageState extends State<MemberShipspage> {
                   data: provider.membershipList[index],
                   lang: longitude.toInt(),
                   lat: latitude.toInt(),
+                  memberid: provider.membershipList[index].id,
                 ),
               );
             },

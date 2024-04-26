@@ -56,6 +56,12 @@ class AppUrls {
 
  String get getLatestUpdate => '/user/getlatestUpdates/';
 
+ String get getServiceDetailUrl => '/user/getlatestUpdates/service';
+
+ String get getMemberShipUrl => '/user/getlatestUpdates/membership';
+
+ String get getPackageUrl => '/user/getlatestUpdates/package';
+
 
 }
 
