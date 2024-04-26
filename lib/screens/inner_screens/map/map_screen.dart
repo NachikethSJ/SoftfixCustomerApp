@@ -42,36 +42,36 @@ class _MapScreenState extends State<MapScreen> {
 
   void _addMarker(LatLng position, String markerId, String markerTitle,
       {bool onTapped = false}) {
-    setState(() {
-      focusNode.unfocus();
-      _markers = {};
-    });
-    if (!onTapped) {
-      _getAddressFromLatLng(position.latitude, position.longitude);
-    }
-    Marker marker = Marker(
-      draggable: true,
-      markerId: MarkerId(markerId),
-      position: position,
-      onDragEnd: (value) {
-        setState(() {
-          _addMarker(value, '', '');
-          latitude = value.latitude;
-          longitude = value.longitude;
-        });
-      },
-      infoWindow: InfoWindow(
-        title: markerTitle,
-      ),
-    );
-    mapController.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(position.latitude, position.longitude), 14));
-
-    setState(() {
-      _markers.add(marker);
-      latitude = position.latitude;
-      longitude = position.longitude;
-    });
+    // setState(() {
+    //   focusNode.unfocus();
+    //   _markers = {};
+    // });
+    // if (!onTapped) {
+    //   _getAddressFromLatLng(position.latitude, position.longitude);
+    // }
+    // Marker marker = Marker(
+    //   draggable: true,
+    //   markerId: MarkerId(markerId),
+    //   position: position,
+    //   onDragEnd: (value) {
+    //     setState(() {
+    //       _addMarker(value, '', '');
+    //       latitude = value.latitude;
+    //       longitude = value.longitude;
+    //     });
+    //   },
+    //   infoWindow: InfoWindow(
+    //     title: markerTitle,
+    //   ),
+    // );
+    // mapController.animateCamera(CameraUpdate.newLatLngZoom(
+    //     LatLng(position.latitude, position.longitude), 14));
+    //
+    // setState(() {
+    //   _markers.add(marker);
+    //   latitude = position.latitude;
+    //   longitude = position.longitude;
+    // });
   }
 
   Future<void> _getAddressFromLatLng(double lat, double lng) async {
@@ -102,6 +102,27 @@ class _MapScreenState extends State<MapScreen> {
     } catch (e) {}
   }
 
+  onCamerMove(CameraPosition position) async {
+    print(position.zoom);
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.target.latitude, position.target.longitude);
+
+    Placemark place = placemarks[0];
+    String name = place.name ?? '';
+    String subLocality = place.subLocality ?? '';
+    String locality = place.locality ?? '';
+    String administrativeArea = place.administrativeArea ?? '';
+    String postalCode = place.postalCode ?? '';
+    String country = place.country ?? '';
+    String address =
+        "$name${subLocality.isNotEmpty ? ', $subLocality' : ''}${locality.isNotEmpty ? ', $locality' : ''}${administrativeArea.isNotEmpty ? ', $administrativeArea' : ''}${postalCode.isNotEmpty ? ', $postalCode' : ''}${country.isNotEmpty ? ', $country' : ''}";
+    setState(() {
+      searchController.text = address;
+    });
+    _addMarker(LatLng(position.target.latitude, position.target.longitude),"My Marker",
+      "Marker description",);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -118,22 +139,37 @@ class _MapScreenState extends State<MapScreen> {
         alignment: Alignment.topCenter,
         children: [
           GoogleMap(
+            compassEnabled: true,
+
+            myLocationButtonEnabled: true,
+            minMaxZoomPreference: MinMaxZoomPreference(17, 26),
             myLocationEnabled: true,
             mapType: MapType.normal,
             trafficEnabled: true,
-
+            zoomGesturesEnabled: true,
+            buildingsEnabled: false,
+            onCameraMove:onCamerMove,
             initialCameraPosition: CameraPosition(
               target: initialLocation,
               zoom: 14,
             ),
 
             onMapCreated: _onMapCreated,
-            markers: _markers,
+            // markers: _markers,
             onTap: (value) {
-              _addMarker(value, "My Marker", "Marker description");
+              // _addMarker(value, "My Marker", "Marker description");
             },
             // ToDO: add markers
           ),
+          Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 36.0),
+                child: Image.asset(
+                  'assets/images/map_pin.png',
+                  height: 36,
+                ),
+              )),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: GooglePlacesAutoCompleteTextFormField(
@@ -207,3 +243,97 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
+
+// class SelectLocationFromMap extends StatelessWidget {
+//   SelectLocationFromMap({super.key, required this.lat,required this.long});
+//   final double lat;
+//   final double long;
+//   HomePageController homePageController=Get.put(HomePageController());
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     return SafeArea(
+//       child: Scaffold(
+//           endDrawer: DrawerWidget(),
+//           appBar: AppToolbar.appBar(
+//             title: "Choose Address'",
+//             actionIcon: Builder(
+//               builder: (context) => IconButton(
+//                 icon: Icon(
+//                   CupertinoIcons.profile_circled,
+//                   color: Color.fromARGB(255, 236, 218, 48),
+//                   size: 32,
+//                 ),
+//                 onPressed: () => Scaffold.of(context).openEndDrawer(),
+//                 tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+//               ),
+//             ),
+//           ),
+//
+//           body: Obx(()=>Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.stretch,
+//               children: [
+//                 Container(
+//                   height: 450,
+//                   child: Stack(
+//                     children: [
+//                       GoogleMap(
+//                         compassEnabled: true,
+//
+//                         myLocationButtonEnabled: true,
+//                         minMaxZoomPreference: MinMaxZoomPreference(17, 26),
+//                         //  mapType: MapType.satellite,
+//                         zoomGesturesEnabled: true,
+//                         buildingsEnabled: false,
+//
+//                         onCameraMove:homePageController.onCamerMove,
+//                         initialCameraPosition:CameraPosition(target: LatLng(lat, long)),
+//                         onMapCreated:homePageController.onMapCreated,
+//                       ),
+//                       Align(
+//                           alignment: Alignment.center,
+//                           child: Padding(
+//                             padding: EdgeInsets.only(bottom: 36.0),
+//                             child: Image.asset(
+//                               'assets/map_pin.png',
+//                               height: 36,
+//                             ),
+//                           )),
+//                       Center(
+//                         child: Padding(
+//                           padding: const EdgeInsets.only(top: 400.0, left: 10),
+//                           child: ElevatedButton.icon(
+//                               style:
+//                               ElevatedButton.styleFrom(primary: Colors.white),
+//                               onPressed: () {
+//                                 homePageController. GetAddressFromLatLong();
+//                               },
+//                               icon: Icon(
+//                                 Icons.my_location,
+//                                 color: Colors.green,
+//                                 size: 20,
+//                               ),
+//                               label: Text(
+//                                 "Use Your Current Location",
+//                                 style:
+//                                 TextStyle(color: Colors.green, fontSize: 12),
+//                               )),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 Container(child:Text("${homePageController.searchLocationController.value.text}",maxLines: 1,)),
+//                 ElevatedButton(
+//                     style: ElevatedButton.styleFrom(primary: Colors.green),
+//                     onPressed: () {Get.back();},
+//                     child: Text("Done")),
+//
+//               ],
+//             ),
+//           ))),
+//     );
+//   }
+// }

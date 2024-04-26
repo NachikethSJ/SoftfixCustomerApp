@@ -1,26 +1,34 @@
 class GetMemberShipDetailsModel {
   Membership? membership;
-  List<String>? imageUrl;
+  List<dynamic>? imageUrl;
   ServiceDetail? serviceDetail;
   SubServiceDetail? subServiceDetail;
+  ShopDetail? shopDetail;
+  List<dynamic>? shopImageUrl;
 
   GetMemberShipDetailsModel(
       {this.membership,
         this.imageUrl,
         this.serviceDetail,
-        this.subServiceDetail});
+        this.subServiceDetail,
+        this.shopDetail,
+        this.shopImageUrl});
 
   GetMemberShipDetailsModel.fromJson(Map<String, dynamic> json) {
     membership = json['membership'] != null
         ? new Membership.fromJson(json['membership'])
         : null;
-    imageUrl = json['imageUrl'].cast<String>();
+    imageUrl = json['imageUrl'];
     serviceDetail = json['serviceDetail'] != null
         ? new ServiceDetail.fromJson(json['serviceDetail'])
         : null;
     subServiceDetail = json['subServiceDetail'] != null
         ? new SubServiceDetail.fromJson(json['subServiceDetail'])
         : null;
+    shopDetail = json['shopDetail'] != null
+        ? new ShopDetail.fromJson(json['shopDetail'])
+        : null;
+    shopImageUrl = json['shopImageUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,22 +43,26 @@ class GetMemberShipDetailsModel {
     if (this.subServiceDetail != null) {
       data['subServiceDetail'] = this.subServiceDetail!.toJson();
     }
+    if (this.shopDetail != null) {
+      data['shopDetail'] = this.shopDetail!.toJson();
+    }
+    data['shopImageUrl'] = this.shopImageUrl;
     return data;
   }
 }
 
 class Membership {
-  int? id;
+  dynamic id;
   String? shopId;
   String? membershipName;
   String? serviceId;
   String? subServiceId;
-  int? userId;
+  dynamic userId;
   String? startDate;
   String? endDate;
-  int? price;
+  dynamic price;
   String? serviceTypeId;
-  int? offer;
+  dynamic offer;
   String? details;
   String? termAndcondition;
   String? createdBy;
@@ -58,10 +70,10 @@ class Membership {
   String? createdAt;
   dynamic updatedAt;
   dynamic mode;
-  int? noOfTimes;
-  int? isDelete;
+  dynamic noOfTimes;
+  dynamic isDelete;
   String? file;
-  int? status;
+  dynamic status;
 
   Membership(
       {this.id,
@@ -141,18 +153,18 @@ class Membership {
 }
 
 class ServiceDetail {
-  int? id;
+  dynamic id;
   String? name;
-  int? shopId;
+  dynamic shopId;
   String? userId;
   String? createdBy;
   dynamic updatedBy;
   String? createdAt;
   dynamic updatedAt;
-  int? isDelete;
+  dynamic isDelete;
   dynamic mode;
   String? serviceTypeId;
-  int? status;
+  dynamic status;
 
   ServiceDetail(
       {this.id,
@@ -202,26 +214,26 @@ class ServiceDetail {
 }
 
 class SubServiceDetail {
-  int? id;
-  int? serviceId;
-  int? userId;
+  dynamic id;
+  dynamic serviceId;
+  dynamic userId;
   String? type;
-  int? price;
-  int? timeTaken;
+  dynamic price;
+  dynamic timeTaken;
   String? offer;
   String? details;
-  int? persontype;
+  dynamic persontype;
   String? termAndcondition;
-  int? file;
+  dynamic file;
   String? createdBy;
   dynamic updatedBy;
   String? createdAt;
   dynamic updatedAt;
-  int? isDelete;
+  dynamic isDelete;
   dynamic rating;
-  int? status;
+  dynamic status;
   dynamic comment;
-  int? adminStatus;
+  dynamic adminStatus;
 
   SubServiceDetail(
       {this.id,
@@ -290,6 +302,143 @@ class SubServiceDetail {
     data['status'] = this.status;
     data['comment'] = this.comment;
     data['adminStatus'] = this.adminStatus;
+    return data;
+  }
+}
+
+class ShopDetail {
+  dynamic id;
+  String? branchId;
+  String? name;
+  String? mobile;
+  double? lat;
+  double? lng;
+  String? description;
+  String? gstNo;
+  String? tinNo;
+  String? panNo;
+  String? aadhaar;
+  String? address;
+  String? pin;
+  String? file;
+  String? country;
+  String? state;
+  String? city;
+  String? status;
+  dynamic token;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  dynamic updatedAt;
+  dynamic isDelete;
+  dynamic review;
+  dynamic comment;
+  dynamic percentage;
+  dynamic otp;
+  dynamic otpTime;
+  String? vendorId;
+  String? shopId;
+
+  ShopDetail(
+      {this.id,
+        this.branchId,
+        this.name,
+        this.mobile,
+        this.lat,
+        this.lng,
+        this.description,
+        this.gstNo,
+        this.tinNo,
+        this.panNo,
+        this.aadhaar,
+        this.address,
+        this.pin,
+        this.file,
+        this.country,
+        this.state,
+        this.city,
+        this.status,
+        this.token,
+        this.createdBy,
+        this.updatedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.isDelete,
+        this.review,
+        this.comment,
+        this.percentage,
+        this.otp,
+        this.otpTime,
+        this.vendorId,
+        this.shopId});
+
+  ShopDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    branchId = json['branchId'];
+    name = json['name'];
+    mobile = json['mobile'];
+    lat = json['lat'];
+    lng = json['lng'];
+    description = json['description'];
+    gstNo = json['gstNo'];
+    tinNo = json['tinNo'];
+    panNo = json['panNo'];
+    aadhaar = json['aadhaar'];
+    address = json['address'];
+    pin = json['pin'];
+    file = json['file'];
+    country = json['country'];
+    state = json['state'];
+    city = json['city'];
+    status = json['status'];
+    token = json['token'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    isDelete = json['IsDelete'];
+    review = json['review'];
+    comment = json['comment'];
+    percentage = json['percentage'];
+    otp = json['otp'];
+    otpTime = json['otpTime'];
+    vendorId = json['vendorId'];
+    shopId = json['shopId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['branchId'] = this.branchId;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    data['description'] = this.description;
+    data['gstNo'] = this.gstNo;
+    data['tinNo'] = this.tinNo;
+    data['panNo'] = this.panNo;
+    data['aadhaar'] = this.aadhaar;
+    data['address'] = this.address;
+    data['pin'] = this.pin;
+    data['file'] = this.file;
+    data['country'] = this.country;
+    data['state'] = this.state;
+    data['city'] = this.city;
+    data['status'] = this.status;
+    data['token'] = this.token;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['IsDelete'] = this.isDelete;
+    data['review'] = this.review;
+    data['comment'] = this.comment;
+    data['percentage'] = this.percentage;
+    data['otp'] = this.otp;
+    data['otpTime'] = this.otpTime;
+    data['vendorId'] = this.vendorId;
+    data['shopId'] = this.shopId;
     return data;
   }
 }
