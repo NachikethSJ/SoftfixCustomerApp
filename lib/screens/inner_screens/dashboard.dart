@@ -468,7 +468,7 @@ class _DashboardState extends State<Dashboard>
             ),
             Expanded(
                 child: SingleChildScrollView(
-              child: Padding(
+                child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

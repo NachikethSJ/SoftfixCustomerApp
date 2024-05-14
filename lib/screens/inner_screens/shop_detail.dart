@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
-import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../models/dashboard_models/near_by_shop_model.dart';
+import '../../models/dashboard_models/near_by_shop_packages_model.dart';
 import '../../utils/app_button.dart';
 import '../../utils/loading_shimmer.dart';
 import '../../utils/navigation.dart';
@@ -37,13 +38,28 @@ class ShopDetail extends StatefulWidget {
   State<ShopDetail> createState() => _ShopDetailState();
 }
 
-class _ShopDetailState extends State<ShopDetail> {
-  int selectedTabIndex = 0;
+class _ShopDetailState extends State<ShopDetail>with CacheManager {
   double latitude = 28.7041;
   double longitude = 77.1025;
-  final shopId = 8;
+  Future getLatLongitude() async {
+    var data = await getLatLng();
+    setState(() {
+      latitude = double.tryParse(data.first) ?? 0;
+      longitude = double.tryParse(data.last) ?? 0;
+    });
+  }
+  int selectedTabIndex = 0;
   TextEditingController addressController = TextEditingController(text: 'Select Location');
   @override
+
+  void initState() {
+    print('Shop Id======>>>>${widget.shopData.id}');
+    // TODO: implement initState
+    super.initState();
+    getLatLongitude();
+    _getNearByShopServices();
+    _getNearByShopPackages();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -173,7 +189,7 @@ class _ShopDetailState extends State<ShopDetail> {
             );
           },
         );
-      } else if (provider.serviceList.isEmpty) {
+      } else if (provider.nearByShopServicesList.isEmpty) {
         return SizedBox(
           height: 200,
           child: Center(
@@ -189,7 +205,7 @@ class _ShopDetailState extends State<ShopDetail> {
             height: 12,
           );
         },
-        itemCount: provider.serviceList.length,
+        itemCount: provider.nearByShopServicesList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return InkWell(
@@ -231,9 +247,9 @@ class _ShopDetailState extends State<ShopDetail> {
                                 to: SubServiceDetail(
                                   lat: latitude,
                                   lng: longitude,
-                                  subServiceid: provider.subServiceList[index].id.toString(),
+                                  subServiceid: provider.nearByShopServicesList[index].subServices![0].id.toString(),
                                 ));
-                            },
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Stack(
@@ -242,7 +258,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                   height: 120,
                                   width: 130,
                                   child: Image.network(
-                                    provider.serviceList[index].subService?[0].image?[0] ?? "",
+                                    '${provider.nearByShopServicesList[index].subServices?[0].imageurl??""}',
                                     fit: BoxFit.fill,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Container(
@@ -257,7 +273,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                     },
                                   ),
                                 ),
-                                provider.serviceList[index].subService?[0].offer !=null?
+                                //provider.nearByShopServicesList[index].subServices?[0].offer !=null?
                                 Positioned(
                                   left: 0,
                                   bottom: 0,
@@ -265,12 +281,12 @@ class _ShopDetailState extends State<ShopDetail> {
                                     height: 25,
                                     width: 70,
                                     decoration: const BoxDecoration(
-                                      color: Colors.blue
+                                        color: Colors.blue
                                     ),
-                                    child:  Center(child: Text("${provider.serviceList[index].subService?[0].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                                    child:  Center(child: Text("${provider.nearByShopServicesList[index].subServices?[0].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
                                   ),
                                 )
-                                :SizedBox(),
+                                //:SizedBox(),
                               ],
                             ),
                           ),
@@ -285,15 +301,15 @@ class _ShopDetailState extends State<ShopDetail> {
                             CrossAxisAlignment.start,
                             children: [
                               appText(
-                                    title: '${provider.serviceList[index].serviceName ?? ""}',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                title: provider.nearByShopServicesList[index].service?.name ?? "",
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                               const SizedBox(
                                 height: 2,
                               ),
                               appText(
-                                title: provider.serviceList[index].subService?[0].type ?? "",
+                                title: provider.nearByShopServicesList[index].subServices?[0].type?? "",
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
@@ -311,7 +327,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                     width: 2,
                                   ),
                                   appText(
-                                    title: '${provider.serviceList[index].subService?[0].timeTaken ?? "30"} Min Services',
+                                    title: '${provider.nearByShopServicesList[index].subServices?[0].timeTaken ?? "30"} Min Services',
                                   )
                                 ],
                               ),
@@ -321,7 +337,7 @@ class _ShopDetailState extends State<ShopDetail> {
                               Row(
                                 children: [
                                   appText(
-                                    title: '₹${calculatePrice(double.parse(provider.serviceList[index].subService?[0].price?.toString() ?? '0'), double.parse(provider.serviceList[index].subService?[0].offer?.toString() ?? '0'))}',
+                                    title: '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[0].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[0].offer?.toString() ?? '0'))}',
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -329,27 +345,26 @@ class _ShopDetailState extends State<ShopDetail> {
                                     width: 10,
                                   ),
                                   appText(
-                                    title: '₹${provider.serviceList[index].subService?[0].price ?? ""}',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                    textDecoration: TextDecoration.lineThrough
+                                      title: '₹${provider.nearByShopServicesList[index].subServices?[0].price ?? ""}',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                      textDecoration: TextDecoration.lineThrough
                                   ),
                                   const SizedBox(
                                     width: 10,
                                   ),
                                 ],
                               ),
-                              //appText(title:  '${provider.serviceList[index].serviceId}' ),
                               const SizedBox(
                                 height: 4,
                               ),
-                                Row(
+                              Row(
                                 children: [
                                   RatingBar.builder(
                                     wrapAlignment: WrapAlignment.start,
                                     itemSize: 14,
-                                    initialRating: provider.serviceList[index].subService?[0].rating??0,
+                                    initialRating: provider.nearByShopServicesList[index].subServices?[0].rating??0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -364,18 +379,18 @@ class _ShopDetailState extends State<ShopDetail> {
                                   ),
                                   GestureDetector(
                                     onTap: (){
-                                      showSlotBookingDialog(context,provider.serviceList[index].subService?[0].id??0);
+                                      showSlotBookingDialog(context,provider.nearByShopServicesList[index].subServices?[0].id??0);
                                     },
                                     child: SizedBox(
-                                      width: 60,
-                                      height: 30,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
-                                         border:Border.all( color: appColors.appColor)
-                                        ),
-                                        child:  Center(child: Text("Book",style:TextStyle(color:appColors.appColor))),
-                                      )
+                                        width: 60,
+                                        height: 30,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(5),
+                                              border:Border.all( color: appColors.appColor)
+                                          ),
+                                          child:  Center(child: Text("Book",style:TextStyle(color:appColors.appColor))),
+                                        )
 
                                       // AppButton(
                                       //   radius: 8,
@@ -404,6 +419,8 @@ class _ShopDetailState extends State<ShopDetail> {
       );
     });
   }
+
+
   calculatePrice(dynamic price, dynamic discount) {
     double p = double.tryParse(price.toString()) ?? 0;
     double d = double.tryParse(discount.toString()) ?? 0;
@@ -664,7 +681,7 @@ class _ShopDetailState extends State<ShopDetail> {
             );
           },
         );
-      } else if (provider.packageList.isEmpty) {
+      } else if (provider.nearByShopPackagesList.isEmpty) {
         return SizedBox(
           height: 200,
           child: Center(
@@ -681,7 +698,7 @@ class _ShopDetailState extends State<ShopDetail> {
           );
         },
         shrinkWrap: true,
-        itemCount: provider.packageList.length,
+        itemCount: provider.nearByShopPackagesList.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -719,7 +736,7 @@ class _ShopDetailState extends State<ShopDetail> {
                               ),
                               appText(
                                 title:
-                                provider.packageList[index].packageName ??
+                                provider.nearByShopPackagesList[index].package?.packageName ??
                                     '',
                                 fontSize: 20,
                                 color: Colors.black,
@@ -727,7 +744,7 @@ class _ShopDetailState extends State<ShopDetail> {
                               ),
                               appText(
                                 title: _getServiceName(
-                                    provider.packageList[index].service ?? []),
+                                    [provider.nearByShopPackagesList[index].service]),
                                 color: Colors.black,
                               ),
                               const SizedBox(
@@ -743,7 +760,7 @@ class _ShopDetailState extends State<ShopDetail> {
                                   ),
                                   appText(
                                     title:
-                                    '${provider.packageList[index].price ?? ""}',
+                                    '${provider.nearByShopPackagesList[index].package?.price ?? ""}',
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -786,7 +803,7 @@ class _ShopDetailState extends State<ShopDetail> {
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.packageList[index].image?.first ?? '',
+                                  image: '${provider.nearByShopPackagesList[index].package?.imageUrl}',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
@@ -805,10 +822,6 @@ class _ShopDetailState extends State<ShopDetail> {
                           ),
                         ),
                       ),
-
-
-
-
                     ],
                   ),
                 ),
@@ -821,7 +834,7 @@ class _ShopDetailState extends State<ShopDetail> {
                   ),
                   child: Center(
                       child: appText(
-                        title: '${provider.packageList[index].discount}% OFF',
+                        title: '${provider.nearByShopPackagesList[index].package?.discount}% OFF',
                         color: appColors.appWhite,
                         fontWeight: FontWeight.bold,
                       )),
@@ -876,7 +889,36 @@ class _ShopDetailState extends State<ShopDetail> {
     });
   }
 
-  _getServiceName(List<Service> data) {
+  //New NearByShopServicesApi
+  _getNearByShopServices() {
+    WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+        var provider =
+        Provider.of<DashboardProvider>(context, listen: false);
+        var body = {"id": widget.shopData.id};
+        provider.getNearByShopServicesList(
+          context: context,
+          body: body,
+        );
+      },
+    );
+  }
+
+  //NewNearByShopPackagesApi
+  _getNearByShopPackages() {
+    WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) {
+        var provider =
+        Provider.of<DashboardProvider>(context, listen: false);
+        var body = {"id": widget.shopData.id};
+        provider.getNearByShopPackagesList(
+          context: context,
+          body: body,
+        );
+      },
+    );
+  }
+  _getServiceName(List<dynamic> data) {
     String text = '';
     for (int i = 0; i < data.length; i++) {
       text += i == 0 ? '${data[i].name}' : ' + ${data[i].name}';

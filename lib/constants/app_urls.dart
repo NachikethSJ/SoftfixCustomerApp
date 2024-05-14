@@ -65,6 +65,10 @@ class AppUrls {
  String get getSubServiceDetailUrl => '/user/getlatestUpdates/subService';
 
  String get getHelpMessage => '/user/getAllQueries';
+
+ String get getNearByShopServicesUrl => '/user/get-services-by-shop';
+
+ String get getNearByShopPackagesUrl => '/user/get-packages-by-shop';
 }
 
 AppUrls appUrls = AppUrls();

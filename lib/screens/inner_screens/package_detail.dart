@@ -66,6 +66,7 @@ class _PackageDetailState extends State<PackageDetail> {
                     "${provider.showPackageDetails.shopName} ",
                     style: TextStyle(fontSize: 14),
                   ),
+
                 ],
               ),
              ),

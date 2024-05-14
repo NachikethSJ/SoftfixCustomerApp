@@ -101,9 +101,9 @@ class SubService {
   String? details;
   dynamic timeTaken;
   dynamic userId;
-  dynamic? rating;
+  dynamic rating;
   String? termAndcondition;
-  dynamic? comment;
+  dynamic comment;
   dynamic status;
 
   SubService(

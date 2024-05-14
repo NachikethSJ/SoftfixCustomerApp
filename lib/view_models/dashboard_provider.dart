@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salon_customer_app/api/api_client.dart';
 import 'package:salon_customer_app/constants/app_urls.dart';
 import 'package:salon_customer_app/models/dashboard_models/near_by_service_model.dart';
+import 'package:salon_customer_app/models/dashboard_models/near_by_shop_packages_model.dart';
+import 'package:salon_customer_app/models/dashboard_models/near_by_shop_services_model.dart';
 
 import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/view_models/auth_provider.dart';
@@ -39,6 +41,12 @@ class DashboardProvider extends ChangeNotifier {
 
   List<PackagesModel> _packageList = [];
   List<PackagesModel> get packageList => _packageList;
+
+  List<NearByShopServicesModel> _nearByShopServicesList = [];
+  List<NearByShopServicesModel> get nearByShopServicesList => _nearByShopServicesList;
+
+  List<NearByShopPackagesModel> _nearByShopPackagesList = [];
+  List<NearByShopPackagesModel> get nearByShopPackagesList => _nearByShopPackagesList;
 
   //new
 
@@ -111,6 +119,75 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  //NewNearByShopServices
+  Future<bool> getNearByShopServicesList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _nearByShopServicesList=[];
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.getNearByShopServicesUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+
+      _nearByShopServicesList = res?.data
+          .map<NearByShopServicesModel>((e) => NearByShopServicesModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      if(e is ServerError){
+        showToast(e.message);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  //NewNearByShopPackages
+  Future<bool> getNearByShopPackagesList({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.getNearByShopPackagesUrl,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+
+      _nearByShopPackagesList = res?.data
+          .map<NearByShopPackagesModel>((e) => NearByShopPackagesModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      if(e is ServerError){
+        showToast(e.message);
+      }
       _setShowLoader(false);
       notifyListeners();
       return false;
