@@ -16,6 +16,7 @@ class NearServiceModel {
   String? serviceName;
   dynamic userId;
   String? serviceTypeId;
+  dynamic rating;
   List<SubService>? subService;
 
   NearServiceModel(
@@ -36,6 +37,7 @@ class NearServiceModel {
         this.serviceName,
         this.userId,
         this.serviceTypeId,
+        this.rating,
         this.subService});
 
   NearServiceModel.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class NearServiceModel {
     serviceName = json['serviceName'];
     userId = json['userId'];
     serviceTypeId = json['serviceTypeId'];
+     rating = json['rating'];
     if (json['SubService'] != null) {
       subService = <SubService>[];
       json['SubService'].forEach((v) {
@@ -83,6 +86,7 @@ class NearServiceModel {
     data['serviceName'] = this.serviceName;
     data['userId'] = this.userId;
     data['serviceTypeId'] = this.serviceTypeId;
+    data['rating'] = this.rating;
     if (this.subService != null) {
       data['SubService'] = this.subService!.map((v) => v.toJson()).toList();
     }

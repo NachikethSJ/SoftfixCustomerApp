@@ -220,7 +220,7 @@ class _ProfileState extends State<Profile> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: appColors.appGray100,
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(4),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(

@@ -103,7 +103,7 @@ class _MyBookingState extends State<MyBooking> {
                               child: Card(
                                 elevation: 4,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(4),
                                   side: BorderSide(
                                     color: appColors.appColor,
                                   ),
@@ -379,7 +379,7 @@ class _MyBookingState extends State<MyBooking> {
                                           decoration: BoxDecoration(
                                               color: Colors.teal.shade800,
                                               borderRadius:
-                                                  BorderRadius.circular(12)),
+                                                  BorderRadius.circular(4)),
                                           child: Center(
                                             child: Padding(
                                               padding: const EdgeInsets.only(

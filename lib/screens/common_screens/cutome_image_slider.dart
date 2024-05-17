@@ -95,7 +95,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
           right: 0,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(4),
               color: Colors.transparent,
             ),
             child: Row(

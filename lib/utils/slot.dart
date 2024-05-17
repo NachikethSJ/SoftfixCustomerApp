@@ -121,7 +121,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                     width: 130,
                                     decoration: BoxDecoration(
                                       border: Border.all(width: 1, color: Colors.yellow),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +197,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                     ),
                                     Card(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.circular(4),
                                         side: BorderSide(
                                           color: appColors.appColor,
                                         ),

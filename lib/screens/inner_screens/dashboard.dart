@@ -7,6 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
@@ -19,6 +20,7 @@ import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart'
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/serivce_at_home_screen.dart';
+import 'package:salon_customer_app/screens/inner_screens/setting/service_at_home.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
@@ -349,7 +351,7 @@ class _DashboardState extends State<Dashboard>
                     selectedBackgroundColors: [appColors.appWhite],
                     unSelectedBackgroundColors: const [Colors.yellow],
                     width: MediaQuery.of(context).size.width / 5.5,
-                    borderRadius: 12,
+                    borderRadius: 4,
                     selectedTextStyle: TextStyle(
                         color: appColors.appBlack,
                         fontSize: 8,
@@ -364,12 +366,13 @@ class _DashboardState extends State<Dashboard>
                     selectedLabelIndex: (i) {
                       setState(() {
                         print("kfhjksyhfkjsdf $index");
+                        print("selectTAb $selectedIndex");
                         print("kfhjksyhfkjsdf $i");
                         if (index == 0) {
                           selectedIndex = "1";
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ServiceAtHomeScreen()));
                         } else {
-                          selectedIndex = "2";
-                        }
+                          selectedIndex = "2";}
                         index = i;
                         _getNearByData();
                       });
@@ -401,7 +404,7 @@ class _DashboardState extends State<Dashboard>
                           elevation: 4,
                           shape: RoundedRectangleBorder(
                             side: BorderSide(color: appColors.appColor),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(4),
                           ),
                           child: SizedBox(
                             height: 46,
@@ -445,7 +448,7 @@ class _DashboardState extends State<Dashboard>
                       color: appColors.appColor,
                       elevation: 4,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: SizedBox(
                         width: 50,
@@ -937,7 +940,7 @@ class _DashboardState extends State<Dashboard>
                             decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1, color: appColors.appColor),
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(4),
                             ),
                             // BoxDecoration(
                             //   color: appColors.appGray,
@@ -1072,7 +1075,7 @@ class _DashboardState extends State<Dashboard>
             child: Card(
               elevation: 3,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(4),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1103,11 +1106,30 @@ class _DashboardState extends State<Dashboard>
                           const SizedBox(
                             height: 1,
                           ),
-                          appText(
-                              title: truncateWithEllipsis(
-                                  40, shopsData[index].description ?? ""),
-                              fontSize: 14,
-                              color: Colors.grey.shade600),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              appText(
+                                  title: truncateWithEllipsis(
+                                      40, shopsData[index].description ?? ""),
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600),
+                              RatingBar.builder(
+                                wrapAlignment: WrapAlignment.start,
+                                itemSize: 14,
+                                initialRating: 4,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (value) {},),
+                            ],
+                          ),
+
                           const SizedBox(
                             height: 5,
                           ),
@@ -1687,7 +1709,8 @@ class _DashboardState extends State<Dashboard>
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
+                    ///pricefilterhide
+                    /*Row(
                       children: [
                         SizedBox(
                           width: 50,
@@ -1759,7 +1782,7 @@ class _DashboardState extends State<Dashboard>
                           fontSize: 12,
                         ),
                       ],
-                    ),
+                    ),*/
                     Row(
                       children: [
                         SizedBox(
@@ -1825,12 +1848,13 @@ class _DashboardState extends State<Dashboard>
                         ),
                       ],
                     ),
-                    const Divider(
+                    /*const Divider(
                       color: Colors.grey,
                       indent: 15,
                       endIndent: 15,
-                    ),
-                    Row(
+                    ),*/
+                   ///offerfilterhide
+                   /* Row(
                       children: [
                         SizedBox(
                           width: 60,
@@ -1904,7 +1928,7 @@ class _DashboardState extends State<Dashboard>
                         //   },
                         // ),
                       ],
-                    ),
+                    ),*/
                     // Divider(
                     //   color: Colors.grey,
                     //   indent: 15,

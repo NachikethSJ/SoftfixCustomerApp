@@ -281,7 +281,7 @@ class _SearchScreenState extends State<SearchScreen>
                         elevation: 4,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: appColors.appColor),
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                         child: SizedBox(
                           height: 46,
@@ -324,7 +324,7 @@ class _SearchScreenState extends State<SearchScreen>
                         decoration: BoxDecoration(
                           border: Border.all(width: 1,color: Colors.yellow),
                           // color: appColors.appGray,
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
@@ -432,7 +432,7 @@ class _SearchScreenState extends State<SearchScreen>
         itemBuilder: (context, index) {
           return Card(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             elevation: 4,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -527,7 +527,7 @@ class _SearchScreenState extends State<SearchScreen>
                         return Card(
                           elevation: 8,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
+                            borderRadius: BorderRadius.circular(4),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8),
@@ -540,7 +540,7 @@ class _SearchScreenState extends State<SearchScreen>
                                       height: 120,
                                       width: 120,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(4),
                                         child: Image.network(
                                           serviceData[index].subService?[i].image?.first ?? "",
                                           fit: BoxFit.fill,
@@ -671,7 +671,7 @@ class _SearchScreenState extends State<SearchScreen>
                                             child: AppButton(
                                               borderColor: appColors.appColor,
                                               color: Colors.white,
-                                              radius: 8,
+                                              radius: 4,
                                               onPressed: () {
                                                 showSlotBookingDialog(context,serviceData[index].subService?[0].id??0);
                                               },
@@ -1389,7 +1389,7 @@ class _SearchScreenState extends State<SearchScreen>
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(4),
                       color:  Colors.yellow),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1615,7 +1615,7 @@ class _SearchScreenState extends State<SearchScreen>
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(4),
                       color:  Colors.yellow),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

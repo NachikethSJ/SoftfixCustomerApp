@@ -90,7 +90,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                             height: 120,
                             width: double.infinity,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(4),
                               child: Image.network(
                                 provider.showMemberShipDetails.shopImageUrl?[0]??'',
                                 fit: BoxFit.fill,
@@ -110,7 +110,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                 width: 140,
                                 decoration: BoxDecoration(
                                     color: Colors.teal.shade800,
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(4)),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -153,7 +153,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                               elevation: 4,
                               // shadowColor: appColors.appColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(4),
                                 side:
                                 BorderSide(color: appColors.appColor, width: 1),
                               ),

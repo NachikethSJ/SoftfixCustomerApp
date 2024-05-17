@@ -126,7 +126,7 @@ class _HelpPageState extends State<HelpPage> {
                               margin: EdgeInsets.only(left: 10,right: 10,top: 30),
                               padding: EdgeInsets.all(15),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(4),
                                   border: Border.all(color: Colors.yellow,width: 1)
                               ),
                               child: Row(

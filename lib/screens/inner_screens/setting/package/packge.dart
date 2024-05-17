@@ -107,7 +107,7 @@ class _PackageScreenState extends State<PackageScreen>with CacheManager {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(4),
                       color:  Colors.yellowAccent.shade100),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,7 +166,7 @@ class _PackageScreenState extends State<PackageScreen>with CacheManager {
                                 decoration: BoxDecoration(
                                     color:
                                     const Color.fromARGB(255, 82, 102, 83),
-                                    borderRadius: BorderRadius.circular(2)),
+                                    borderRadius: BorderRadius.circular(4)),
                                 child: Center(
                                   child: appText(
                                     title: texts.bookNow,
@@ -220,7 +220,7 @@ class _PackageScreenState extends State<PackageScreen>with CacheManager {
                   width: 60,
                   decoration: BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: Center(
                       child: appText(

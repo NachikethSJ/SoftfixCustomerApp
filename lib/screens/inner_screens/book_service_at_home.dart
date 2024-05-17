@@ -40,7 +40,7 @@ class _BookServiceHomeState extends State<BookServiceHome> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.transparent),
-                              borderRadius: BorderRadius.circular(12)
+                              borderRadius: BorderRadius.circular(4)
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +100,7 @@ class _BookServiceHomeState extends State<BookServiceHome> {
                                       margin: EdgeInsets.only(right: 10),
                                       decoration: BoxDecoration(
                                           color: appColors.appColor,
-                                          borderRadius: BorderRadius.circular(12)
+                                          borderRadius: BorderRadius.circular(4)
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 15,right: 15,top: 8,bottom: 8),

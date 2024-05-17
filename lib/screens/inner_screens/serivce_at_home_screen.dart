@@ -95,7 +95,7 @@ class _ServiceHomeState extends State<ServiceHome> {
                                       width: double.infinity,
                                       child: ClipRRect(
                                         borderRadius:
-                                        BorderRadius.circular(16),
+                                        BorderRadius.circular(4),
                                         child:
                                           Image.asset("assets/images/placeholder.png")
                                         // Image.network(
@@ -178,7 +178,7 @@ class _ServiceHomeState extends State<ServiceHome> {
                                             width: 1, // Specify the desired border width
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                          BorderRadius.circular(4),
                                         ),
                                         child: Center(
                                           child: Padding(

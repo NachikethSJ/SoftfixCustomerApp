@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 import '../../constants/texts.dart';
@@ -47,7 +48,7 @@ class _NearSubServicesDetailState extends State<NearSubServicesDetail> {
                 itemBuilder: (context, index) {
                   return Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(4),
                       side: BorderSide(
                         color: appColors.appColor,
                       ),
@@ -287,3 +288,4 @@ class _NearSubServicesDetailState extends State<NearSubServicesDetail> {
     );
   }
 }
+*/

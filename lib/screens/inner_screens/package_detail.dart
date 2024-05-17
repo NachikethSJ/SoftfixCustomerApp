@@ -84,7 +84,7 @@ class _PackageDetailState extends State<PackageDetail> {
                             height: 120,
                             width: double.infinity,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(4),
                               child: Image.network(
                                provider.showPackageDetails.imageUrl?[0]??'',
                                 fit: BoxFit.fill,
@@ -104,7 +104,7 @@ class _PackageDetailState extends State<PackageDetail> {
                                 width: 140,
                                 decoration: BoxDecoration(
                                     color: Colors.teal.shade800,
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(4)),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -147,7 +147,7 @@ class _PackageDetailState extends State<PackageDetail> {
                               elevation: 4,
                               // shadowColor: appColors.appColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(4),
                                 side:
                                     BorderSide(color: appColors.appColor, width: 1),
                               ),

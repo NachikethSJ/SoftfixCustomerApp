@@ -86,7 +86,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                               height: 180,
                               width: double.infinity,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(4),
                                 child: Image.network(
                                   provider.subServiceDetail.imageUrl?.first ??
                                       '',
@@ -103,7 +103,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                                 width: 65,
                                 decoration: BoxDecoration(
                                   color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Center(
                                     child: appText(
@@ -129,7 +129,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                                   width: 140,
                                   decoration: BoxDecoration(
                                       color: Colors.teal.shade800,
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(4)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -173,7 +173,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                               width: 50,
                               decoration: BoxDecoration(
                                   color: appColors.appColor,
-                                  borderRadius: BorderRadius.circular(5)),
+                                  borderRadius: BorderRadius.circular(4)),
                               child: Row(
                                 children: [
                                   Padding(
@@ -293,7 +293,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                     height: 50,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(4),
                         border: Border.all(color: appColors.appColor)),
                     child: Center(
                       child: appText(
@@ -317,7 +317,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Padding(
           padding: const EdgeInsets.all(5),

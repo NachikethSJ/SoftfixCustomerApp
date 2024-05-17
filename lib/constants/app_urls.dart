@@ -1,10 +1,10 @@
 class AppUrls {
   // String get baseUrl => 'http://51.21.129.106:5000';
 
-    //String get baseUrl => 'http://13.50.84.221:5000';
+    String get baseUrl => 'http://13.50.84.221:5000';
 
-  //local...
-  String get baseUrl => 'http://192.168.29.202:3000';
+  ///local...
+  ///String get baseUrl => 'http://192.168.29.202:3000';
 
 
 

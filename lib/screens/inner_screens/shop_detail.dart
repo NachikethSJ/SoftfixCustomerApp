@@ -96,7 +96,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                       height: 120,
                       width: double.infinity,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(4),
                         child: Image.network(
                           widget.shopData.imageUrl?.first ?? '',
                           fit: BoxFit.fill,
@@ -115,7 +115,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                           width: 140,
                           decoration:  BoxDecoration(
                             color: Colors.teal.shade800,
-                            borderRadius: BorderRadius.circular(10)
+                            borderRadius: BorderRadius.circular(4)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -228,7 +228,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
               elevation: 4,
               // shadowColor: appColors.appColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(4),
                 side: BorderSide(color: appColors.appColor, width: 1),
               ),
               child: Padding(
@@ -391,7 +391,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                         height: 30,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius: BorderRadius.circular(4),
                                               border:Border.all( color: appColors.appColor)
                                           ),
                                           child:  Center(child: Text("Book",style:TextStyle(color:appColors.appColor))),
@@ -499,7 +499,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(4),
                       color:  Colors.yellow.shade400),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -556,7 +556,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                 decoration: BoxDecoration(
                                     color:
                                     const Color.fromARGB(255, 82, 102, 83),
-                                    borderRadius: BorderRadius.circular(2)),
+                                    borderRadius: BorderRadius.circular(4)),
                                 child: Center(
                                   child: appText(
                                     title: texts.bookNow,
@@ -610,11 +610,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                   width: 60,
                   decoration: BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: Center(
                       child: appText(
-                        title: '${provider.nearByShopMembershipList[index].offer??"0"}% OFF',
+                        title: '${provider.nearByShopMembershipList[index].offer??0}% OFF',
                         color: appColors.appWhite,
                         fontWeight: FontWeight.bold,
                       )),
@@ -728,7 +728,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(4),
                       color:  Colors.yellow.shade400),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -797,7 +797,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                   decoration: BoxDecoration(
                                       color:
                                       const Color.fromARGB(255, 82, 102, 83),
-                                      borderRadius: BorderRadius.circular(2)),
+                                      borderRadius: BorderRadius.circular(4)),
                                   child: Center(
                                     child: appText(
                                       title: texts.bookNow,
@@ -852,7 +852,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                   width: 60,
                   decoration: BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: Center(
                       child: appText(

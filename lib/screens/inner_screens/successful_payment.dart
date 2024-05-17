@@ -62,7 +62,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         width: 120,
                         decoration: BoxDecoration(
                             color: appColors.appColor,
-                            borderRadius: BorderRadius.circular(12)),
+                            borderRadius: BorderRadius.circular(4)),
                         child: const Center(
                             child: Text(
                           "Go to Booking",
