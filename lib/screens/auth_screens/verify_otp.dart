@@ -39,7 +39,6 @@ class _VerifyOtpState extends State<VerifyOtp> with CodeAutoFill {
   @override
   void initState() {
     super.initState();
-
     Future.delayed(const Duration(milliseconds: 300), _fetchOtp);
   }
 

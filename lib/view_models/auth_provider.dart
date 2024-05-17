@@ -26,7 +26,6 @@ class AuthProvider extends ChangeNotifier {
     if (userDetails == '') {
     } else {
       Map<String, dynamic> userDetail = jsonDecode(userDetails);
-
       _userData = LoginDataModel.fromJson(userDetail);
     }
   }
@@ -38,7 +37,6 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isUserLoggedIn {
     var userDetails = _preferences.getString('userDetails') ?? '';
-
     if (userDetails == '') {
       return false;
     } else {

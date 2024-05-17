@@ -1,26 +1,4 @@
 class NearByShopPackagesModel {
-  Package? package;
-  Service? service;
-  List<SubServices>? subServices;
-
-  NearByShopPackagesModel({this.package, this.service, this.subServices});
-
-  NearByShopPackagesModel.fromJson(Map<String, dynamic> json) {
-    package =
-    json['package'] != null ? new Package.fromJson(json['package']) : null;
-    service =
-    json['service'] != null ? new Service.fromJson(json['service']) : null;
-    if (json['subServices'] != null) {
-      subServices = <SubServices>[];
-      json['subServices'].forEach((v) {
-        subServices!.add(new SubServices.fromJson(v));
-      });
-    }
-  }
-
-}
-
-class Package {
   dynamic id;
   dynamic userId;
   String? packageName;
@@ -41,9 +19,10 @@ class Package {
   dynamic isDelete;
   dynamic status;
   String? serviceTypeId;
-  List<dynamic>? imageUrl;
+  List<Service>? service;
+  List<dynamic>? image;
 
-  Package(
+  NearByShopPackagesModel(
       {this.id,
         this.userId,
         this.packageName,
@@ -64,9 +43,10 @@ class Package {
         this.isDelete,
         this.status,
         this.serviceTypeId,
-        this.imageUrl});
+        this.service,
+        this.image});
 
-  Package.fromJson(Map<String, dynamic> json) {
+  NearByShopPackagesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     packageName = json['packageName'];
@@ -87,10 +67,43 @@ class Package {
     isDelete = json['isDelete'];
     status = json['status'];
     serviceTypeId = json['serviceTypeId'];
-    imageUrl = json['imageUrl'];
+    if (json['service'] != null) {
+      service = <Service>[];
+      json['service'].forEach((v) {
+        service!.add(new Service.fromJson(v));
+      });
+    }
+    image = json['image'];
   }
 
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['packageName'] = this.packageName;
+    data['startDate'] = this.startDate;
+    data['endDate'] = this.endDate;
+    data['price'] = this.price;
+    data['details'] = this.details;
+    data['termAndcondition'] = this.termAndcondition;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['mode'] = this.mode;
+    data['shopId'] = this.shopId;
+    data['serviceId'] = this.serviceId;
+    data['discount'] = this.discount;
+    data['file'] = this.file;
+    data['isDelete'] = this.isDelete;
+    data['status'] = this.status;
+    data['serviceTypeId'] = this.serviceTypeId;
+    if (this.service != null) {
+      data['service'] = this.service!.map((v) => v.toJson()).toList();
+    }
+    data['image'] = this.image;
+    return data;
+  }
 }
 
 class Service {
@@ -106,6 +119,7 @@ class Service {
   dynamic mode;
   String? serviceTypeId;
   dynamic status;
+  List<SubServices>? subServices;
 
   Service(
       {this.id,
@@ -119,7 +133,8 @@ class Service {
         this.isDelete,
         this.mode,
         this.serviceTypeId,
-        this.status});
+        this.status,
+        this.subServices});
 
   Service.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -134,9 +149,33 @@ class Service {
     mode = json['mode'];
     serviceTypeId = json['serviceTypeId'];
     status = json['status'];
+    if (json['subServices'] != null) {
+      subServices = <SubServices>[];
+      json['subServices'].forEach((v) {
+        subServices!.add(new SubServices.fromJson(v));
+      });
+    }
   }
 
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['shopId'] = this.shopId;
+    data['userId'] = this.userId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['IsDelete'] = this.isDelete;
+    data['mode'] = this.mode;
+    data['serviceTypeId'] = this.serviceTypeId;
+    data['status'] = this.status;
+    if (this.subServices != null) {
+      data['subServices'] = this.subServices!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class SubServices {
@@ -160,7 +199,6 @@ class SubServices {
   dynamic status;
   dynamic comment;
   dynamic adminStatus;
-  List<dynamic>? imageurl;
 
   SubServices(
       {this.id,
@@ -182,8 +220,7 @@ class SubServices {
         this.rating,
         this.status,
         this.comment,
-        this.adminStatus,
-        this.imageurl});
+        this.adminStatus});
 
   SubServices.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -206,8 +243,30 @@ class SubServices {
     status = json['status'];
     comment = json['comment'];
     adminStatus = json['adminStatus'];
-    imageurl = json['imageurl'];
   }
 
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['serviceId'] = this.serviceId;
+    data['userId'] = this.userId;
+    data['type'] = this.type;
+    data['price'] = this.price;
+    data['timeTaken'] = this.timeTaken;
+    data['offer'] = this.offer;
+    data['details'] = this.details;
+    data['persontype'] = this.persontype;
+    data['termAndcondition'] = this.termAndcondition;
+    data['file'] = this.file;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['IsDelete'] = this.isDelete;
+    data['rating'] = this.rating;
+    data['status'] = this.status;
+    data['comment'] = this.comment;
+    data['adminStatus'] = this.adminStatus;
+    return data;
+  }
 }

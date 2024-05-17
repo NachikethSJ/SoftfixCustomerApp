@@ -37,7 +37,6 @@ class _HistoryPageState extends State<HistoryPage> {
           appBar: appBar(
             context,
             bgColor: Colors.white,
-
             actions: [
               appText(
                 title: "My History",
@@ -57,30 +56,30 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             ],
           ),
-          body: provider.showLoader?
-           const Center(
-            child: CircularProgressIndicator(),
-          ):
-      SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 3, right: 3, top: 5),
-              child: Column(
-                children: [
-                  ListView.builder(
-                    itemCount: provider.bookingDetailHistory.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, index) {
-                      return buildListItem(context, index);
-                    },
+          body: provider.showLoader
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 3, right: 3, top: 5),
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          itemCount: provider.bookingDetailHistory.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, index) {
+                            return buildListItem(context, index);
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ),
+                ),
         );
       },
     );
@@ -102,7 +101,6 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
           child: Consumer<AccountsProvider>(
             builder: (context, provider, child) {
-
               return Column(
                 children: [
                   Row(
@@ -277,7 +275,16 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    reviewUser(context, index,provider.bookingDetailHistory[index].vendorId.toString());
+                                    reviewUser(
+                                        context,
+                                        index,
+                                        provider.bookingDetailHistory[index]
+                                            .vendorId
+                                            .toString(),
+                                        provider.bookingDetailHistory[index]
+                                            .shopId.toString(),
+                                      provider.bookingDetailHistory[index].serviceId.toString()
+                                    );
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -347,7 +354,8 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  reviewUser(BuildContext context, int index,String vendorId) {
+  reviewUser(BuildContext context, int index, String vendorId, String shopId,
+      String serviceId) {
     validateConnectivity(
         context: context,
         provider: () {
@@ -356,9 +364,9 @@ class _HistoryPageState extends State<HistoryPage> {
           var body = {
             "rate": ratings[index] ?? 0,
             "comment": reviewControllers[index].text,
-            "serviceId": "52",//serviceId
+            "serviceId": serviceId,
             "vendorId": vendorId,
-            //"shopId":shopId
+            "shopId": shopId
           };
           provider
               .review(

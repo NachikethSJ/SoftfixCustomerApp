@@ -23,8 +23,7 @@ class CustomProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => state,
         ),
-        ChangeNotifierProvider(
-          create: (context) => DashboardProvider(),
+        ChangeNotifierProvider(create: (context) => DashboardProvider(),
         ),
         ChangeNotifierProvider(create: (context)=> AccountsProvider()),
         ChangeNotifierProvider(create: (context)=> CartProvider()),

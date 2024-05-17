@@ -122,9 +122,7 @@ class _HelpPageState extends State<HelpPage> {
                           builder: (context, provider, child) {
                           return Row(
                           children: [
-                            provider.getHelpMessageList.isEmpty
-                            ?SizedBox()
-                            :Container(
+                            Container(
                               margin: EdgeInsets.only(left: 10,right: 10,top: 30),
                               padding: EdgeInsets.all(15),
                               decoration: BoxDecoration(
