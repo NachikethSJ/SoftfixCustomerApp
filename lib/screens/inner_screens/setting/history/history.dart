@@ -283,7 +283,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                             .toString(),
                                         provider.bookingDetailHistory[index]
                                             .shopId.toString(),
-                                      provider.bookingDetailHistory[index].serviceId.toString()
+                                      provider.bookingDetailHistory[index].serviceId.toString(),
+                                      provider.bookingDetailHistory[index].shop.toString()
                                     );
                                   },
                                   child: Container(
@@ -355,7 +356,7 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   reviewUser(BuildContext context, int index, String vendorId, String shopId,
-      String serviceId) {
+      String serviceId, String shopName) {
     validateConnectivity(
         context: context,
         provider: () {
@@ -366,7 +367,8 @@ class _HistoryPageState extends State<HistoryPage> {
             "comment": reviewControllers[index].text,
             "serviceId": serviceId,
             "vendorId": vendorId,
-            "shopId": shopId
+            "shopId": shopId,
+            "shopName":shopName
           };
           provider
               .review(
