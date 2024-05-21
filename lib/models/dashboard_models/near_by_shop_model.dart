@@ -30,7 +30,7 @@ class NearByShopModel {
   dynamic otpTime;
   String? vendorId;
   String? shopId;
-  double? rating;
+  int? rating;
   String? countryName;
   String? stateName;
   String? cityName;

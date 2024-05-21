@@ -521,7 +521,7 @@ class _DashboardState extends State<Dashboard>
                               width: 14,
                             );
                           },
-                          itemCount: subService.length,
+                          itemCount: subService.length>10?10:subService.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -559,13 +559,34 @@ class _DashboardState extends State<Dashboard>
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(5),
-                                              child: Image.network(
+                                              child: FadeInImage.assetNetwork(
+                                                placeholder:
+                                                'assets/images/placeholder.png', // Path to placeholder image
+                                                image:  subService[index]
+                                                    .image
+                                                    ?.first ??
+                                                    '',
+                                                fit: BoxFit.cover,
+                                                width: 90,
+                                                height: 90,
+                                                imageErrorBuilder:
+                                                    (context, error, stackTrace) {
+                                                  // Custom image error builder
+                                                  return Image.network(
+                                                      subService[index]
+                                                          .image
+                                                          ?.first ??
+                                                          ''
+                                                  );
+                                                },
+                                              ),
+                                              /*Image.network(
                                                 subService[index]
                                                         .image
                                                         ?.first ??
                                                     '',
                                                 fit: BoxFit.fill,
-                                              ),
+                                              ),*/
                                             ),
                                           ),
                                           subService[index].offer!=null?
@@ -1087,10 +1108,25 @@ class _DashboardState extends State<Dashboard>
                     height: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
+                      child: FadeInImage.assetNetwork(
+                        placeholder:
+                        'assets/images/placeholder.png', // Path to placeholder image
+                        image: shopsData[index].imageUrl?[0] ?? '',
+                        fit: BoxFit.cover,
+                        width: 90,
+                        height: 90,
+                        imageErrorBuilder:
+                            (context, error, stackTrace) {
+                          // Custom image error builder
+                          return Image.network(
+                              shopsData[index].imageUrl?[0] ?? ''
+                          );
+                        },
+                      ),///placeholderImagePath
+                      /*Image.network(
                         shopsData[index].imageUrl?[0] ?? '',
                         fit: BoxFit.fill,
-                      ),
+                      ),*/
                     ),
                   ),
                   Padding(
@@ -1107,26 +1143,21 @@ class _DashboardState extends State<Dashboard>
                             height: 1,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               appText(
                                   title: truncateWithEllipsis(
                                       40, shopsData[index].description ?? ""),
                                   fontSize: 14,
-                                  color: Colors.grey.shade600),
-                              RatingBar.builder(
-                                wrapAlignment: WrapAlignment.start,
-                                itemSize: 14,
-                                initialRating: 4,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (value) {},),
+                                  color: Colors.grey.shade600,
+                                  textOverflow: TextOverflow.ellipsis
+                              ),
+                              Spacer(),
+                              Icon(Icons.star,
+                              color: Colors.amber,
+                              size: 18,
+                              ),
+                              appText(title: '${shopsData[index].rating}'
+                              )
                             ],
                           ),
 
@@ -2321,16 +2352,19 @@ class _DashboardState extends State<Dashboard>
                                 setState(() {
                                   // Reset values here.......
                                   values = RangeValues(1, 1);
-                                  labels = RangeLabels('1', '1');
+                                  labels = RangeLabels('0', '0');
                                   rangeValue = RangeValues(1, 1);
                                   offerValue = RangeValues(1, 1);
                                   // offerLabels= RangeValues('1','1');
-                                  rangeLabels = RangeLabels('1', '1');
+                                  rangeLabels = RangeLabels('0', '0');
                                   ratingValue = RangeValues(1, 1);
-                                  ratingLabels = RangeLabels('1', '1');
+                                  ratingLabels = RangeLabels('0', '0');
                                   isOffer = false;
                                   isNearest = false;
                                 });
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                                _getNearByData();
                               },
                               title: texts.reset,
                               color: appColors.appGreen,

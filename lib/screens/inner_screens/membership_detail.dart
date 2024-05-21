@@ -91,10 +91,25 @@ class _MembershipDetailState extends State<MembershipDetail> {
                             width: double.infinity,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(4),
-                              child: Image.network(
+                              child: FadeInImage.assetNetwork(
+                                placeholder:
+                                'assets/images/placeholder.png', // Path to placeholder image
+                                image:  provider.showMemberShipDetails.shopImageUrl?[0]??'',
+                                fit: BoxFit.cover,
+                                width: 90,
+                                height: 90,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) {
+                                  // Custom image error builder
+                                  return Image.network(
+                                      provider.showMemberShipDetails.shopImageUrl?[0]??''
+                                  );
+                                },
+                              )
+                              /*Image.network(
                                 provider.showMemberShipDetails.shopImageUrl?[0]??'',
                                 fit: BoxFit.fill,
-                              ),
+                              ),*/
                             ),
                           ),
                           Positioned(
@@ -177,20 +192,18 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                                 SizedBox(
                                                   height: 120,
                                                   width: 130,
-                                                  child: Image.network(
-                                                    provider.showMemberShipDetails.imageUrl?[0],
-                                                    fit: BoxFit.fill,
-                                                    errorBuilder: (context, error,
-                                                        stackTrace) {
-                                                      return Container(
-                                                        color: appColors.appGray100,
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons.photo,
-                                                            color:
-                                                            appColors.appGray,
-                                                          ),
-                                                        ),
+                                                  child: FadeInImage.assetNetwork(
+                                                    placeholder:
+                                                    'assets/images/placeholder.png', // Path to placeholder image
+                                                    image:   provider.showMemberShipDetails.imageUrl?[0],
+                                                    fit: BoxFit.cover,
+                                                    width: 90,
+                                                    height: 90,
+                                                    imageErrorBuilder:
+                                                        (context, error, stackTrace) {
+                                                      // Custom image error builder
+                                                      return Image.network(
+                                                          provider.showMemberShipDetails.imageUrl?[0]
                                                       );
                                                     },
                                                   ),

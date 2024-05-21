@@ -13,6 +13,7 @@ import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../cache_manager/cache_manager.dart';
 import '../../utils/slot.dart';
 import '../../utils/validate_connectivity.dart';
 import '../../view_models/services_details_provider.dart';
@@ -33,13 +34,24 @@ class SubServiceDetail extends StatefulWidget {
   State<StatefulWidget> createState() => SubServiceDetailState();
 }
 
-class SubServiceDetailState extends State<SubServiceDetail> {
+class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
   int count = 1;
   bool isbottom = false;
+  double latitude = 28.7041;
+  double longitude = 77.1025;
+  Future getLatLongitude() async {
+    var data = await getLatLng();
+    setState(() {
+      latitude = double.tryParse(data.first) ?? 0;
+      longitude = double.tryParse(data.last) ?? 0;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getLatLongitude();
     _getDetail();
   }
 
@@ -65,7 +77,7 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                   Icon(Icons.location_on,
                     color: appColors.appColor,
                   ),
-                  Text('30 Min • ${(Geolocator.distanceBetween(widget.lat, widget.lng, provider.subServiceDetail.shopDetail?.lat!, provider.subServiceDetail.shopDetail?.lng!) / 1000).toStringAsFixed(2)} Km',
+                  Text('30 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.subServiceDetail.shopDetail?.lat!, provider.subServiceDetail.shopDetail?.lng!) / 1000).toStringAsFixed(2)} Km',
                       style: TextStyle(fontSize: 14)
                   )
                 ],
@@ -87,11 +99,28 @@ class SubServiceDetailState extends State<SubServiceDetail> {
                               width: double.infinity,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
-                                child: Image.network(
+                                child: FadeInImage.assetNetwork(
+                                  placeholder:
+                                  'assets/images/placeholder.png', // Path to placeholder image
+                                  image:  provider.subServiceDetail.imageUrl?.first ??
+                                      '',
+                                  fit: BoxFit.cover,
+                                  width: 90,
+                                  height: 90,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    // Custom image error builder
+                                    return Image.network(
+                                        provider.subServiceDetail.imageUrl?.first ??
+                                            ''
+                                    );
+                                  },
+                                )
+                                /*Image.network(
                                   provider.subServiceDetail.imageUrl?.first ??
                                       '',
                                   fit: BoxFit.cover,
-                                ),
+                                ),*/
                               ),
                             ),
                             provider.subServiceDetail.subService?.offer !=null?

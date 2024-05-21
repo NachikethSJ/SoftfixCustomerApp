@@ -123,6 +123,10 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      print("=====Exception===$e");
+      if(e is ServerError){
+        showToast(e.message);
+      }
       _setShowLoader(false);
       notifyListeners();
       return false;

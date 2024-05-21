@@ -42,6 +42,8 @@ class _ProfileState extends State<Profile> {
     {'icon': Icons.pattern, 'title': texts.package},
     {'icon': Icons.card_membership, 'title': texts.membership},
     {'icon': Icons.chat_bubble_outline, 'title': texts.history},
+    {'icon': Icons.phone,'title': texts.shareUs},
+    {'icon': Icons.copy,'title': texts.copyLink},
   ];
 
   @override
@@ -101,7 +103,7 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                Container(
+                /*Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: appColors.appColor)),
                   child: Row(
@@ -164,7 +166,7 @@ class _ProfileState extends State<Profile> {
                       )
                     ],
                   ),
-                ),
+                ),*/
                 const SizedBox(
                   height: 20,
                 ),

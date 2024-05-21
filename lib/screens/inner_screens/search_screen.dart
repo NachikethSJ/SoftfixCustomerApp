@@ -36,6 +36,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with CacheManager, SingleTickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
+  TextEditingController minPriceController = TextEditingController();
+  TextEditingController maxPriceController = TextEditingController();
   TextEditingController addressController =
       TextEditingController(text: 'Select Location');
   late TabController _tabController;
@@ -163,8 +165,8 @@ class _SearchScreenState extends State<SearchScreen>
           'serviceTypeId': "1",
           'minOffer':int.tryParse(offerLabels.start),
           'maxOffer':int.tryParse(offerLabels.end),
-          'minPrice': int.tryParse(labels.start),
-          'maxPrice': int.tryParse(labels.end),
+          'minPrice': minPriceController.text,
+          'maxPrice': maxPriceController.text,
           'minDistance': int.tryParse(rangeLabels.start),
           'maxDistance': int.tryParse(rangeLabels.end),
           'minRating': int.tryParse(ratingLabels.start),
@@ -391,7 +393,7 @@ class _SearchScreenState extends State<SearchScreen>
       ),
     );
   }
-
+  //Sub_Services show in scrollable pending
   _serviceList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
       List<NearServiceModel> serviceData =
@@ -465,7 +467,7 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${serviceData[index].subService?[0].rating ?? "1"}',
+                            title: '${serviceData[index].subService?[0].rating ?? "2"}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -745,7 +747,7 @@ class _SearchScreenState extends State<SearchScreen>
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
+                   /* Row(
                       children: [
                         SizedBox(
                           width: 50,
@@ -779,7 +781,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   activeTickMarkColor: appColors.appColor,
                                 )),
                             child: RangeSlider(
-                                divisions: 5,
+                                divisions: 7,
                                 min: 1,
                                 max: 50000,
                                 values: values,
@@ -797,6 +799,51 @@ class _SearchScreenState extends State<SearchScreen>
                         appText(
                           title: '50000',
                           fontSize: 12,
+                        ),
+                      ],
+                    ),*/
+                    appText(title: texts.price,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                         /* appText(title: texts.minPrice,
+                            fontSize: 12),*/
+                        SizedBox(width: 5,),
+                        SizedBox(
+                          height: 30,
+                          width: 100,
+                          child: TextField(
+                            controller: minPriceController,
+                            decoration: InputDecoration(
+                                labelText: 'Min Price',
+                                labelStyle: TextStyle(
+                                  fontSize: 10,
+                                ),
+                                border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        /*appText(title: texts.maxPrice,
+                        fontSize: 12
+                        ),*/
+                        SizedBox(width: 5,),
+                        SizedBox(
+                          height: 30,
+                          width: 100,
+                          child: TextField(
+                            controller: maxPriceController,
+                            decoration: InputDecoration(
+                              labelText: 'Max Price',
+                              labelStyle: TextStyle(
+                                fontSize: 10,
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -1306,8 +1353,12 @@ class _SearchScreenState extends State<SearchScreen>
                               onPressed: () {
                                 setState(() {
                                   // Reset values here.......
-                                  values = RangeValues(1, 1);
-                                  labels = RangeLabels('1', '1');
+
+                                  ///PriceValue Reset
+                                 /* values = RangeValues(1, 1);
+                                  labels = RangeLabels('0', '0');*/
+                                  minPriceController.text="";
+                                  maxPriceController.text="";
                                   rangeValue = RangeValues(1, 1);
                                   offerValue= RangeValues(1, 1);
                                   // offerLabels= RangeValues('1','1');
@@ -1317,6 +1368,9 @@ class _SearchScreenState extends State<SearchScreen>
                                   isOffer = false;
                                   isNearest = false;
                                 });
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                                //_getNearByData();
                               },
                               title: texts.reset,
                               color: appColors.appGreen,

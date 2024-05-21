@@ -103,6 +103,10 @@ class Texts {
   String get getDirection=> 'Get Direction';
 
   String get reviews=> 'Reviews';
+
+  String get minPrice=> 'Min Price';
+
+  String get maxPrice=> 'MaxPrice';
 }
 
 final texts = Texts();

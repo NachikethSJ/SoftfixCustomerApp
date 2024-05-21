@@ -18,11 +18,9 @@ import '../../utils/app_button.dart';
 import '../../utils/loading_shimmer.dart';
 import '../../utils/navigation.dart';
 import '../../utils/slot.dart';
-import '../../utils/validator.dart';
 import '../../view_models/dashboard_provider.dart';
 import 'map/map_screen.dart';
 import 'membership_detail.dart';
-import 'near_by_sub_services_detail.dart';
 
 class ShopDetail extends StatefulWidget {
   final NearByShopModel shopData;
@@ -38,7 +36,7 @@ class ShopDetail extends StatefulWidget {
   State<ShopDetail> createState() => _ShopDetailState();
 }
 
-class _ShopDetailState extends State<ShopDetail>with CacheManager {
+class _ShopDetailState extends State<ShopDetail> with CacheManager {
   double latitude = 28.7041;
   double longitude = 77.1025;
   Future getLatLongitude() async {
@@ -48,10 +46,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
       longitude = double.tryParse(data.last) ?? 0;
     });
   }
-  int selectedTabIndex = 0;
-  TextEditingController addressController = TextEditingController(text: 'Select Location');
-  @override
 
+  int selectedTabIndex = 0;
+  TextEditingController addressController =
+      TextEditingController(text: 'Select Location');
+  @override
   void initState() {
     print('Shop Id======>>>>${widget.shopData.id}');
     // TODO: implement initState
@@ -61,32 +60,42 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
     _getNearByShopPackages();
     _getNearByShopMembership();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back,)),
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+              )),
           title: Row(
             children: [
-              Icon(Icons.location_on,color: appColors.appColor,),
-              Text("${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",style: TextStyle(fontSize: 14),),
+              Icon(
+                Icons.location_on,
+                color: appColors.appColor,
+              ),
+              Text(
+                "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
+                style: TextStyle(fontSize: 14),
+              ),
             ],
           ),
-
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 15),
-              child: Icon(Icons.search,color: appColors.appColor,),
+              child: Icon(
+                Icons.search,
+                color: appColors.appColor,
+              ),
             )
-          ]
-      ),
+          ]),
       body: DefaultTabController(
         length: 3,
         child: Padding(
-          padding: const EdgeInsets.only(left: 12,right: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -107,25 +116,32 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                       bottom: 10,
                       right: 10,
                       child: GestureDetector(
-                        onTap: ()async {
-                           // await _openMap();
+                        onTap: () async {
+                          // await _openMap();
                         },
                         child: Container(
                           height: 40,
                           width: 140,
-                          decoration:  BoxDecoration(
-                            color: Colors.teal.shade800,
-                            borderRadius: BorderRadius.circular(4)
-                          ),
+                          decoration: BoxDecoration(
+                              color: Colors.teal.shade800,
+                              borderRadius: BorderRadius.circular(4)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.directions,color: appColors.appColor,),
+                              Icon(
+                                Icons.directions,
+                                color: appColors.appColor,
+                              ),
                               InkWell(
-                                onTap: (){
-                                   openMap(latitude,longitude);
-                                },
-                                  child: Text(texts.getDirection,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                                  onTap: () {
+                                    openMap(latitude, longitude);
+                                  },
+                                  child: Text(
+                                    texts.getDirection,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                             ],
                           ),
                         ),
@@ -160,17 +176,16 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 selectedTabIndex == 0
                     ? _nearByShopList()
                     : selectedTabIndex == 1
-                    ? _nearByPackagesList()
-                    : _nearByMembershipList(),
-            
+                        ? _nearByPackagesList()
+                        : _nearByMembershipList(),
               ],
             ),
           ),
         ),
       ),
     );
-
   }
+
   _nearByShopList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
       if (provider.showLoader) {
@@ -197,8 +212,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
             child: appText(
                 title: 'Services are not available on this Shop',
                 fontSize: 15,
-                fontWeight: FontWeight.w200
-            ),
+                fontWeight: FontWeight.w200),
           ),
         );
       }
@@ -232,7 +246,10 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 side: BorderSide(color: appColors.appColor, width: 1),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 8,bottom: 8,),
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -240,7 +257,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             // slideTransition(
                             //   context: context,
                             //   to: NearSubServicesDetail(
@@ -252,7 +269,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                 to: SubServiceDetail(
                                   lat: latitude,
                                   lng: longitude,
-                                  subServiceid: provider.nearByShopServicesList[index].subServices![0].id.toString(),
+                                  subServiceid: provider
+                                      .nearByShopServicesList[index]
+                                      .subServices![0]
+                                      .id
+                                      .toString(),
                                 ));
                           },
                           child: Padding(
@@ -263,7 +284,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                   height: 120,
                                   width: 130,
                                   child: Image.network(
-                                    '${provider.nearByShopServicesList[index].subServices?[0].imageurl??""}',
+                                    '${provider.nearByShopServicesList[index].subServices?[0].imageurl ?? ""}',
                                     fit: BoxFit.fill,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Container(
@@ -278,20 +299,27 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                     },
                                   ),
                                 ),
-                                provider.nearByShopServicesList[index].subServices?[0].offer !=null?
-                                Positioned(
-                                  left: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 25,
-                                    width: 70,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.blue
-                                    ),
-                                    child:  Center(child:Text("${provider.nearByShopServicesList[index].subServices?[0].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                                  ),
-                                )
-                                :SizedBox(),
+                                provider.nearByShopServicesList[index]
+                                            .subServices?[0].offer !=
+                                        null
+                                    ? Positioned(
+                                        left: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          height: 25,
+                                          width: 70,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.blue),
+                                          child: Center(
+                                              child: Text(
+                                            "${provider.nearByShopServicesList[index].subServices?[0].offer}% Off",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                        ),
+                                      )
+                                    : SizedBox(),
                               ],
                             ),
                           ),
@@ -302,11 +330,12 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               appText(
-                                title: provider.nearByShopServicesList[index].service?.name ?? "",
+                                title: provider.nearByShopServicesList[index]
+                                        .service?.name ??
+                                    "",
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -314,7 +343,9 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                 height: 2,
                               ),
                               appText(
-                                title: provider.nearByShopServicesList[index].subServices?[0].type?? "",
+                                title: provider.nearByShopServicesList[index]
+                                        .subServices?[0].type ??
+                                    "",
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
@@ -332,7 +363,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                     width: 2,
                                   ),
                                   appText(
-                                    title: '${provider.nearByShopServicesList[index].subServices?[0].timeTaken ?? "30"} Min Services',
+                                    title:
+                                        '${provider.nearByShopServicesList[index].subServices?[0].timeTaken ?? "30"} Min Services',
                                   )
                                 ],
                               ),
@@ -342,7 +374,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                               Row(
                                 children: [
                                   appText(
-                                    title: '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[0].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[0].offer?.toString() ?? '0'))}',
+                                    title:
+                                        '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[0].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[0].offer?.toString() ?? '0'))}',
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -350,12 +383,13 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                     width: 10,
                                   ),
                                   appText(
-                                      title: '₹${provider.nearByShopServicesList[index].subServices?[0].price ?? ""}',
+                                      title:
+                                          '₹${provider.nearByShopServicesList[index].subServices?[0].price ?? ""}',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,
-                                      textDecoration: TextDecoration.lineThrough
-                                  ),
+                                      textDecoration:
+                                          TextDecoration.lineThrough),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -369,8 +403,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                   RatingBar.builder(
                                     wrapAlignment: WrapAlignment.start,
                                     itemSize: 14,
-                                    initialRating: provider.nearByShopServicesList[index].subServices?[0].rating??0,
-                                    minRating: 1,
+                                    initialRating: provider
+                                        .nearByShopServicesList[index]
+                                        .subServices?[0]
+                                        .rating??0,
+                                    minRating: 2,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
@@ -378,37 +415,46 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (value) {},),
+                                    onRatingUpdate: (value) {},
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-                                      showSlotBookingDialog(context,provider.nearByShopServicesList[index].subServices?[0].id??0);
+                                    onTap: () {
+                                      showSlotBookingDialog(
+                                          context,
+                                          provider.nearByShopServicesList[index]
+                                                  .subServices?[0].id ??
+                                              0);
                                     },
                                     child: SizedBox(
                                         width: 60,
                                         height: 30,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(4),
-                                              border:Border.all( color: appColors.appColor)
-                                          ),
-                                          child:  Center(child: Text("Book",style:TextStyle(color:appColors.appColor))),
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              border: Border.all(
+                                                  color: appColors.appColor)),
+                                          child: Center(
+                                              child: Text("Book",
+                                                  style: TextStyle(
+                                                      color:
+                                                          appColors.appColor))),
                                         )
-                                      // AppButton(
-                                      //   radius: 8,
-                                      //   onPressed: () {
-                                      //     showSlotBookingDialog(context);
-                                      //   },
-                                      //   title: '+ Book',
-                                      //   fontSize: 12,
-                                      // ),
-                                    ),
+                                        // AppButton(
+                                        //   radius: 8,
+                                        //   onPressed: () {
+                                        //     showSlotBookingDialog(context);
+                                        //   },
+                                        //   title: '+ Book',
+                                        //   fontSize: 12,
+                                        // ),
+                                        ),
                                   )
                                 ],
                               ),
-
                             ],
                           ),
                         )
@@ -424,15 +470,15 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
     });
   }
 
-
   calculatePrice(dynamic price, dynamic discount) {
     double p = double.tryParse(price.toString()) ?? 0;
     double d = double.tryParse(discount.toString()) ?? 0;
     return (p * (100 - d) / 100).toStringAsFixed(0);
   }
 
-   Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${widget.shopData.lat},${widget.shopData.lng}';
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=${widget.shopData.lat},${widget.shopData.lng}';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
@@ -466,8 +512,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
             child: appText(
                 title: 'Membership not available on this Shop',
                 fontSize: 14,
-                fontWeight: FontWeight.w200
-            ),
+                fontWeight: FontWeight.w200),
           ),
         );
       }
@@ -488,7 +533,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 context: context,
                 to: MembershipDetail(
                   data: provider.membershipList[index],
-                  lat:latitude.toInt() ,
+                  lat: latitude.toInt(),
                   lang: longitude.toInt(),
                   memberid: provider.nearByShopMembershipList[index].id,
                 ),
@@ -500,7 +545,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color:  Colors.yellow.shade400),
+                      color: Colors.yellow.shade400),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -514,16 +559,16 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               appText(
-                                title: provider
-                                    .nearByShopMembershipList[index].membershipName ??
+                                title: provider.nearByShopMembershipList[index]
+                                        .membershipName ??
                                     '',
                                 fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title: provider
-                                    .nearByShopMembershipList[index].service?.name ??
+                                title: provider.nearByShopMembershipList[index]
+                                        .service?.name ??
                                     '',
                                 color: Colors.black,
                               ),
@@ -540,7 +585,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                   ),
                                   appText(
                                     title:
-                                    '${provider.nearByShopMembershipList[index].price ?? ""}',
+                                        '${provider.nearByShopMembershipList[index].price ?? ""}',
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -555,7 +600,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                 height: 20,
                                 decoration: BoxDecoration(
                                     color:
-                                    const Color.fromARGB(255, 82, 102, 83),
+                                        const Color.fromARGB(255, 82, 102, 83),
                                     borderRadius: BorderRadius.circular(4)),
                                 child: Center(
                                   child: appText(
@@ -582,12 +627,18 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                             child: CircleAvatar(
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.nearByShopMembershipList[index].image?.first ?? '',
+                                  placeholder:
+                                      'assets/images/placeholder.png', // Path to placeholder image
+                                  image: provider
+                                          .nearByShopMembershipList[index]
+                                          .image
+                                          ?.first ??
+                                      '',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
-                                  imageErrorBuilder: (context, error, stackTrace) {
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
                                       'assets/images/placeholder.png', // Path to placeholder image
@@ -614,10 +665,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                   ),
                   child: Center(
                       child: appText(
-                        title: '${provider.nearByShopMembershipList[index].offer??0}% OFF',
-                        color: appColors.appWhite,
-                        fontWeight: FontWeight.bold,
-                      )),
+                    title:
+                        '${provider.nearByShopMembershipList[index].offer ?? 0}% OFF',
+                    color: appColors.appWhite,
+                    fontWeight: FontWeight.bold,
+                  )),
                 ),
                 Positioned(
                   bottom: 10,
@@ -631,7 +683,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
-                        itemCount: 4,
+                        itemCount: 5,
                         itemBuilder: (context, _) => const Icon(
                           Icons.star,
                           color: Colors.amber,
@@ -650,12 +702,12 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                           const SizedBox(
                             width: 6,
                           ),
-                         *//* appText(
+                         */ /* appText(
                             title:
                             '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                          )*//*
+                          )*/ /*
                         ],
                       )*/
                     ],
@@ -695,8 +747,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
             child: appText(
                 title: 'Packages are not available on this Shop',
                 fontSize: 15,
-                fontWeight: FontWeight.w200
-            ),
+                fontWeight: FontWeight.w200),
           ),
         );
       }
@@ -717,9 +768,9 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 context: context,
                 to: PackageDetail(
                   data: provider.packageList[index],
-                  lang:longitude.toInt() ,
+                  lang: longitude.toInt(),
                   lat: latitude.toInt(),
-                  packageid:provider.nearByShopPackagesList[index].id,
+                  packageid: provider.nearByShopPackagesList[index].id,
                 ),
               );
             },
@@ -729,7 +780,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color:  Colors.yellow.shade400),
+                      color: Colors.yellow.shade400),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -746,14 +797,16 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                 height: 10,
                               ),
                               appText(
-                                title:
-                                provider.nearByShopPackagesList[index].packageName??'',
+                                title: provider.nearByShopPackagesList[index]
+                                        .packageName ??
+                                    '',
                                 fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title: '${provider.nearByShopPackagesList[index].service?[0].name}',
+                                title:
+                                    '${provider.nearByShopPackagesList[index].service?[0].name}',
                                 /*_getServiceName(
                                     [provider.nearByShopPackagesList[index].service?[0].name]
                                 ),*/
@@ -771,19 +824,20 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                     fontSize: 12,
                                   ),
                                   appText(
-                                    title: '₹${calculatePrice(double.parse(provider.nearByShopPackagesList[index].price.toString()??"0"), double.parse(provider.nearByShopPackagesList[index].discount.toString()??""))}',
+                                    title:
+                                        '₹${calculatePrice(double.parse(provider.nearByShopPackagesList[index].price.toString() ?? "0"), double.parse(provider.nearByShopPackagesList[index].discount.toString() ?? ""))}',
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   SizedBox(width: 5),
                                   appText(
-                                    title:
-                                    '${provider.nearByShopPackagesList[index].price??""}',
+                                      title:
+                                          '${provider.nearByShopPackagesList[index].price ?? ""}',
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,
-                                      textDecoration: TextDecoration.lineThrough
-                                  ),
+                                      textDecoration:
+                                          TextDecoration.lineThrough),
                                 ],
                               ),
                               const SizedBox(
@@ -795,8 +849,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                                   width: 60,
                                   height: 20,
                                   decoration: BoxDecoration(
-                                      color:
-                                      const Color.fromARGB(255, 82, 102, 83),
+                                      color: const Color.fromARGB(
+                                          255, 82, 102, 83),
                                       borderRadius: BorderRadius.circular(4)),
                                   child: Center(
                                     child: appText(
@@ -824,12 +878,15 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                             child: CircleAvatar(
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: '${provider.nearByShopPackagesList[index].image}',
+                                  placeholder:
+                                      'assets/images/placeholder.png', // Path to placeholder image
+                                  image:
+                                      '${provider.nearByShopPackagesList[index].image}',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
-                                  imageErrorBuilder: (context, error, stackTrace) {
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
                                       'assets/images/placeholder.png', // Path to placeholder image
@@ -856,10 +913,11 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                   ),
                   child: Center(
                       child: appText(
-                        title: '${provider.nearByShopPackagesList[index].discount}% OFF',
-                        color: appColors.appWhite,
-                        fontWeight: FontWeight.bold,
-                      )),
+                    title:
+                        '${provider.nearByShopPackagesList[index].discount}% OFF',
+                    color: appColors.appWhite,
+                    fontWeight: FontWeight.bold,
+                  )),
                 ),
                 Positioned(
                   bottom: 10,
@@ -894,7 +952,7 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
                           ),
                           appText(
                             title:
-                            '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.packageList[index].shop!.lat!, provider.packageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.packageList[index].shop!.lat!, provider.packageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -914,9 +972,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
   //New NearByShopServicesApi
   _getNearByShopServices() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-        var provider =
-        Provider.of<DashboardProvider>(context, listen: false);
+      (timeStamp) {
+        var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {"id": widget.shopData.id};
         provider.getNearByShopServicesList(
           context: context,
@@ -929,9 +986,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
   //NewNearByShopPackagesApi
   _getNearByShopPackages() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-        var provider =
-        Provider.of<DashboardProvider>(context, listen: false);
+      (timeStamp) {
+        var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {"id": widget.shopData.id};
         provider.getNearByShopPackagesList(
           context: context,
@@ -944,9 +1000,8 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
   //NewNearByShopMembershipApi
   _getNearByShopMembership() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
-        var provider =
-        Provider.of<DashboardProvider>(context, listen: false);
+      (timeStamp) {
+        var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {"id": widget.shopData.id};
         provider.getNearByShopMembershipList(
           context: context,
@@ -964,14 +1019,17 @@ class _ShopDetailState extends State<ShopDetail>with CacheManager {
     return text;
   }
 
-  void showSlotBookingDialog(BuildContext context,int id) {
+  void showSlotBookingDialog(BuildContext context, int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return  SlotBookingDialog(subServiceId: id,);
+        return SlotBookingDialog(
+          subServiceId: id,
+        );
       },
     );
   }
+
   _openMap() async {
     var permission = await Geolocator.checkPermission();
     permission = await Geolocator.requestPermission();
