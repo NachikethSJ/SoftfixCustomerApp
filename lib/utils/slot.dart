@@ -301,11 +301,12 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+
                             addCartService();
                             //     .then((value) {
                             //   cartDeatils();
                             // });
-                            Navigator.pop(context);
+                            //Navigator.pop(context);
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -369,11 +370,8 @@ createSlotOrder(String shopName){
           var body = {
             "id": widget.subServiceId,
             "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
-
             "bookingDetailsArray":bookingDetailsArray
-
           };
-
           print("=====Request Body===$body");
           provider.createOrder(
             context: context,
@@ -381,7 +379,6 @@ createSlotOrder(String shopName){
           ).then((value) {
             if(value){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
-
             }
           });
         }else{
@@ -394,20 +391,40 @@ createSlotOrder(String shopName){
   addCartService() {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<CartProvider>(context, listen: false);
-
-      var body =
-      {
-        "subServiceId":widget.subServiceId,
-        "quantity":1,
-      };
-      provider.addCart(
-        context: context,
-        body: body,
-      ).then((value) {
-        if (value) {
-          Navigator.pop(context);
-        }
+      var dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      List<Map<String,dynamic>> bookingDetailsForCartScreen=[];
+      int flag1= 0;
+      dashboardProvider.slotList.forEach((element) {
+        element.slots?.forEach((e) {
+          if(e.isChecked== true){
+            flag1=1;
+            /*bookingDetailsForCartScreen.add({
+              "startTime": e.start,
+              "endTime":e.end,
+              "employeeId":element.employId,
+              "shopId": shopName
+            });*/
+          }
+        });
       });
+      if(flag1==1){
+        var body =
+        {
+          "subServiceId":widget.subServiceId,
+          "quantity":1,
+          //"bookingDetailsForCartScreen":bookingDetailsForCartScreen
+        };
+        provider.addCart(
+          context: context,
+          body: body,
+        ).then((value) {
+          if (value) {
+            Navigator.pop(context);
+          }
+        });
+      }else{
+        showToast('Please select slot.');
+      }
     });
   }
   cartDeatils() {

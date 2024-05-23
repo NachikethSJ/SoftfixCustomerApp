@@ -165,8 +165,8 @@ class _SearchScreenState extends State<SearchScreen>
           'serviceTypeId': "1",
           'minOffer':int.tryParse(offerLabels.start),
           'maxOffer':int.tryParse(offerLabels.end),
-          'minPrice': minPriceController.text,
-          'maxPrice': maxPriceController.text,
+          'minPrice': minPriceController.text.toString(),
+          'maxPrice': maxPriceController.text.toString(),
           'minDistance': int.tryParse(rangeLabels.start),
           'maxDistance': int.tryParse(rangeLabels.end),
           'minRating': int.tryParse(ratingLabels.start),
@@ -1369,7 +1369,7 @@ class _SearchScreenState extends State<SearchScreen>
                                 });
                                 Navigator.of(context, rootNavigator: true)
                                     .pop();
-                                //_getNearByData();
+                                _getNearByData();
                               },
                               title: texts.reset,
                               color: appColors.appGreen,

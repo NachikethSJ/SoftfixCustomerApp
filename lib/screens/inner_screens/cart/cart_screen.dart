@@ -232,8 +232,9 @@ class _CartScreenState extends State<CartScreen> {
                                           GestureDetector(
                                             onTap: () {
                                               showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
+                                              ///directPaymentScreenOpenKaranaHai
                                             },
-                                            child: Container(
+                                             child: Container(
                                               padding: EdgeInsets.all(10),
                                               //width: 100,
                                               //height: 35,
