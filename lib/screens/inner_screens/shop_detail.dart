@@ -404,9 +404,10 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                     wrapAlignment: WrapAlignment.start,
                                     itemSize: 14,
                                     initialRating: provider
-                                        .nearByShopServicesList[index]
-                                        .subServices?[0]
-                                        .rating??0,
+                                            .nearByShopServicesList[index]
+                                            .subServices?[0]
+                                            .rating ??
+                                        0,
                                     minRating: 2,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -693,7 +694,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                       const SizedBox(
                         width: 16,
                       ),
-                      /*Row(
+                      Row(
                         children: [
                           Icon(
                             Icons.location_on,
@@ -702,14 +703,14 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                           const SizedBox(
                             width: 6,
                           ),
-                         */ /* appText(
+                           appText(
                             title:
                             '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                          )*/ /*
+                          )
                         ],
-                      )*/
+                      )
                     ],
                   ),
                 )

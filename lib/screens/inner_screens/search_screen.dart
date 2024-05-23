@@ -1353,8 +1353,7 @@ class _SearchScreenState extends State<SearchScreen>
                               onPressed: () {
                                 setState(() {
                                   // Reset values here.......
-
-                                  ///PriceValue Reset
+                                  ///PriceRangeValue
                                  /* values = RangeValues(1, 1);
                                   labels = RangeLabels('0', '0');*/
                                   minPriceController.text="";

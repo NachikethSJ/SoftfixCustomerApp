@@ -39,22 +39,24 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
             'lat': latitude,
             'lng': longitude,
             'serviceTypeId': "1",
-            'minOffer': 1,
+            'minOffer': 0,
             'maxOffer': 100,
-            'minPrice': 1,
-            'maxPrice': 5000,
-            'minDistance': 1,
+            'minPrice': 0,
+            'maxPrice': 50000,
+            'minDistance': 0,
             'maxDistance': 40,
             'search': '',
+            'minRating': 0,
+            'maxRating': 5,
 
             'personType': index == 0
                 ? ''
                 : index == 1
-                ? '0'
+                ? '1'
                 : index == 2
-                ?' 1'
-                : index == 3
                 ? '2'
+                : index == 3
+                ? '3'
                 : '',
           };
           provider.getShopList(
