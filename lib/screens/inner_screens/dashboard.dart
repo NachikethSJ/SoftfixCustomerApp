@@ -370,9 +370,13 @@ class _DashboardState extends State<Dashboard>
                         print("kfhjksyhfkjsdf $i");
                         if (index == 0) {
                           selectedIndex = "1";
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> ServiceAtHomeScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ServiceAtHomeScreen()));
                         } else {
-                          selectedIndex = "2";}
+                          selectedIndex = "2";
+                        }
                         index = i;
                         _getNearByData();
                       });
@@ -471,7 +475,7 @@ class _DashboardState extends State<Dashboard>
             ),
             Expanded(
                 child: SingleChildScrollView(
-                child: Padding(
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -521,7 +525,8 @@ class _DashboardState extends State<Dashboard>
                               width: 14,
                             );
                           },
-                          itemCount: subService.length>10?10:subService.length,
+                          itemCount:
+                              subService.length > 10 ? 10 : subService.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -561,23 +566,22 @@ class _DashboardState extends State<Dashboard>
                                                   BorderRadius.circular(5),
                                               child: FadeInImage.assetNetwork(
                                                 placeholder:
-                                                'assets/images/placeholder.png', // Path to placeholder image
-                                                image:  subService[index]
-                                                    .image
-                                                    ?.first ??
+                                                    'assets/images/placeholder.png', // Path to placeholder image
+                                                image: subService[index]
+                                                        .image
+                                                        ?.first ??
                                                     '',
                                                 fit: BoxFit.cover,
                                                 width: 90,
                                                 height: 90,
-                                                imageErrorBuilder:
-                                                    (context, error, stackTrace) {
+                                                imageErrorBuilder: (context,
+                                                    error, stackTrace) {
                                                   // Custom image error builder
                                                   return Image.network(
                                                       subService[index]
-                                                          .image
-                                                          ?.first ??
-                                                          ''
-                                                  );
+                                                              .image
+                                                              ?.first ??
+                                                          '');
                                                 },
                                               ),
                                               /*Image.network(
@@ -589,23 +593,28 @@ class _DashboardState extends State<Dashboard>
                                               ),*/
                                             ),
                                           ),
-                                          subService[index].offer!=null?
-                                          Container(
-                                            height: 25,
-                                            width: 50,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.blue,
-                                              borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(8)),
-                                            ),
-                                            child: Center(
-                                                child: appText(
-                                              title:
-                                                  '${subService[index].offer}% OFF',
-                                              color: appColors.appWhite,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                          ):SizedBox(),
+                                          subService[index].offer != null
+                                              ? Container(
+                                                  height: 25,
+                                                  width: 50,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Colors.blue,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    8)),
+                                                  ),
+                                                  child: Center(
+                                                      child: appText(
+                                                    title:
+                                                        '${subService[index].offer}% OFF',
+                                                    color: appColors.appWhite,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                                )
+                                              : SizedBox(),
                                         ],
                                       ),
                                       const SizedBox(
@@ -693,11 +702,11 @@ class _DashboardState extends State<Dashboard>
                     //Slider.........
                     Consumer<DashboardProvider>(
                       builder: (context, provider, child) {
-                        if(provider.showLoader){
+                        if (provider.showLoader) {
                           return const CircularProgressIndicator();
                         }
                         return DynamicPageView(
-                          imagePaths:provider.imageList,
+                          imagePaths: provider.imageList,
                           // const [
                           //   "assets/images/ban1.jpg",
                           //   "assets/images/ban2.jpg",
@@ -705,7 +714,8 @@ class _DashboardState extends State<Dashboard>
                           //   "assets/images/ban4.jpg",
                           // ],
                           indicatorColor: Colors.teal,
-                          activeIndicatorColor: appColors.appColor, lat: latitude, lang: longitude,
+                          activeIndicatorColor: appColors.appColor,
+                          lat: latitude, lang: longitude,
                         );
                       },
                     ),
@@ -1110,19 +1120,19 @@ class _DashboardState extends State<Dashboard>
                       borderRadius: BorderRadius.circular(0),
                       child: FadeInImage.assetNetwork(
                         placeholder:
-                        'assets/images/placeholder.png', // Path to placeholder image
+                            'assets/images/placeholder.png', // Path to placeholder image
                         image: shopsData[index].imageUrl?[0] ?? '',
                         fit: BoxFit.cover,
                         width: 90,
                         height: 90,
-                        imageErrorBuilder:
-                            (context, error, stackTrace) {
+                        imageErrorBuilder: (context, error, stackTrace) {
                           // Custom image error builder
                           return Image.network(
-                              shopsData[index].imageUrl?[0] ?? ''
-                          );
+                              shopsData[index].imageUrl?[0] ?? '');
                         },
-                      ),///placeholderImagePath
+                      ),
+
+                      ///placeholderImagePath
                       /*Image.network(
                         shopsData[index].imageUrl?[0] ?? '',
                         fit: BoxFit.fill,
@@ -1149,18 +1159,16 @@ class _DashboardState extends State<Dashboard>
                                       40, shopsData[index].description ?? ""),
                                   fontSize: 14,
                                   color: Colors.grey.shade600,
-                                  textOverflow: TextOverflow.ellipsis
-                              ),
+                                  textOverflow: TextOverflow.ellipsis),
                               Spacer(),
-                              Icon(Icons.star,
-                              color: Colors.amber,
-                              size: 18,
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 18,
                               ),
-                              appText(title: '${shopsData[index].rating}'
-                              )
+                              appText(title: '${shopsData[index].rating}')
                             ],
                           ),
-
                           const SizedBox(
                             height: 5,
                           ),
@@ -1274,7 +1282,7 @@ class _DashboardState extends State<Dashboard>
                   data: provider.membershipList[index],
                   lat: latitude.toInt(),
                   lang: longitude.toInt(),
-                  memberid:provider.membershipList[index].id ,
+                  memberid: provider.membershipList[index].id,
                 ),
               );
             },
@@ -1378,9 +1386,8 @@ class _DashboardState extends State<Dashboard>
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.network(
-                                      "${provider.membershipList[index].image}"
-                                    );
-                                        /*Image.asset(
+                                        "${provider.membershipList[index].image}");
+                                    /*Image.asset(
                                       'assets/images/placeholder.png', // Path to placeholder image
                                       fit: BoxFit.cover,
                                       width: 90,
@@ -1396,21 +1403,23 @@ class _DashboardState extends State<Dashboard>
                     ],
                   ),
                 ),
-                provider.membershipList[index].offer != null?
-                Container(
-                  height: 20,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                  child: Center(
-                      child: appText(
-                    title: '${provider.membershipList[index].offer??"0"}% OFF',
-                    color: appColors.appWhite,
-                    fontWeight: FontWeight.bold,
-                  )),
-                ):SizedBox(),
+                provider.membershipList[index].offer != null
+                    ? Container(
+                        height: 20,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: Center(
+                            child: appText(
+                          title:
+                              '${provider.membershipList[index].offer ?? "0"}% OFF',
+                          color: appColors.appWhite,
+                          fontWeight: FontWeight.bold,
+                        )),
+                      )
+                    : SizedBox(),
                 Positioned(
                   bottom: 10,
                   left: 8,
@@ -1419,7 +1428,9 @@ class _DashboardState extends State<Dashboard>
                       RatingBar.builder(
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
-                        initialRating: provider.membershipList[index].service?.subService?.rating??0,
+                        initialRating: provider.membershipList[index].service
+                                ?.subService?.rating ??
+                            0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -1508,7 +1519,7 @@ class _DashboardState extends State<Dashboard>
                   data: provider.packageList[index],
                   lang: longitude.toInt(),
                   lat: latitude.toInt(),
-                  packageid:provider.packageList[index].id,
+                  packageid: provider.packageList[index].id,
                 ),
               );
             },
@@ -1614,8 +1625,7 @@ class _DashboardState extends State<Dashboard>
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.network(
-                                      "${provider.packageList[index].image}"
-                                    );
+                                        "${provider.packageList[index].image}");
                                   },
                                 ),
                               ),
@@ -1648,7 +1658,9 @@ class _DashboardState extends State<Dashboard>
                       RatingBar.builder(
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
-                        initialRating: provider.packageList[index].service?[0].subServices?[0].rating??0,
+                        initialRating: provider.packageList[index].service?[0]
+                                .subServices?[0].rating ??
+                            0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -1741,6 +1753,7 @@ class _DashboardState extends State<Dashboard>
                     const SizedBox(
                       height: 20,
                     ),
+
                     ///pricefilterhide
                     /*Row(
                       children: [
@@ -1835,7 +1848,6 @@ class _DashboardState extends State<Dashboard>
                             fontSize: 12,
                           ),
                         ),
-
                         Expanded(
                           child: Theme(
                             data: ThemeData(
@@ -1873,7 +1885,6 @@ class _DashboardState extends State<Dashboard>
                             ),
                           ),
                         ),
-
                         appText(
                           title: '40 KM',
                           fontSize: 12,
@@ -1885,8 +1896,8 @@ class _DashboardState extends State<Dashboard>
                       indent: 15,
                       endIndent: 15,
                     ),*/
-                   ///offerfilterhide
-                   /* Row(
+                    ///offerfilterhide
+                    /* Row(
                       children: [
                         SizedBox(
                           width: 60,
@@ -2289,7 +2300,7 @@ class _DashboardState extends State<Dashboard>
                                   ratingValue = value;
                                   // Calculate interval between each division
                                   double interval =
-                                      (ratingValue.end - ratingValue.start) /1;
+                                      (ratingValue.end - ratingValue.start) / 1;
                                   // Update labels with specific intervals
                                   ratingLabels = RangeLabels(
                                     ratingValue.start.toInt().toString(),
@@ -2353,10 +2364,10 @@ class _DashboardState extends State<Dashboard>
                                 setState(() {
                                   // Reset values here.......
                                   ///PriceFilterRange
-                                 /* values = RangeValues(1, 1);
+                                  /* values = RangeValues(1, 1);
                                   labels = RangeLabels('0', '0');*/
                                   ///OfferFilterRange
-                                 /* offerValue = RangeValues(1, 1);
+                                  /* offerValue = RangeValues(1, 1);
                                   offerLabels= RangeValues('0','1');*/
                                   rangeValue = RangeValues(1, 1);
                                   rangeLabels = RangeLabels('0', '40');

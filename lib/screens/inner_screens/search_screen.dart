@@ -27,7 +27,11 @@ class SearchScreen extends StatefulWidget {
   final String personType;
   final double? lang;
   final double? lat;
-  const SearchScreen({required this.personType,required this.lang, required this.lat,super.key});
+  const SearchScreen(
+      {required this.personType,
+      required this.lang,
+      required this.lat,
+      super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -53,10 +57,30 @@ class _SearchScreenState extends State<SearchScreen>
   String? selectedTimeFrom;
   String? selectedTimeTo;
   List<String> timeItems = [
-    '12:00 AM', '01:00 AM', '02:00 AM', '03:00 AM', '04:00 AM', '05:00 AM',
-    '06:00 AM', '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM',
-    '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM',
-    '06:00 PM', '07:00 PM', '08:00 PM', '09:00 PM', '10:00 PM', '11:00 PM',
+    '12:00 AM',
+    '01:00 AM',
+    '02:00 AM',
+    '03:00 AM',
+    '04:00 AM',
+    '05:00 AM',
+    '06:00 AM',
+    '07:00 AM',
+    '08:00 AM',
+    '09:00 AM',
+    '10:00 AM',
+    '11:00 AM',
+    '12:00 PM',
+    '01:00 PM',
+    '02:00 PM',
+    '03:00 PM',
+    '04:00 PM',
+    '05:00 PM',
+    '06:00 PM',
+    '07:00 PM',
+    '08:00 PM',
+    '09:00 PM',
+    '10:00 PM',
+    '11:00 PM',
   ];
 
   Future<void> _selectbookingDate(BuildContext context) async {
@@ -72,6 +96,7 @@ class _SearchScreenState extends State<SearchScreen>
       });
     }
   }
+
   List<String> getSecondContainerItems() {
     if (selectedTimeFrom == null) {
       return timeItems;
@@ -154,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) {
+      (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
           'lat': widget.lat,
@@ -163,8 +188,8 @@ class _SearchScreenState extends State<SearchScreen>
           // "lng": "80.9243877",
           'personType': widget.personType,
           'serviceTypeId': "1",
-          'minOffer':int.tryParse(offerLabels.start),
-          'maxOffer':int.tryParse(offerLabels.end),
+          'minOffer': int.tryParse(offerLabels.start),
+          'maxOffer': int.tryParse(offerLabels.end),
           'minPrice': minPriceController.text.toString(),
           'maxPrice': maxPriceController.text.toString(),
           'minDistance': int.tryParse(rangeLabels.start),
@@ -180,7 +205,7 @@ class _SearchScreenState extends State<SearchScreen>
           context: context,
           body: body,
         );
-          provider.getSearchServiceList(
+        provider.getSearchServiceList(
           context: context,
           body: body,
         );
@@ -201,6 +226,7 @@ class _SearchScreenState extends State<SearchScreen>
     _tabController = TabController(vsync: this, length: 3);
     super.initState();
     _getNearByData();
+    print("PersonType${widget.personType}");
   }
 
   @override
@@ -212,71 +238,94 @@ class _SearchScreenState extends State<SearchScreen>
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          appBar: appBar(context),
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+            title: Row(
+              //mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height*.070,
+                  width: MediaQuery.of(context).size.width*0.5,
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: appColors.appColor),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: SizedBox(
+                      height: 46,
+                      child: TextFormField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: texts.searchShop,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color: appColors.appBlack,
+                          ),
+                          contentPadding: const EdgeInsets.only(
+                              left: 14, right: 14, top: 10, bottom: 10),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            searchController.text = value;
+                          });
+                          _getNearByData();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+               const SizedBox(width: 4),
+                InkWell(
+                  onTap: () {
+                    _showFilter();
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height*.060,
+                    width: MediaQuery.of(context).size.width*0.2,
+                    padding: EdgeInsets.fromLTRB(8,0,8,0),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.yellow),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.badge,
+                          color: appColors.appGray,
+                        ),
+                        const SizedBox(
+                          width: 1,
+                        ),
+                        appText(
+                          color: appColors.appGray,
+                          title: texts.filter,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
             child: Column(
               children: [
-                // Row(
-                //   children: [
-                //     SizedBox(
-                //       width: MediaQuery.of(context).size.width / 2.0,
-                //       child: InkWell(
-                //         onTap: () async {
-                //           await _openMap();
-                //         },
-                //         child: IgnorePointer(
-                //           child: TextField(
-                //             style: const TextStyle(fontSize: 12),
-                //             controller: addressController,
-                //             decoration: InputDecoration(
-                //                 enabledBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                     color: appColors.appColor,
-                //                   ),
-                //                 ),
-                //                 border: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                     color: appColors.appColor,
-                //                   ),
-                //                 ),
-                //                 suffixIcon: Icon(
-                //                   Icons.location_on,
-                //                   color: appColors.appColor,
-                //                 )),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     // FlutterToggleTab(
-                //     //   height: 50,
-                //     //   selectedBackgroundColors: [appColors.appWhite],
-                //     //   unSelectedBackgroundColors: [appColors.appColor],
-                //     //   width: MediaQuery.of(context).size.width / 5.5,
-                //     //   borderRadius: 30,
-                //     //   selectedTextStyle: TextStyle(
-                //     //       color: appColors.appBlack,
-                //     //       fontSize: 10,
-                //     //       fontWeight: FontWeight.w500),
-                //     //   unSelectedTextStyle: TextStyle(
-                //     //       color: Colors.black,
-                //     //       fontSize: 10,
-                //     //       fontWeight: FontWeight.w500),
-                //     //   labels: label,
-                //     //   icons: icon,
-                //     //   selectedIndex: index,
-                //     //   selectedLabelIndex: (i) {
-                //     //     setState(() {
-                //     //       index = i;
-                //     //     });
-                //     //   },
-                //     // ),
-                //   ],
-                // ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
+                /*Row(
                   children: [
                     Expanded(
                       child: Card(
@@ -301,7 +350,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     left: 14, right: 14, top: 14, bottom: 14)),
                             onChanged: (value) {
                               setState(() {
-                                 searchController.text = value;
+                                searchController.text = value;
                               });
                               _getNearByData();
                             },
@@ -309,13 +358,12 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                       ),
                     ),
-
                   ],
-                ),
-                const SizedBox(
+                ),*/
+                /*const SizedBox(
                   height: 4,
-                ),
-                Row(
+                ),*/
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
@@ -350,7 +398,7 @@ class _SearchScreenState extends State<SearchScreen>
                       ),
                     )
                   ],
-                ),
+                ),*/
                 const SizedBox(
                   height: 6,
                 ),
@@ -442,11 +490,10 @@ class _SearchScreenState extends State<SearchScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   appText(
-                    title: '${serviceData[index].shopName}',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black
-                  ),
+                      title: '${serviceData[index].shopName}',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
                   const SizedBox(
                     height: 10,
                   ),
@@ -467,7 +514,8 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${serviceData[index].subService?[0].rating??"2"}',
+                            title:
+                                '${serviceData[index].subService?[0].rating ?? "2"}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -478,16 +526,20 @@ class _SearchScreenState extends State<SearchScreen>
                       ),
                       Row(
                         children: [
-                          Image.asset('assets/images/time_icon1.png',height: 20,width: 20,),
+                          Image.asset(
+                            'assets/images/time_icon1.png',
+                            height: 20,
+                            width: 20,
+                          ),
                           const SizedBox(
                             width: 2,
                           ),
                           appText(
-                            title: '${serviceData[index].subService?[0].timeTaken ?? "30"} Min',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey.shade400
-                          ),
+                              title:
+                                  '${serviceData[index].subService?[0].timeTaken ?? "30"} Min',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey.shade400),
                         ],
                       ),
                       const SizedBox(
@@ -496,11 +548,11 @@ class _SearchScreenState extends State<SearchScreen>
                       Row(
                         children: [
                           appText(
-                            title:'${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, serviceData[index].lat!, serviceData[index].lng!) / 1000).toStringAsFixed(2)}Km',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey.shade400
-                          ),
+                              title:
+                                  '${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, serviceData[index].lat!, serviceData[index].lng!) / 1000).toStringAsFixed(2)}Km',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey.shade400),
                           const SizedBox(
                             width: 2,
                           ),
@@ -524,7 +576,7 @@ class _SearchScreenState extends State<SearchScreen>
                           width: 10,
                         );
                       },
-                      itemCount: serviceData[index].subService?.length??0,
+                      itemCount: serviceData[index].subService?.length ?? 0,
                       itemBuilder: (context, i) {
                         return Card(
                           elevation: 8,
@@ -533,8 +585,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8),
-                            child:
-                            Row(
+                            child: Row(
                               children: [
                                 Stack(
                                   children: [
@@ -544,9 +595,14 @@ class _SearchScreenState extends State<SearchScreen>
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(4),
                                         child: Image.network(
-                                          serviceData[index].subService?[i].image?.first ?? "",
+                                          serviceData[index]
+                                                  .subService?[i]
+                                                  .image
+                                                  ?.first ??
+                                              "",
                                           fit: BoxFit.fill,
-                                          errorBuilder: (context, error, stackTrace) {
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
                                             return Container(
                                               // decoration: BoxDecoration(
                                               //   border: Border.all(color: Colors.grey)
@@ -562,22 +618,28 @@ class _SearchScreenState extends State<SearchScreen>
                                           },
                                         ),
                                       ),
-
                                     ),
-                                    serviceData[index].subService?[i].offer !=null?
-                                    Positioned(
-                                      left: 5,
-                                      bottom: 5,
-                                      child: Container(
-                                        height: 25,
-                                        width: 70,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.blue
-                                        ),
-                                        child:  Center(child: Text("${serviceData[index].subService?[i].offer}% Off",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                                      ),
-                                    )
-                                    :SizedBox(),
+                                    serviceData[index].subService?[i].offer !=
+                                            null
+                                        ? Positioned(
+                                            left: 5,
+                                            bottom: 5,
+                                            child: Container(
+                                              height: 25,
+                                              width: 70,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.blue),
+                                              child: Center(
+                                                  child: Text(
+                                                "${serviceData[index].subService?[i].offer}% Off",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                            ),
+                                          )
+                                        : SizedBox(),
                                   ],
                                 ),
                                 const SizedBox(
@@ -589,10 +651,11 @@ class _SearchScreenState extends State<SearchScreen>
                                       padding: const EdgeInsets.only(right: 20),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           appText(
-                                            title: '${serviceData[index].subService?[i].type ?? ""}',
+                                            title:
+                                                '${serviceData[index].subService?[i].type ?? ""}',
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -601,7 +664,7 @@ class _SearchScreenState extends State<SearchScreen>
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             children: [
                                               const CircleAvatar(
                                                 radius: 8,
@@ -616,7 +679,8 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '${serviceData[index].subService?[i].rating ??"1"}',
+                                                title:
+                                                    '${serviceData[index].subService?[i].rating ?? "1"}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -628,7 +692,8 @@ class _SearchScreenState extends State<SearchScreen>
                                           Row(
                                             children: [
                                               appText(
-                                                title: '₹${calculatePrice(double.parse(serviceData[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
+                                                title:
+                                                    '₹${calculatePrice(double.parse(serviceData[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -636,12 +701,13 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 10,
                                               ),
                                               appText(
-                                                  title: '₹${serviceData[index].subService?[i].price ?? ""}',
+                                                  title:
+                                                      '₹${serviceData[index].subService?[i].price ?? ""}',
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey,
-                                                  textDecoration: TextDecoration.lineThrough
-                                              ),
+                                                  textDecoration: TextDecoration
+                                                      .lineThrough),
                                               const SizedBox(
                                                 width: 10,
                                               ),
@@ -660,7 +726,8 @@ class _SearchScreenState extends State<SearchScreen>
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '${serviceData[index].subService?[i].timeTaken ?? "0"} Min Services',
+                                                title:
+                                                    '${serviceData[index].subService?[i].timeTaken ?? "0"} Min Services',
                                               )
                                             ],
                                           ),
@@ -675,7 +742,12 @@ class _SearchScreenState extends State<SearchScreen>
                                               color: Colors.white,
                                               radius: 4,
                                               onPressed: () {
-                                                showSlotBookingDialog(context,serviceData[index].subService?[0].id??0);
+                                                showSlotBookingDialog(
+                                                    context,
+                                                    serviceData[index]
+                                                            .subService?[0]
+                                                            .id ??
+                                                        0);
                                               },
                                               title: 'Book',
                                               fontSize: 12,
@@ -747,7 +819,7 @@ class _SearchScreenState extends State<SearchScreen>
                     const SizedBox(
                       height: 20,
                     ),
-                   /* Row(
+                    /* Row(
                       children: [
                         SizedBox(
                           width: 50,
@@ -802,27 +874,32 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                       ],
                     ),*/
-                    appText(title: texts.price,
+                    appText(
+                      title: texts.price,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
-                         /* appText(title: texts.minPrice,
+                        /* appText(title: texts.minPrice,
                             fontSize: 12),*/
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         SizedBox(
                           height: 30,
                           width: 100,
                           child: TextField(
                             controller: minPriceController,
                             decoration: InputDecoration(
-                                labelText: 'Min Price',
-                                labelStyle: TextStyle(
-                                  fontSize: 10,
-                                ),
-                                border: OutlineInputBorder(),
+                              labelText: 'Min Price',
+                              labelStyle: TextStyle(
+                                fontSize: 10,
+                              ),
+                              border: OutlineInputBorder(),
                             ),
                           ),
                         ),
@@ -830,7 +907,9 @@ class _SearchScreenState extends State<SearchScreen>
                         /*appText(title: texts.maxPrice,
                         fontSize: 12
                         ),*/
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         SizedBox(
                           height: 30,
                           width: 100,
@@ -871,15 +950,15 @@ class _SearchScreenState extends State<SearchScreen>
                           child: Theme(
                             data: ThemeData(
                                 sliderTheme: SliderThemeData(
-                                  valueIndicatorTextStyle: TextStyle(
-                                    color: appColors.appBlack,
-                                  ),
-                                  thumbColor: appColors.appColor,
-                                  activeTrackColor: appColors.appColor,
-                                  inactiveTrackColor: appColors.appGray,
-                                  valueIndicatorColor: appColors.appColor,
-                                  activeTickMarkColor: appColors.appColor,
-                                )),
+                              valueIndicatorTextStyle: TextStyle(
+                                color: appColors.appBlack,
+                              ),
+                              thumbColor: appColors.appColor,
+                              activeTrackColor: appColors.appColor,
+                              inactiveTrackColor: appColors.appGray,
+                              valueIndicatorColor: appColors.appColor,
+                              activeTickMarkColor: appColors.appColor,
+                            )),
                             child: RangeSlider(
                                 divisions: 5,
                                 min: 1,
@@ -931,15 +1010,15 @@ class _SearchScreenState extends State<SearchScreen>
                           child: Theme(
                             data: ThemeData(
                                 sliderTheme: SliderThemeData(
-                                  valueIndicatorTextStyle: TextStyle(
-                                    color: appColors.appBlack,
-                                  ),
-                                  thumbColor: appColors.appColor,
-                                  activeTrackColor: appColors.appColor,
-                                  inactiveTrackColor: appColors.appGray,
-                                  valueIndicatorColor: appColors.appColor,
-                                  activeTickMarkColor: appColors.appColor,
-                                )),
+                              valueIndicatorTextStyle: TextStyle(
+                                color: appColors.appBlack,
+                              ),
+                              thumbColor: appColors.appColor,
+                              activeTrackColor: appColors.appColor,
+                              inactiveTrackColor: appColors.appGray,
+                              valueIndicatorColor: appColors.appColor,
+                              activeTickMarkColor: appColors.appColor,
+                            )),
                             child: RangeSlider(
                                 divisions: 5,
                                 min: 1,
@@ -1291,7 +1370,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   ratingValue = value;
                                   // Calculate interval between each division
                                   double interval =
-                                      (ratingValue.end - ratingValue.start) /1;
+                                      (ratingValue.end - ratingValue.start) / 1;
                                   // Update labels with specific intervals
                                   ratingLabels = RangeLabels(
                                     ratingValue.start.toInt().toString(),
@@ -1338,7 +1417,8 @@ class _SearchScreenState extends State<SearchScreen>
                             child: AppButton(
                               radius: 12,
                               onPressed: () {
-                                Navigator.of(context,rootNavigator: true).pop();
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
                                 _getNearByData();
                               },
                               title: texts.apply,
@@ -1354,11 +1434,11 @@ class _SearchScreenState extends State<SearchScreen>
                                 setState(() {
                                   // Reset values here.......
                                   ///PriceRangeValue
-                                 /* values = RangeValues(1, 1);
+                                  /* values = RangeValues(1, 1);
                                   labels = RangeLabels('0', '0');*/
-                                  minPriceController.text="";
-                                  maxPriceController.text="";
-                                  offerValue= RangeValues(1, 1);
+                                  minPriceController.text = "";
+                                  maxPriceController.text = "";
+                                  offerValue = RangeValues(1, 1);
                                   // offerLabels= RangeValues('1','1');
                                   rangeValue = RangeValues(1, 1);
                                   rangeLabels = RangeLabels('1', '1');
@@ -1431,8 +1511,8 @@ class _SearchScreenState extends State<SearchScreen>
                 context: context,
                 to: MembershipDetail(
                   data: provider.searchmembershipList[index],
-                  lang: widget.lang?.toInt()??0,
-                  lat: widget.lat?.toInt()??0,
+                  lang: widget.lang?.toInt() ?? 0,
+                  lat: widget.lat?.toInt() ?? 0,
                   memberid: provider.membershipList[index].id,
                 ),
               );
@@ -1443,7 +1523,7 @@ class _SearchScreenState extends State<SearchScreen>
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color:  Colors.yellow),
+                      color: Colors.yellow),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1457,16 +1537,16 @@ class _SearchScreenState extends State<SearchScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               appText(
-                                title: provider
-                                        .searchmembershipList[index].membershipName ??
+                                title: provider.searchmembershipList[index]
+                                        .membershipName ??
                                     '',
                                 fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title: provider
-                                        .searchmembershipList[index].service?.name ??
+                                title: provider.searchmembershipList[index]
+                                        .service?.name ??
                                     '',
                                 color: Colors.black,
                               ),
@@ -1525,12 +1605,16 @@ class _SearchScreenState extends State<SearchScreen>
                             child: CircleAvatar(
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.searchmembershipList[index].image?.first ?? '',
+                                  placeholder:
+                                      'assets/images/placeholder.png', // Path to placeholder image
+                                  image: provider.searchmembershipList[index]
+                                          .image?.first ??
+                                      '',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
-                                  imageErrorBuilder: (context, error, stackTrace) {
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
                                       'assets/images/placeholder.png', // Path to placeholder image
@@ -1545,7 +1629,6 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -1571,7 +1654,9 @@ class _SearchScreenState extends State<SearchScreen>
                       RatingBar.builder(
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
-                        initialRating: provider.searchmembershipList[index].service?.subService?.rating??0,
+                        initialRating: provider.searchmembershipList[index]
+                                .service?.subService?.rating ??
+                            0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -1596,7 +1681,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, provider.searchmembershipList[index].shop!.lat!, provider.searchmembershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, provider.searchmembershipList[index].shop!.lat!, provider.searchmembershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -1657,9 +1742,9 @@ class _SearchScreenState extends State<SearchScreen>
                 context: context,
                 to: PackageDetail(
                   data: provider.searchpackageList[index],
-                  lat: widget.lat?.toInt() ??0,
-                  lang: widget.lang?.toInt() ??0,
-                  packageid:provider.packageList[index].id,
+                  lat: widget.lat?.toInt() ?? 0,
+                  lang: widget.lang?.toInt() ?? 0,
+                  packageid: provider.packageList[index].id,
                 ),
               );
             },
@@ -1669,7 +1754,7 @@ class _SearchScreenState extends State<SearchScreen>
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color:  Colors.yellow),
+                      color: Colors.yellow),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1686,9 +1771,9 @@ class _SearchScreenState extends State<SearchScreen>
                                 height: 10,
                               ),
                               appText(
-                                title:
-                                    provider.searchpackageList[index].packageName ??
-                                        '',
+                                title: provider
+                                        .searchpackageList[index].packageName ??
+                                    '',
                                 fontSize: 20,
                                 // color: appColors.appGray,
                                 color: Colors.black,
@@ -1696,7 +1781,8 @@ class _SearchScreenState extends State<SearchScreen>
                               ),
                               appText(
                                 title: _getServiceName(
-                                    provider.searchpackageList[index].service ?? []),
+                                    provider.searchpackageList[index].service ??
+                                        []),
                                 // color: appColors.appWhite,
                                 color: Colors.black,
                               ),
@@ -1755,16 +1841,19 @@ class _SearchScreenState extends State<SearchScreen>
                             child: CircleAvatar(
                               child: ClipOval(
                                 child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/placeholder.png', // Path to placeholder image
-                                  image: provider.searchpackageList[index].image?.first ?? '',
+                                  placeholder:
+                                      'assets/images/placeholder.png', // Path to placeholder image
+                                  image: provider.searchpackageList[index].image
+                                          ?.first ??
+                                      '',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
-                                  imageErrorBuilder: (context, error, stackTrace) {
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.network(
-                                      "${provider.searchpackageList[index].image}"
-                                    );
+                                        "${provider.searchpackageList[index].image}");
                                   },
                                 ),
                               ),
@@ -1797,7 +1886,9 @@ class _SearchScreenState extends State<SearchScreen>
                       RatingBar.builder(
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
-                        initialRating: provider.searchpackageList[index].service?[0].subServices?[0].rating??0,
+                        initialRating: provider.searchpackageList[index]
+                                .service?[0].subServices?[0].rating ??
+                            "2",
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -1822,7 +1913,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '20 Min • ${(Geolocator.distanceBetween(widget.lat??0, widget.lang??0, provider.searchpackageList[index].shop!.lat!, provider.searchpackageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, provider.searchpackageList[index].shop!.lat!, provider.searchpackageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -1852,11 +1943,14 @@ class _SearchScreenState extends State<SearchScreen>
     }
     return text;
   }
-  void showSlotBookingDialog(BuildContext context,int id) {
+
+  void showSlotBookingDialog(BuildContext context, int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return  SlotBookingDialog(subServiceId: id,);
+        return SlotBookingDialog(
+          subServiceId: id,
+        );
       },
     );
   }

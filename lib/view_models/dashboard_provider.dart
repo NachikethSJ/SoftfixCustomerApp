@@ -709,7 +709,6 @@ class DashboardProvider extends ChangeNotifier {
           _imageList.add(element.imageUrl?[0]?.toString() ?? '');
         }
       });
-
       _setShowLoader(false);
       notifyListeners();
       return true;
