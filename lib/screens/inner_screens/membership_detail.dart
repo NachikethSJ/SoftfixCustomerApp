@@ -334,6 +334,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                                     initialRating: provider.subServiceDetail.subService?.rating??0,
                                                     minRating: 1,
                                                     direction: Axis.horizontal,
+                                                    ignoreGestures: true,
                                                     allowHalfRating: true,
                                                     itemCount: 5,
                                                     itemBuilder: (context, _) =>

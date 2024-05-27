@@ -150,7 +150,6 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       _nearByShopServicesList = res?.data
           .map<NearByShopServicesModel>((e) => NearByShopServicesModel.fromJson(e))
           .toList();
@@ -218,7 +217,6 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       _nearByShopMembershipList = res?.data
           .map<NearByShopMembershipModel>((e) => NearByShopMembershipModel.fromJson(e))
           .toList();
@@ -265,6 +263,7 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
+
   Future<bool> getServiceList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -299,7 +298,6 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   //new
-
   Future<bool> getSearchServiceList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -413,15 +411,19 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      _packageList = res?.data
+      /*_packageList = res?.data
           .map<PackagesModel>((e) => PackagesModel.fromJson(e))
-          .toList();
+          .toList();*/
+        print("=gfhgfhjghfghf==${res?.data}");
+        _packageList = res?.data?.map<PackagesModel>((e) => PackagesModel.fromJson(e))
+            .toList();
+
 
       _setShowLoader(false);
       notifyListeners();
       return true;
     } catch (e) {
-      print("=====Exception=============$e");
+      print("=====Exception====ghfghfg=========$e");
       _setShowLoader(false);
       notifyListeners();
       return false;
@@ -429,7 +431,6 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   //new
-
   Future<bool> getSearchPackagesList({
     required BuildContext context,
     required Map<String, dynamic> body,

@@ -228,7 +228,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {
+            /*onTap: () {
               slideTransition(
                 context: context,
                 to: ShopDetail(
@@ -237,7 +237,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                   shopData: provider.nearShopList[index],
                 ),
               );
-            },
+            },*/
             child: Card(
               elevation: 4,
               // shadowColor: appColors.appColor,
@@ -253,213 +253,246 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // slideTransition(
-                            //   context: context,
-                            //   to: NearSubServicesDetail(
-                            //     data: provider.nearShopList[index],
-                            //   ),
-                            // );
-                            slideTransition(
-                                context: context,
-                                to: SubServiceDetail(
-                                  lat: latitude,
-                                  lng: longitude,
-                                  subServiceid: provider
-                                      .nearByShopServicesList[index]
-                                      .subServices![0]
-                                      .id
-                                      .toString(),
-                                ));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  height: 120,
-                                  width: 130,
-                                  child: Image.network(
-                                    '${provider.nearByShopServicesList[index].subServices?[0].imageurl ?? ""}',
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        color: appColors.appGray100,
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.photo,
-                                            color: appColors.appGray,
-                                          ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:8),
+                      child: appText(
+                        title: provider
+                                .nearByShopServicesList[index].service?.name ??
+                            "",
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      height: 130,
+                      width: double.infinity,
+                      child: ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, childIndex) {
+                          return const SizedBox(
+                            width: 10,
+                          );
+                        },
+                        itemCount: provider.nearByShopServicesList[index]
+                                .subServices?.length ??
+                            0,
+                        itemBuilder: (context, childIndex) {
+                          return Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // slideTransition(
+                                  //   context: context,
+                                  //   to: NearSubServicesDetail(
+                                  //     data: provider.nearShopList[index],
+                                  //   ),
+                                  // );
+                                  slideTransition(
+                                      context: context,
+                                      to: SubServiceDetail(
+                                        lat: latitude,
+                                        lng: longitude,
+                                        subServiceid: provider
+                                            .nearByShopServicesList[index]
+                                            .subServices![childIndex]
+                                            .id
+                                            .toString(),
+                                      ));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Stack(
+                                    children: [
+                                      SizedBox(
+                                        height: 120,
+                                        width: 130,
+                                        child: Image.network(
+                                          '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
+                                          fit: BoxFit.fill,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return Container(
+                                              color: appColors.appGray100,
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.photo,
+                                                  color: appColors.appGray,
+                                                ),
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
+                                      ),
+                                      provider
+                                                  .nearByShopServicesList[index]
+                                                  .subServices?[childIndex]
+                                                  .offer !=
+                                              null
+                                          ? Positioned(
+                                              left: 0,
+                                              bottom: 0,
+                                              child: Container(
+                                                height: 25,
+                                                width: 70,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.blue),
+                                                child: Center(
+                                                    child: Text(
+                                                  "${provider.nearByShopServicesList[index].subServices?[childIndex].offer}% Off",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                    ],
                                   ),
                                 ),
-                                provider.nearByShopServicesList[index]
-                                            .subServices?[0].offer !=
-                                        null
-                                    ? Positioned(
-                                        left: 0,
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 25,
-                                          width: 70,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.blue),
-                                          child: Center(
-                                              child: Text(
-                                            "${provider.nearByShopServicesList[index].subServices?[0].offer}% Off",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              appText(
-                                title: provider.nearByShopServicesList[index]
-                                        .service?.name ??
-                                    "",
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
                               ),
                               const SizedBox(
-                                height: 2,
+                                width: 20,
                               ),
-                              appText(
-                                title: provider.nearByShopServicesList[index]
-                                        .subServices?[0].type ??
-                                    "",
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.lightbulb,
-                                    color: appColors.appBlue,
-                                  ),
-                                  const SizedBox(
-                                    width: 2,
-                                  ),
-                                  appText(
-                                    title:
-                                        '${provider.nearByShopServicesList[index].subServices?[0].timeTaken ?? "30"} Min Services',
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                children: [
-                                  appText(
-                                    title:
-                                        '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[0].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[0].offer?.toString() ?? '0'))}',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  appText(
-                                      title:
-                                          '₹${provider.nearByShopServicesList[index].subServices?[0].price ?? ""}',
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    appText(
+                                      title: provider
+                                              .nearByShopServicesList[index]
+                                              .subServices?[childIndex]
+                                              .type ??
+                                          "",
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                      textDecoration:
-                                          TextDecoration.lineThrough),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                children: [
-                                  RatingBar.builder(
-                                    wrapAlignment: WrapAlignment.start,
-                                    itemSize: 14,
-                                    initialRating: provider
-                                            .nearByShopServicesList[index]
-                                            .subServices?[0]
-                                            .rating ??
-                                        0,
-                                    minRating: 2,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (value) {},
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showSlotBookingDialog(
-                                          context,
-                                          provider.nearByShopServicesList[index]
-                                                  .subServices?[0].id ??
-                                              0);
-                                    },
-                                    child: SizedBox(
-                                        width: 60,
-                                        height: 30,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              border: Border.all(
-                                                  color: appColors.appColor)),
-                                          child: Center(
-                                              child: Text("Book",
-                                                  style: TextStyle(
-                                                      color:
-                                                          appColors.appColor))),
-                                        )
-                                        // AppButton(
-                                        //   radius: 8,
-                                        //   onPressed: () {
-                                        //     showSlotBookingDialog(context);
-                                        //   },
-                                        //   title: '+ Book',
-                                        //   fontSize: 12,
-                                        // ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.lightbulb,
+                                          color: appColors.appBlue,
                                         ),
-                                  )
-                                ],
-                              ),
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                        appText(
+                                          title:
+                                              '${provider.nearByShopServicesList[index].subServices?[childIndex].timeTaken ?? "30"} Min Services',
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Row(
+                                      children: [
+                                        appText(
+                                          title:
+                                              '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].offer?.toString() ?? '0'))}',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        appText(
+                                            title:
+                                                '₹${provider.nearByShopServicesList[index].subServices?[childIndex].price ?? ""}',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey,
+                                            textDecoration:
+                                                TextDecoration.lineThrough),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          wrapAlignment: WrapAlignment.start,
+                                          itemSize: 14,
+                                          initialRating: provider
+                                                  .nearByShopServicesList[index]
+                                                  .subServices?[childIndex]
+                                                  .rating??0,
+                                          minRating: 2,
+                                          direction: Axis.horizontal,
+                                          ignoreGestures: true,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (value) {},
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showSlotBookingDialog(
+                                                context,
+                                                provider
+                                                        .nearByShopServicesList[
+                                                            index]
+                                                        .subServices?[
+                                                            childIndex]
+                                                        .id ??
+                                                    0);
+                                          },
+                                          child: SizedBox(
+                                              width: 60,
+                                              height: 30,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    border: Border.all(
+                                                        color: appColors
+                                                            .appColor)),
+                                                child: Center(
+                                                    child: Text("Book",
+                                                        style: TextStyle(
+                                                            color: appColors
+                                                                .appColor))),
+                                              )
+                                              // AppButton(
+                                              //   radius: 8,
+                                              //   onPressed: () {
+                                              //     showSlotBookingDialog(context);
+                                              //   },
+                                              //   title: '+ Book',
+                                              //   fontSize: 12,
+                                              // ),
+                                              ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
-                          ),
-                        )
-                      ],
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -683,6 +716,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         initialRating: 4,
                         minRating: 1,
                         direction: Axis.horizontal,
+                        ignoreGestures: true,
                         allowHalfRating: true,
                         itemCount: 5,
                         itemBuilder: (context, _) => const Icon(
@@ -703,9 +737,9 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                           const SizedBox(
                             width: 6,
                           ),
-                           appText(
+                          appText(
                             title:
-                            '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
+                                '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )
@@ -932,6 +966,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
+                        ignoreGestures: true,
                         itemCount: 5,
                         itemBuilder: (context, _) => const Icon(
                           Icons.star,

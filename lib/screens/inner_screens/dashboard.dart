@@ -163,8 +163,8 @@ class _DashboardState extends State<Dashboard>
           'serviceTypeId': "1",
           'minOffer': int.tryParse(offerLabels.start),
           'maxOffer': int.tryParse(offerLabels.end),
-          'minPrice': int.tryParse(labels.start),
-          'maxPrice': int.tryParse(labels.end),
+          'minPrice': "0",
+          'maxPrice': "",
           'minDistance': int.tryParse(rangeLabels.start),
           'maxDistance': int.tryParse(rangeLabels.end),
           'minRating': int.tryParse(ratingLabels.start),
@@ -1700,11 +1700,12 @@ class _DashboardState extends State<Dashboard>
   RangeValues values = const RangeValues(1, 1);
   RangeLabels labels = const RangeLabels('0', "50000");
 
-  RangeValues rangeValue = const RangeValues(1, 1);
-  RangeLabels rangeLabels = const RangeLabels('0', "40");
-
   RangeValues offerValue = const RangeValues(1, 1);
   RangeLabels offerLabels = const RangeLabels("0", "100");
+
+  ///DashboardonlyDistanceAndRatingShowing
+  RangeValues rangeValue = const RangeValues(1, 1);
+  RangeLabels rangeLabels = const RangeLabels('0', "40");
 
   RangeValues ratingValue = const RangeValues(1, 1);
   RangeLabels ratingLabels = const RangeLabels("0", "5");
@@ -1851,7 +1852,7 @@ class _DashboardState extends State<Dashboard>
                             ),
                             child: RangeSlider(
                               divisions: 40,
-                              min: 1,
+                              min: 0,
                               max: 40,
                               values: rangeValue,
                               labels: rangeLabels,
@@ -2279,7 +2280,7 @@ class _DashboardState extends State<Dashboard>
                             ),
                             child: RangeSlider(
                               divisions: 5,
-                              min: 1,
+                              min: 0.0,
                               max: 5,
                               values: ratingValue,
                               labels: ratingLabels,
@@ -2351,14 +2352,16 @@ class _DashboardState extends State<Dashboard>
                               onPressed: () {
                                 setState(() {
                                   // Reset values here.......
-                                  values = RangeValues(1, 1);
-                                  labels = RangeLabels('0', '0');
+                                  ///PriceFilterRange
+                                 /* values = RangeValues(1, 1);
+                                  labels = RangeLabels('0', '0');*/
+                                  ///OfferFilterRange
+                                 /* offerValue = RangeValues(1, 1);
+                                  offerLabels= RangeValues('0','1');*/
                                   rangeValue = RangeValues(1, 1);
-                                  offerValue = RangeValues(1, 1);
-                                  // offerLabels= RangeValues('1','1');
-                                  rangeLabels = RangeLabels('0', '0');
+                                  rangeLabels = RangeLabels('0', '40');
                                   ratingValue = RangeValues(1, 1);
-                                  ratingLabels = RangeLabels('0', '0');
+                                  ratingLabels = RangeLabels('0', '5');
                                   isOffer = false;
                                   isNearest = false;
                                 });

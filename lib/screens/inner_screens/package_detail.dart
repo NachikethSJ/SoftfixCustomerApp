@@ -330,6 +330,7 @@ class _PackageDetailState extends State<PackageDetail> {
                                                     initialRating: provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].rating??0,
                                                     minRating: 1,
                                                     direction: Axis.horizontal,
+                                                    ignoreGestures: true,
                                                     allowHalfRating: true,
                                                     itemCount: 5,
                                                     itemBuilder: (context, _) =>

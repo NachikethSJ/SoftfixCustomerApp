@@ -393,7 +393,7 @@ class _SearchScreenState extends State<SearchScreen>
       ),
     );
   }
-  //Sub_Services show in scrollable pending
+
   _serviceList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
       List<NearServiceModel> serviceData =
@@ -467,7 +467,7 @@ class _SearchScreenState extends State<SearchScreen>
                             width: 2,
                           ),
                           appText(
-                            title: '${serviceData[index].subService?[0].rating ?? "2"}',
+                            title: '${serviceData[index].subService?[0].rating??"2"}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -1358,9 +1358,9 @@ class _SearchScreenState extends State<SearchScreen>
                                   labels = RangeLabels('0', '0');*/
                                   minPriceController.text="";
                                   maxPriceController.text="";
-                                  rangeValue = RangeValues(1, 1);
                                   offerValue= RangeValues(1, 1);
                                   // offerLabels= RangeValues('1','1');
+                                  rangeValue = RangeValues(1, 1);
                                   rangeLabels = RangeLabels('1', '1');
                                   ratingValue = RangeValues(1, 1);
                                   ratingLabels = RangeLabels('1', '1');

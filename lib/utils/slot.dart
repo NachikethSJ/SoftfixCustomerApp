@@ -427,6 +427,7 @@ createSlotOrder(String shopName){
       }
     });
   }
+
   cartDeatils() {
     validateConnectivity(
         context: context,
