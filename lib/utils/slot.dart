@@ -188,10 +188,23 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                         const SizedBox(width: 10),
                                         CircleAvatar(
                                           radius: 20,
-                                          child: Image.network(
+                                          child: FadeInImage.assetNetwork(
+                                            placeholder:
+                                            'assets/images/placeholder.png', // Path to placeholder image
+                                            image: '${provider.slotList[index].image}',
+                                            fit: BoxFit.cover,
+                                            width: 90,
+                                            height: 90,
+                                            imageErrorBuilder: (context, error, stackTrace) {
+                                              // Custom image error builder
+                                              return Image.network(
+                                                '${provider.slotList[index].image}',fit: BoxFit.cover,);
+                                            },
+                                          ),
+                                          /*Image.network(
                                             '${provider.slotList[index].image}',
                                             fit: BoxFit.cover,
-                                          ),
+                                          ),*/
                                         ),
                                       ],
                                     ),
@@ -283,7 +296,6 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                 showToast('No slot available.');
                               }
                             });
-
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -301,12 +313,14 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-
-                            addCartService();
-                            //     .then((value) {
-                            //   cartDeatils();
-                            // });
-                            //Navigator.pop(context);
+                            validateConnectivity(context: context, provider: () {
+                              if(provider.slotList.isNotEmpty){
+                                addCartService(provider.slotList[0].shopId.toString());
+                              }
+                              else{
+                                showToast('No Slots Available');
+                              }
+                            });
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -335,7 +349,6 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
           "subServiceId": widget.subServiceId,
           "date": formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
           "currentTime": formatDateTime(_selectedDate.toString(),'HH:mm'),
-
         };
         provider.getSlotList(
           context: context,
@@ -365,7 +378,6 @@ createSlotOrder(String shopName){
             }
           });
         });
-
         if(flag==1){
           var body = {
             "id": widget.subServiceId,
@@ -388,22 +400,22 @@ createSlotOrder(String shopName){
     },
   );
 }
-  addCartService() {
+  addCartService(String shopName) {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<CartProvider>(context, listen: false);
       var dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
-      List<Map<String,dynamic>> bookingDetailsForCartScreen=[];
+      List<Map<String,dynamic>> bookingDetailsSlotsCart=[];
       int flag1= 0;
       dashboardProvider.slotList.forEach((element) {
         element.slots?.forEach((e) {
           if(e.isChecked== true){
             flag1=1;
-            /*bookingDetailsForCartScreen.add({
+            bookingDetailsSlotsCart.add({
               "startTime": e.start,
               "endTime":e.end,
               "employeeId":element.employId,
               "shopId": shopName
-            });*/
+            });
           }
         });
       });
@@ -412,8 +424,9 @@ createSlotOrder(String shopName){
         {
           "subServiceId":widget.subServiceId,
           "quantity":1,
-          //"bookingDetailsForCartScreen":bookingDetailsForCartScreen
+          "bookingDetailsSlotsCart":bookingDetailsSlotsCart
         };
+        print("=====Request Body===$body");
         provider.addCart(
           context: context,
           body: body,

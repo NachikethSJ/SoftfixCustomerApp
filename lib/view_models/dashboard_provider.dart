@@ -28,6 +28,9 @@ class DashboardProvider extends ChangeNotifier {
   bool _showLoader = false;
   bool get showLoader => _showLoader;
 
+  String _personType='';
+  String get personType=> _personType;
+
   List<NearByShopModel> _nearShopList = [];
   List<NearByShopModel> get nearShopList => _nearShopList;
 
@@ -98,6 +101,11 @@ class DashboardProvider extends ChangeNotifier {
 
   _setShowLoader(bool value) {
     _showLoader = value;
+  }
+
+  setPersonType(String value){
+    _personType=value;
+    notifyListeners();
   }
 
   Future<bool> getShopList({

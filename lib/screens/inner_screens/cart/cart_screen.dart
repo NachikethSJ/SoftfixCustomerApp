@@ -6,8 +6,10 @@ import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 
+import '../../../utils/continue_to_payment.dart';
 import '../../../utils/slot.dart';
 import '../../../utils/validate_connectivity.dart';
+import '../../../utils/validator.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -17,12 +19,32 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
+  DateTime? _selectedDate = DateTime.now();
+
+  Future<void> _showBookingDate(BuildContext context) async {
+    final DateTime currentDate = DateTime.now();
+    final DateTime oneWeekLater = currentDate.add(Duration(days: 7));
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? currentDate,
+      firstDate: currentDate,
+      lastDate: oneWeekLater,
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     cartDeatils();
-
   }
 
   @override
@@ -30,12 +52,11 @@ class _CartScreenState extends State<CartScreen> {
     return Consumer<CartProvider>(
       builder: (context, provider, child) {
         print('Cart item${provider.showCartDetails.length}');
-        if(provider.showLoader){
+        if (provider.showLoader) {
           return Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
-        }
-        else if(provider.showCartDetails.isEmpty){
+        } else if (provider.showCartDetails.isEmpty) {
           return Scaffold(
             appBar: AppBar(
               title: appText(title: "My Cart", fontSize: 18),
@@ -75,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
                   ListView.builder(
                     padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount:provider.showCartDetails.length,
+                    itemCount: provider.showCartDetails.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return InkWell(
@@ -115,16 +136,17 @@ class _CartScreenState extends State<CartScreen> {
                                         child: Stack(
                                           children: [
                                             SizedBox(
-                                              height: 120,
-                                              width: 130,
+                                                height: 120,
+                                                width: 130,
                                                 child: Image.network(
-                                                provider.showCartDetails[index]
-                                                    .image
-                                                    ?.first ??
-                                                    '',
+                                                  provider
+                                                          .showCartDetails[
+                                                              index]
+                                                          .image
+                                                          ?.first ??
+                                                      '',
                                                   fit: BoxFit.fill,
-                                              )
-                                            ),
+                                                )),
                                             Positioned(
                                               left: 0,
                                               bottom: 0,
@@ -157,21 +179,23 @@ class _CartScreenState extends State<CartScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               appText(
-                                                title: "${provider.showCartDetails[index].name}",
+                                                title:
+                                                    "${provider.showCartDetails[index].name}",
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               GestureDetector(
-                                                onTap: (){
-                                                   deleteCartItem(index);
+                                                  onTap: () {
+                                                    deleteCartItem(index);
 
-                                                   //     .then((value){
-                                                   //   cartDeatils();
-                                                   // });
-                                                },
+                                                    //     .then((value){
+                                                    //   cartDeatils();
+                                                    // });
+                                                  },
                                                   child: Icon(Icons.delete))
                                             ],
                                           ),
@@ -179,7 +203,8 @@ class _CartScreenState extends State<CartScreen> {
                                             height: 2,
                                           ),
                                           appText(
-                                            title: '${provider.showCartDetails[index].type}',
+                                            title:
+                                                '${provider.showCartDetails[index].type}',
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.grey,
@@ -197,7 +222,8 @@ class _CartScreenState extends State<CartScreen> {
                                                 width: 2,
                                               ),
                                               appText(
-                                                title: '${provider.showCartDetails[index].time} Min Services',
+                                                title:
+                                                    '${provider.showCartDetails[index].time} Min Services',
                                               )
                                             ],
                                           ),
@@ -207,7 +233,8 @@ class _CartScreenState extends State<CartScreen> {
                                           Row(
                                             children: [
                                               appText(
-                                                title: '₹${calculatePrice(double.parse(provider.showCartDetails[index].price?.toString() ?? '0'), double.parse(provider.showCartDetails[index].offer?.toString() ?? '0'))}',
+                                                title:
+                                                    '₹${calculatePrice(double.parse(provider.showCartDetails[index].price?.toString() ?? '0'), double.parse(provider.showCartDetails[index].offer?.toString() ?? '0'))}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -215,7 +242,8 @@ class _CartScreenState extends State<CartScreen> {
                                                 width: 10,
                                               ),
                                               appText(
-                                                  title: '₹${provider.showCartDetails[index].price}',
+                                                  title:
+                                                      '₹${provider.showCartDetails[index].price}',
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey,
@@ -226,25 +254,38 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(
+                                          SizedBox(
                                             height: 4,
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
-                                              ///directPaymentScreenOpenKaranaHai
+                                              //showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
+                                              ///directPaymentScreenOpen
+                                              var body = {
+                                                          "id": provider.showCartDetails[index].subServiceId,
+                                                          "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+                                                          "bookingDetailsArray":provider.showCartDetails[index].bookingDetailsSlotsCart
+                                                        };
+                                                        print("=====RequestCreateOrderBody===$body");
+                                                        provider.createOrder(
+                                                          context: context,
+                                                          body: body,
+                                                        ).then((value) {
+                                                          if(value){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
+                                                          }
+                                                        });
+                                            // Close the dialog
                                             },
-                                             child: Container(
-                                              padding: EdgeInsets.all(10),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
                                               //width: 100,
                                               //height: 35,
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius
-                                                          .circular(10),
-                                                  color: appColors
-                                                      .appColor),
-                                              child: Text("Continue To Pay"),
+                                                      BorderRadius.circular(10),
+                                                  color: appColors.appColor),
+                                              child: const Text("Continue To Pay"),
                                             ),
                                           ),
                                         ],
@@ -291,11 +332,7 @@ class _CartScreenState extends State<CartScreen> {
           var provider = Provider.of<CartProvider>(context, listen: false);
           provider.deleteToCart(
             context: context,
-            body:
-            {
-              "cartId": provider.showCartDetails[index].cartId
-            },
-
+            body: {"cartId": provider.showCartDetails[index].cartId},
           ).then((value) {
             if (value) {
               cartDeatils();

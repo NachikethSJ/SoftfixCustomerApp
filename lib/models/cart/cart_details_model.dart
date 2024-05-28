@@ -1,8 +1,9 @@
 class CartDetailsModel {
-  dynamic cartId;
-  dynamic subServiceId;
-  dynamic price;
-  dynamic time;
+  int? cartId;
+  List<BookingDetailsSlotsCart>? bookingDetailsSlotsCart;
+  int? subServiceId;
+  int? price;
+  int? time;
   dynamic offer;
   dynamic type;
   dynamic name;
@@ -10,6 +11,7 @@ class CartDetailsModel {
 
   CartDetailsModel(
       {this.cartId,
+        this.bookingDetailsSlotsCart,
         this.subServiceId,
         this.price,
         this.time,
@@ -20,6 +22,12 @@ class CartDetailsModel {
 
   CartDetailsModel.fromJson(Map<String, dynamic> json) {
     cartId = json['cartId'];
+    if (json['bookingDetailsSlotsCart'] != null) {
+      bookingDetailsSlotsCart = <BookingDetailsSlotsCart>[];
+      json['bookingDetailsSlotsCart'].forEach((v) {
+        bookingDetailsSlotsCart!.add(new BookingDetailsSlotsCart.fromJson(v));
+      });
+    }
     subServiceId = json['subServiceId'];
     price = json['price'];
     time = json['time'];
@@ -32,6 +40,10 @@ class CartDetailsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['cartId'] = this.cartId;
+    if (this.bookingDetailsSlotsCart != null) {
+      data['bookingDetailsSlotsCart'] =
+          this.bookingDetailsSlotsCart!.map((v) => v.toJson()).toList();
+    }
     data['subServiceId'] = this.subServiceId;
     data['price'] = this.price;
     data['time'] = this.time;
@@ -39,6 +51,32 @@ class CartDetailsModel {
     data['type'] = this.type;
     data['name'] = this.name;
     data['image'] = this.image;
+    return data;
+  }
+}
+
+class BookingDetailsSlotsCart {
+  dynamic startTime;
+  dynamic endTime;
+  dynamic employeeId;
+  dynamic shopId;
+
+  BookingDetailsSlotsCart(
+      {this.startTime, this.endTime, this.employeeId, this.shopId});
+
+  BookingDetailsSlotsCart.fromJson(Map<String, dynamic> json) {
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    employeeId = json['employeeId'];
+    shopId = json['shopId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['startTime'] = this.startTime;
+    data['endTime'] = this.endTime;
+    data['employeeId'] = this.employeeId;
+    data['shopId'] = this.shopId;
     return data;
   }
 }

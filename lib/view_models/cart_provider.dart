@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_client.dart';
 import '../constants/app_urls.dart';
+import '../models/booking/create_order_model.dart';
 import '../models/cart/cart_details_model.dart';
 import '../models/dashboard_models/get_notification_model.dart';
 import '../models/help_model.dart';
@@ -31,6 +32,9 @@ class CartProvider extends ChangeNotifier {
   List<GetNotificationListModel> _notificationDetail = [];
   List<GetNotificationListModel> get showNotificationDetails => _notificationDetail;
 
+  CreateOrderModel _createOrderSlotForCart = CreateOrderModel();
+  CreateOrderModel get createOrderSlot => _createOrderSlotForCart;
+
   _setShowLoader(bool value) {
     _showLoader = value;
   }
@@ -51,7 +55,6 @@ class CartProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
      showToast(res?.message,isSuccess: true);
       _setShowLoader(false);
       notifyListeners();
@@ -59,7 +62,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       if (e is ServerError) {
         print("=====Exception===${e.message}");
-        // showToast(e.message);
+        showToast(e.message);
       }
       _setShowLoader(false);
       notifyListeners();
@@ -81,7 +84,7 @@ class CartProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      print("============Response====${res?.data}");
+      print("============ResponseSlotsTime===${res?.data}");
       _cartDetail = res?.data
           .map<CartDetailsModel>((e) => CartDetailsModel.fromJson(e))
           .toList();
@@ -214,4 +217,37 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
+
+  ///_createOrderSlotForCart
+  Future<bool> createOrder({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    _createOrderSlotForCart = CreateOrderModel();
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.createOrder,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _createOrderSlotForCart = CreateOrderModel.fromJson(res?.data);
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("=====Exception=============$e");
+      if (e is ServerError) {
+        showToast(e.message);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
 }

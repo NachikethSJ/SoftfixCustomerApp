@@ -50,6 +50,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
   int selectedTabIndex = 0;
   TextEditingController addressController =
       TextEditingController(text: 'Select Location');
+
   @override
   void initState() {
     print('Shop Id======>>>>${widget.shopData.id}');
@@ -61,6 +62,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     _getNearByShopMembership();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +70,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back,
               )),
           title: Row(
@@ -79,7 +81,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
               ),
               Text(
                 "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14),
               ),
             ],
           ),

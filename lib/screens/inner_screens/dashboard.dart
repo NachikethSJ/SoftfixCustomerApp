@@ -169,8 +169,6 @@ class _DashboardState extends State<Dashboard>
           'maxDistance': int.tryParse(rangeLabels.end),
           'minRating': int.tryParse(ratingLabels.start),
           'maxRating': int.tryParse(ratingLabels.end),
-          /*'searchShop': '',
-          'searchService': '',*/
           'search': '',
         };
         provider.getShopList(
@@ -393,49 +391,53 @@ class _DashboardState extends State<Dashboard>
               child: Row(
                 children: [
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        slideTransition(
-                            context: context,
-                            to: SearchScreen(
-                              personType: personType,
-                              lang: longitude,
-                              lat: latitude,
-                            ));
-                      },
-                      child: IgnorePointer(
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: appColors.appColor),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: SizedBox(
-                            height: 46,
-                            child: TextFormField(
-                              controller: searchController,
-                              decoration: InputDecoration(
-                                  hintText: texts.searchShop,
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  suffixIcon: Icon(
-                                    Icons.search,
-                                    color: appColors.appGray,
-                                  ),
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 12,
-                                      right: 12,
-                                      top: 14,
-                                      bottom: 14)),
-                              onChanged: (value) {
-                                setState(() {
-                                  searchController.text = value;
-                                });
-                              },
+                    child: Consumer<DashboardProvider>(
+                      builder: (context, provider, child) {
+                        return InkWell(
+                          onTap: () {
+                            slideTransition(
+                                context: context,
+                                to: SearchScreen(
+                                  personType: provider.personType,
+                                  lang: longitude,
+                                  lat: latitude,
+                                ));
+                          },
+                          child: IgnorePointer(
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: appColors.appColor),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: SizedBox(
+                                height: 46,
+                                child: TextFormField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                      hintText: texts.searchShop,
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      suffixIcon: Icon(
+                                        Icons.search,
+                                        color: appColors.appGray,
+                                      ),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12,
+                                          right: 12,
+                                          top: 14,
+                                          bottom: 14)),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      searchController.text = value;
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(

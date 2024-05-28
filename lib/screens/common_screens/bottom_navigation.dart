@@ -59,6 +59,15 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
                 ? '3'
                 : '',
           };
+          provider.setPersonType(index == 0
+              ? ''
+              : index == 1
+              ? '1'
+              : index == 2
+              ? '2'
+              : index == 3
+              ? '3'
+              : '');
           provider.getShopList(
             context: context,
             body: body,

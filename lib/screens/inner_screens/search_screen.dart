@@ -325,6 +325,7 @@ class _SearchScreenState extends State<SearchScreen>
                 const SizedBox(
                   height: 10,
                 ),
+                ///SearchBoxAndShowFilterCommentedHere
                 /*Row(
                   children: [
                     Expanded(
@@ -477,7 +478,7 @@ class _SearchScreenState extends State<SearchScreen>
             height: 12,
           );
         },
-        itemCount: serviceData.length,
+        itemCount: serviceData.length > 10 ? 10 : serviceData.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(
@@ -1887,8 +1888,7 @@ class _SearchScreenState extends State<SearchScreen>
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
                         initialRating: provider.searchpackageList[index]
-                                .service?[0].subServices?[0].rating ??
-                            "2",
+                                .service?[0].subServices?[0].rating??0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
