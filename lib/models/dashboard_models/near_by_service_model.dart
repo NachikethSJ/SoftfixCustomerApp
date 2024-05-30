@@ -18,6 +18,7 @@ class NearServiceModel {
   String? serviceTypeId;
   dynamic rating;
   List<SubService>? subService;
+  dynamic? distance;
 
   NearServiceModel(
       {this.shopId,
@@ -38,7 +39,8 @@ class NearServiceModel {
         this.userId,
         this.serviceTypeId,
         this.rating,
-        this.subService});
+        this.subService,
+        this.distance});
 
   NearServiceModel.fromJson(Map<String, dynamic> json) {
     shopId = json['shopId'];
@@ -58,13 +60,14 @@ class NearServiceModel {
     serviceName = json['serviceName'];
     userId = json['userId'];
     serviceTypeId = json['serviceTypeId'];
-     rating = json['rating'];
+    rating = json['rating'];
     if (json['SubService'] != null) {
       subService = <SubService>[];
       json['SubService'].forEach((v) {
         subService!.add(new SubService.fromJson(v));
       });
     }
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +93,7 @@ class NearServiceModel {
     if (this.subService != null) {
       data['SubService'] = this.subService!.map((v) => v.toJson()).toList();
     }
+    data['distance'] = this.distance;
     return data;
   }
 }
@@ -105,7 +109,6 @@ class SubService {
   String? details;
   dynamic timeTaken;
   dynamic userId;
-  dynamic rating;
   String? termAndcondition;
   dynamic comment;
   dynamic status;
@@ -121,7 +124,6 @@ class SubService {
         this.details,
         this.timeTaken,
         this.userId,
-        this.rating,
         this.termAndcondition,
         this.comment,
         this.status});
@@ -137,7 +139,6 @@ class SubService {
     details = json['details'];
     timeTaken = json['timeTaken'];
     userId = json['userId'];
-    rating = json['rating'];
     termAndcondition = json['termAndcondition'];
     comment = json['comment'];
     status = json['status'];
@@ -155,7 +156,6 @@ class SubService {
     data['details'] = this.details;
     data['timeTaken'] = this.timeTaken;
     data['userId'] = this.userId;
-    data['rating'] = this.rating;
     data['termAndcondition'] = this.termAndcondition;
     data['comment'] = this.comment;
     data['status'] = this.status;

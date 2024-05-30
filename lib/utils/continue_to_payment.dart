@@ -63,12 +63,18 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(
       builder: (context, provider, child) {
-        return Scaffold(
+        return
+
+
+          Scaffold(
           backgroundColor: Colors.grey.shade100,
           appBar: AppBar(
             title: const Text("Continue to payment"),
           ),
-          body: SingleChildScrollView(
+          body:
+
+
+          SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -424,7 +430,15 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
               ),
             ),
           ),
+
+
+
+
+
         );
+
+
+
       },
     );
   }

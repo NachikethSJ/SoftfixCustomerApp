@@ -400,6 +400,8 @@ createSlotOrder(String shopName){
     },
   );
 }
+
+
   addCartService(String shopName) {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<CartProvider>(context, listen: false);

@@ -241,7 +241,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
               );
             },*/
             child: Card(
-              elevation: 4,
+              elevation: 3,
               // shadowColor: appColors.appColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
@@ -256,7 +256,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:8),
+                      padding: const EdgeInsets.symmetric(horizontal:10),
                       child: appText(
                         title: provider
                                 .nearByShopServicesList[index].service?.name ??
@@ -276,7 +276,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         scrollDirection: Axis.horizontal,
                         separatorBuilder: (context, childIndex) {
                           return const SizedBox(
-                            width: 10,
+                            width: 1,
                           );
                         },
                         itemCount: provider.nearByShopServicesList[index]
@@ -311,8 +311,8 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                   child: Stack(
                                     children: [
                                       SizedBox(
-                                        height: 120,
-                                        width: 130,
+                                        height: 125,
+                                        width: 125,
                                         child: Image.network(
                                           '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
                                           fit: BoxFit.fill,
@@ -359,10 +359,10 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 ),
                               ),
                               const SizedBox(
-                                width: 20,
+                                width: 10,
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.only(right: 8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

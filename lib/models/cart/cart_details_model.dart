@@ -1,9 +1,9 @@
 class CartDetailsModel {
-  int? cartId;
+  dynamic cartId;
   List<BookingDetailsSlotsCart>? bookingDetailsSlotsCart;
-  int? subServiceId;
-  int? price;
-  int? time;
+  dynamic subServiceId;
+  dynamic price;
+  dynamic time;
   dynamic offer;
   dynamic type;
   dynamic name;
@@ -28,7 +28,7 @@ class CartDetailsModel {
         bookingDetailsSlotsCart!.add(new BookingDetailsSlotsCart.fromJson(v));
       });
     }
-    subServiceId = json['subServiceId'];
+    subServiceId = json['subServiceId'].toInt();
     price = json['price'];
     time = json['time'];
     offer = json['offer'];

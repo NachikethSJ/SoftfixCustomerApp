@@ -11,6 +11,7 @@ import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
 import 'package:salon_customer_app/screens/inner_screens/map/map_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
+import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
@@ -238,7 +239,7 @@ class _SearchScreenState extends State<SearchScreen>
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          appBar: AppBar(
+          /* appBar: AppBar(
             leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
@@ -317,14 +318,100 @@ class _SearchScreenState extends State<SearchScreen>
                 ),
               ],
             ),
-          ),
+          ),*/
           body: Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
             child: Column(
               children: [
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
+                Container(
+                  height: 50,
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .070,
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: appColors.appColor),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: SizedBox(
+                            height: 46,
+                            child: TextFormField(
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                hintText: texts.searchShop,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                suffixIcon: Icon(
+                                  Icons.search,
+                                  color: appColors.appBlack,
+                                ),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14, right: 14, top: 10, bottom: 10),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  searchController.text = value;
+                                });
+                                _getNearByData();
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      InkWell(
+                        onTap: () {
+                          _showFilter();
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * .060,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.yellow),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.badge,
+                                color: appColors.appGray,
+                                size: 17,
+                              ),
+                              const SizedBox(
+                                width: 1,
+                              ),
+                              appText(
+                                color: appColors.appGray,
+                                title: texts.filter,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 ///SearchBoxAndShowFilterCommentedHere
                 /*Row(
                   children: [
@@ -486,7 +573,7 @@ class _SearchScreenState extends State<SearchScreen>
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             elevation: 4,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -516,7 +603,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '${serviceData[index].subService?[0].rating ?? "2"}',
+                                '${serviceData[index].rating}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -574,196 +661,228 @@ class _SearchScreenState extends State<SearchScreen>
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) {
                         return const SizedBox(
-                          width: 10,
+                          width: 1,
                         );
                       },
                       itemCount: serviceData[index].subService?.length ?? 0,
                       itemBuilder: (context, i) {
-                        return Card(
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                Stack(
-                                  children: [
-                                    SizedBox(
-                                      height: 120,
-                                      width: 120,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(4),
-                                        child: Image.network(
-                                          serviceData[index]
-                                                  .subService?[i]
-                                                  .image
-                                                  ?.first ??
-                                              "",
-                                          fit: BoxFit.fill,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Container(
-                                              // decoration: BoxDecoration(
-                                              //   border: Border.all(color: Colors.grey)
-                                              // ),
-                                              color: appColors.appGray100,
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons.photo,
-                                                  color: appColors.appGray,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    serviceData[index].subService?[i].offer !=
-                                            null
-                                        ? Positioned(
-                                            left: 5,
-                                            bottom: 5,
-                                            child: Container(
-                                              height: 25,
-                                              width: 70,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.blue),
-                                              child: Center(
-                                                  child: Text(
-                                                "${serviceData[index].subService?[i].offer}% Off",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )),
-                                            ),
-                                          )
-                                        : SizedBox(),
-                                  ],
+                        return Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                slideTransition(
+                                    context: context,
+                                    to: SubServiceDetail(
+                                      lat: widget.lat,
+                                      lng: widget.lang,
+                                      subServiceid: serviceData[index]
+                                          .subService![i]
+                                          .id
+                                          .toString(),
+                                    ));
+                              },
+                              child: Card(
+                                elevation: 8,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Row(
+                                    children: [
+                                      Stack(
                                         children: [
-                                          appText(
-                                            title:
-                                                '${serviceData[index].subService?[i].type ?? ""}',
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          const SizedBox(
-                                            height: 2,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              const CircleAvatar(
-                                                radius: 8,
-                                                backgroundColor: Colors.teal,
-                                                child: Icon(
-                                                  Icons.star,
-                                                  color: Colors.white,
-                                                  size: 12,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 2,
-                                              ),
-                                              appText(
-                                                title:
-                                                    '${serviceData[index].subService?[i].rating ?? "1"}',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
-                                          Row(
-                                            children: [
-                                              appText(
-                                                title:
-                                                    '₹${calculatePrice(double.parse(serviceData[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              appText(
-                                                  title:
-                                                      '₹${serviceData[index].subService?[i].price ?? ""}',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey,
-                                                  textDecoration: TextDecoration
-                                                      .lineThrough),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.lightbulb,
-                                                color: appColors.appBlue,
-                                              ),
-                                              const SizedBox(
-                                                width: 2,
-                                              ),
-                                              appText(
-                                                title:
-                                                    '${serviceData[index].subService?[i].timeTaken ?? "0"} Min Services',
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
                                           SizedBox(
-                                            width: 90,
-                                            height: 34,
-                                            child: AppButton(
-                                              borderColor: appColors.appColor,
-                                              color: Colors.white,
-                                              radius: 4,
-                                              onPressed: () {
-                                                showSlotBookingDialog(
-                                                    context,
-                                                    serviceData[index]
-                                                            .subService?[0]
-                                                            .id ??
-                                                        0);
-                                              },
-                                              title: 'Book',
-                                              fontSize: 12,
-                                              textColor: appColors.appColor,
-                                              fontWeight: FontWeight.w900,
+                                            height: 120,
+                                            width: 120,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              child: Image.network(
+                                                serviceData[index]
+                                                        .subService?[i]
+                                                        .image
+                                                        ?.first ??
+                                                    "",
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Container(
+                                                    // decoration: BoxDecoration(
+                                                    //   border: Border.all(color: Colors.grey)
+                                                    // ),
+                                                    color: appColors.appGray100,
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.photo,
+                                                        color:
+                                                            appColors.appGray,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          serviceData[index]
+                                                      .subService?[i]
+                                                      .offer !=
+                                                  null
+                                              ? Positioned(
+                                                  left: 5,
+                                                  bottom: 5,
+                                                  child: Container(
+                                                    height: 25,
+                                                    width: 70,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color: Colors.blue),
+                                                    child: Center(
+                                                        child: Text(
+                                                      "${serviceData[index].subService?[i].offer}% Off",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                  ),
+                                                )
+                                              : SizedBox(),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                appText(
+                                                  title:
+                                                      '${serviceData[index].subService?[i].type ?? ""}',
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                const SizedBox(
+                                                  height: 2,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    const CircleAvatar(
+                                                      radius: 8,
+                                                      backgroundColor:
+                                                          Colors.teal,
+                                                      child: Icon(
+                                                        Icons.star,
+                                                        color: Colors.white,
+                                                        size: 12,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    appText(
+                                                      title:
+                                                          '${serviceData[index].rating}',
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    appText(
+                                                      title:
+                                                          '₹${calculatePrice(double.parse(serviceData[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    appText(
+                                                        title:
+                                                            '₹${serviceData[index].subService?[i].price ?? ""}',
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey,
+                                                        textDecoration:
+                                                            TextDecoration
+                                                                .lineThrough),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.lightbulb,
+                                                      color: appColors.appBlue,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    appText(
+                                                      title:
+                                                          '${serviceData[index].subService?[i].timeTaken ?? "0"} Min Services',
+                                                    )
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                SizedBox(
+                                                  width: 90,
+                                                  height: 34,
+                                                  child: AppButton(
+                                                    borderColor:
+                                                        appColors.appColor,
+                                                    color: Colors.white,
+                                                    radius: 4,
+                                                    onPressed: () {
+                                                      showSlotBookingDialog(
+                                                          context,
+                                                          serviceData[index]
+                                                                  .subService?[
+                                                                      0]
+                                                                  .id ??
+                                                              0);
+                                                    },
+                                                    title: 'Book',
+                                                    fontSize: 12,
+                                                    textColor:
+                                                        appColors.appColor,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           )
                                         ],
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         );
                       },
                     ),
@@ -892,7 +1011,8 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                         SizedBox(
                           height: 30,
-                          width: 100,
+                          width: 150,
+                          //padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
                           child: TextField(
                             controller: minPriceController,
                             decoration: InputDecoration(
@@ -900,8 +1020,11 @@ class _SearchScreenState extends State<SearchScreen>
                               labelStyle: TextStyle(
                                 fontSize: 10,
                               ),
+                              contentPadding: EdgeInsets.all(20),
                               border: OutlineInputBorder(),
                             ),
+                            keyboardType: TextInputType.number,
+                            cursorHeight: 17,
                           ),
                         ),
                         Spacer(),
@@ -913,16 +1036,19 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                         SizedBox(
                           height: 30,
-                          width: 100,
+                          width: 150,
                           child: TextField(
+                            keyboardType: TextInputType.number,
                             controller: maxPriceController,
                             decoration: InputDecoration(
                               labelText: 'Max Price',
                               labelStyle: TextStyle(
                                 fontSize: 10,
                               ),
+                              contentPadding: EdgeInsets.all(20),
                               border: OutlineInputBorder(),
                             ),
+                            cursorHeight: 17,
                           ),
                         ),
                       ],
@@ -1512,8 +1638,8 @@ class _SearchScreenState extends State<SearchScreen>
                 context: context,
                 to: MembershipDetail(
                   data: provider.searchmembershipList[index],
-                  lang: widget.lang?.toInt() ?? 0,
-                  lat: widget.lat?.toInt() ?? 0,
+                  lang: widget.lang,
+                  lat: widget.lat,
                   memberid: provider.membershipList[index].id,
                 ),
               );
@@ -1740,14 +1866,13 @@ class _SearchScreenState extends State<SearchScreen>
           return InkWell(
             onTap: () {
               slideTransition(
-                context: context,
-                to: PackageDetail(
-                  data: provider.searchpackageList[index],
-                  lat: widget.lat?.toInt() ?? 0,
-                  lang: widget.lang?.toInt() ?? 0,
-                  packageid: provider.packageList[index].id,
-                ),
-              );
+                  context: context,
+                  to: PackageDetail(
+                    data: provider.searchpackageList[index],
+                    lat: widget.lat,
+                    lang: widget.lang,
+                    packageid: provider.searchpackageList[index].id,
+                  ));
             },
             child: Stack(
               alignment: Alignment.topLeft,
@@ -1888,7 +2013,8 @@ class _SearchScreenState extends State<SearchScreen>
                         wrapAlignment: WrapAlignment.start,
                         itemSize: 16,
                         initialRating: provider.searchpackageList[index]
-                                .service?[0].subServices?[0].rating??0,
+                                .service?[0].subServices?[0].rating ??
+                            0,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,

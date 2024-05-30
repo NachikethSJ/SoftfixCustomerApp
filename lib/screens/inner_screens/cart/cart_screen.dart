@@ -19,7 +19,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   DateTime? _selectedDate = DateTime.now();
 
   Future<void> _showBookingDate(BuildContext context) async {
@@ -259,23 +258,50 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
+                                              List<Map<String, dynamic>>
+                                                  bookingDetailsSlotsCarts = [];
+                                              bookingDetailsSlotsCarts.add({
+                                                "startTime": provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime,
+                                                "endTime":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime,
+                                                "employeeId":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].employeeId,
+                                                "shopId":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].shopId,
+                                              });
                                               //showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
                                               ///directPaymentScreenOpen
                                               var body = {
-                                                          "id": provider.showCartDetails[index].subServiceId,
-                                                          "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
-                                                          "bookingDetailsArray":provider.showCartDetails[index].bookingDetailsSlotsCart
-                                                        };
-                                                        print("=====RequestCreateOrderBody===$body");
-                                                        provider.createOrder(
-                                                          context: context,
-                                                          body: body,
-                                                        ).then((value) {
-                                                          if(value){
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
-                                                          }
-                                                        });
-                                            // Close the dialog
+                                                "id": provider
+                                                    .showCartDetails[index]
+                                                    .subServiceId,
+                                                "date": formatDateTime(
+                                                    _selectedDate.toString(),
+                                                    'yyyy-MM-dd'),
+                                                "bookingDetailsArray":bookingDetailsSlotsCarts
+                                              };
+                                              print(
+                                                  "=====RequestCreateOrderBody===$body");
+                                              provider
+                                                  .createOrder(
+                                                context: context,
+                                                body: body,
+                                              )
+                                                  .then((value) {
+                                                if (value) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PaymentContinueScreen(
+                                                                date: formatDateTime(
+                                                                    _selectedDate
+                                                                        .toString(),
+                                                                    'yyyy-MM-dd'),
+                                                                ordrId: provider
+                                                                    .createOrderSlot
+                                                                    .orderId,
+                                                              ))); // Close the dialog
+                                                }
+                                              });
+                                              // Close the dialog
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(10),
@@ -285,7 +311,8 @@ class _CartScreenState extends State<CartScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   color: appColors.appColor),
-                                              child: const Text("Continue To Pay"),
+                                              child:
+                                                  const Text("Continue To Pay"),
                                             ),
                                           ),
                                         ],
@@ -357,4 +384,47 @@ class _CartScreenState extends State<CartScreen> {
     double d = double.tryParse(discount.toString()) ?? 0;
     return (p * (100 - d) / 100).toStringAsFixed(0);
   }
+
+  // createSlotOrder(String shopName){
+  //   WidgetsBinding.instance.addPostFrameCallback(
+  //         (timeStamp) {
+  //       validateConnectivity(context: context, provider: (){
+  //         var provider = Provider.of<DashboardProvider>(context, listen: false);
+  //         List<Map<String,dynamic>> bookingDetailsArray=[];
+  //         int flag=0;
+  //         provider.slotList.forEach((element) {
+  //           element.slots?.forEach((e) {
+  //             if(e.isChecked==true){
+  //               flag=1;
+  //               bookingDetailsArray.add({
+  //                 "startTime":e.start,
+  //                 "endTime":e.end,
+  //                 "employeeId":element.employId,
+  //                 "shopId":shopName
+  //               });
+  //             }
+  //           });
+  //         });
+  //         if(flag==1){
+  //           var body = {
+  //             "id": widget.subServiceId,
+  //             "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
+  //             "bookingDetailsArray":bookingDetailsArray
+  //           };
+  //           print("=====Request Body===$body");
+  //           provider.createOrder(
+  //             context: context,
+  //             body: body,
+  //           ).then((value) {
+  //             if(value){
+  //               Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
+  //             }
+  //           });
+  //         }else{
+  //           showToast('Please select slot.');
+  //         }
+  //       });
+  //     },
+  //   );
+  // }
 }
