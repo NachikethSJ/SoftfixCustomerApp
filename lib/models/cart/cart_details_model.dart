@@ -8,6 +8,7 @@ class CartDetailsModel {
   dynamic type;
   dynamic name;
   List<dynamic>? image;
+  bool? isLoading;
 
   CartDetailsModel(
       {this.cartId,
@@ -18,9 +19,10 @@ class CartDetailsModel {
         this.offer,
         this.type,
         this.name,
-        this.image});
+        this.image,this.isLoading});
 
   CartDetailsModel.fromJson(Map<String, dynamic> json) {
+    isLoading=false;
     cartId = json['cartId'];
     if (json['bookingDetailsSlotsCart'] != null) {
       bookingDetailsSlotsCart = <BookingDetailsSlotsCart>[];

@@ -41,6 +41,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     slotOrderDetail();
     var data =
         Provider.of<DashboardProvider>(context, listen: false).createOrderSlot;
+
     print("===Payment Session===${data.paymentSessionId}");
     CashFreepayment(
             paymentSessionId: data.paymentSessionId ?? '',
@@ -52,7 +53,6 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SuccessScreen(orderbookingId: orderbookingId,)));
       });
-
       print("=======Success====$p0");
     }, (p0, p1) {
       print("=======failed====$p0");
@@ -64,16 +64,12 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
     return Consumer<DashboardProvider>(
       builder: (context, provider, child) {
         return
-
-
           Scaffold(
           backgroundColor: Colors.grey.shade100,
           appBar: AppBar(
             title: const Text("Continue to payment"),
           ),
           body:
-
-
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -430,15 +426,7 @@ class _PaymentContinueScreenState extends State<PaymentContinueScreen> {
               ),
             ),
           ),
-
-
-
-
-
         );
-
-
-
       },
     );
   }

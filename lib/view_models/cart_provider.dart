@@ -223,7 +223,7 @@ class CartProvider extends ChangeNotifier {
     required BuildContext context,
     required Map<String, dynamic> body,
   }) async {
-    _setShowLoader(true);
+    // _setShowLoader(true);
     _createOrderSlotForCart = CreateOrderModel();
     notifyListeners();
     try {

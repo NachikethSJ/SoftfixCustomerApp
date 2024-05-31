@@ -36,11 +36,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                         color: appColors.appColor
                       ),
-                      child: Text("hi${provider.showNotificationDetails[index].title}"),
+                      child: Column(
+                        children: [
+                          Image.asset('assets/images/booking.png',
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.fill,
+                          ),
+                          Text("hi${provider.showNotificationDetails[index].title}"),
+                        ],
+                      ),
                     ),
                   );
                   })

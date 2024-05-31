@@ -366,14 +366,17 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    appText(
-                                      title: provider
-                                              .nearByShopServicesList[index]
-                                              .subServices?[childIndex]
-                                              .type ??
-                                          "",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                    Container(
+                                      width:120,
+                                      child: appText(
+                                        title: provider
+                                                .nearByShopServicesList[index]
+                                                .subServices?[childIndex]
+                                                .type ??
+                                            "",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 2,

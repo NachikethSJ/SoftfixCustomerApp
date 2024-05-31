@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/accounts/get_booking_details_model.dart';
 import '../models/booking/booking_slot_details.dart';
 import '../models/booking/create_order_model.dart';
+import '../models/cart/cart_details_model.dart';
 import '../models/common_models/response_model.dart';
 import '../models/common_models/server_error.dart';
 import '../models/dashboard_models/latest_update_model.dart';
@@ -98,6 +99,7 @@ class DashboardProvider extends ChangeNotifier {
 
   List<String> _imageList = [];
   List<String> get imageList => _imageList;
+
 
   _setShowLoader(bool value) {
     _showLoader = value;

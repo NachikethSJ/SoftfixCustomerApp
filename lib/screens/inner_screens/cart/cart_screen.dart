@@ -5,6 +5,7 @@ import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
+import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
 import '../../../utils/continue_to_payment.dart';
 import '../../../utils/slot.dart';
@@ -261,10 +262,22 @@ class _CartScreenState extends State<CartScreen> {
                                               List<Map<String, dynamic>>
                                                   bookingDetailsSlotsCarts = [];
                                               bookingDetailsSlotsCarts.add({
-                                                "startTime": provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime,
-                                                "endTime":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime,
-                                                "employeeId":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].employeeId,
-                                                "shopId":  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].shopId,
+                                                "startTime": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .startTime,
+                                                "endTime": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .endTime,
+                                                "employeeId": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .employeeId,
+                                                "shopId": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .shopId,
                                               });
                                               //showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
                                               ///directPaymentScreenOpen
@@ -275,16 +288,30 @@ class _CartScreenState extends State<CartScreen> {
                                                 "date": formatDateTime(
                                                     _selectedDate.toString(),
                                                     'yyyy-MM-dd'),
-                                                "bookingDetailsArray":bookingDetailsSlotsCarts
+                                                "bookingDetailsArray":
+                                                    bookingDetailsSlotsCarts
                                               };
                                               print(
                                                   "=====RequestCreateOrderBody===$body");
-                                              provider
+                                              setState(() {
+                                                provider.showCartDetails[index]
+                                                    .isLoading = true;
+                                              });
+                                              var dashboardProvider = Provider
+                                                  .of<DashboardProvider>(
+                                                      context,
+                                                      listen: false);
+                                              dashboardProvider
                                                   .createOrder(
                                                 context: context,
                                                 body: body,
                                               )
                                                   .then((value) {
+                                                setState(() {
+                                                  provider
+                                                      .showCartDetails[index]
+                                                      .isLoading = false;
+                                                });
                                                 if (value) {
                                                   Navigator.push(
                                                       context,
@@ -295,10 +322,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                     _selectedDate
                                                                         .toString(),
                                                                     'yyyy-MM-dd'),
-                                                                ordrId: provider
+                                                                ordrId: dashboardProvider
                                                                     .createOrderSlot
                                                                     .orderId,
-                                                              ))); // Close the dialog
+                                                              )));// Close the dialog
                                                 }
                                               });
                                               // Close the dialog
@@ -311,8 +338,19 @@ class _CartScreenState extends State<CartScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   color: appColors.appColor),
-                                              child:
-                                                  const Text("Continue To Pay"),
+                                              child: provider
+                                                          .showCartDetails[
+                                                              index]
+                                                          .isLoading ==
+                                                      true
+                                                  ? Center(
+                                                      child: SizedBox(
+                                                          height: 20,
+                                                          width: 20,
+                                                          child:
+                                                              const CircularProgressIndicator()))
+                                                  : const Text(
+                                                      "Continue To Pay"),
                                             ),
                                           ),
                                         ],

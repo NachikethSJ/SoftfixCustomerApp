@@ -145,7 +145,7 @@ class _MyBookingState extends State<MyBooking> {
                                                     ),
                                                     appText(
                                                       title:
-                                                          " (Waiting for appoval)",
+                                                          "(Waiting For Approval)",
                                                       fontSize: 10,
                                                       color:
                                                           Colors.orangeAccent,
