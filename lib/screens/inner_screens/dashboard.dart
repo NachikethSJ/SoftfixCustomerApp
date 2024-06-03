@@ -219,7 +219,7 @@ class _DashboardState extends State<Dashboard>
     //   print("on message opened app");
     // });
     super.initState();
-    cartDeatils();
+    cartDetails();
   }
 
   _openMap() async {
@@ -2340,10 +2340,10 @@ class _DashboardState extends State<Dashboard>
                                   ///OfferFilterRange
                                   /* offerValue = RangeValues(1, 1);
                                   offerLabels= RangeValues('0','1');*/
-                                  rangeValue = RangeValues(1, 1);
-                                  rangeLabels = RangeLabels('0', '40');
-                                  ratingValue = RangeValues(1, 1);
-                                  ratingLabels = RangeLabels('0', '5');
+                                  rangeValue    =  const RangeValues(1, 1);
+                                  rangeLabels   = const RangeLabels('0', '40');
+                                  ratingValue   = const RangeValues(1, 1);
+                                  ratingLabels  = const RangeLabels('0', '5');
                                   isOffer = false;
                                   isNearest = false;
                                 });
@@ -2386,7 +2386,7 @@ class _DashboardState extends State<Dashboard>
     );
   }
 
-  cartDeatils() {
+  cartDetails() {
     validateConnectivity(
         context: context,
         provider: () {
@@ -2394,11 +2394,6 @@ class _DashboardState extends State<Dashboard>
           provider.cartDetails(
             context: context,
           );
-          //     .then((value) {
-          //   if (value) {
-          //     Navigator.pop(context);
-          //   }
-          // });
         });
   }
 

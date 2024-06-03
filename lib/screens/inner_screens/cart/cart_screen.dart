@@ -7,10 +7,12 @@ import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 
+import '../../../cache_manager/cache_manager.dart';
 import '../../../utils/continue_to_payment.dart';
 import '../../../utils/slot.dart';
 import '../../../utils/validate_connectivity.dart';
 import '../../../utils/validator.dart';
+import '../sub_service_detail.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -19,8 +21,18 @@ class CartScreen extends StatefulWidget {
   State<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartScreenState extends State<CartScreen>  with CacheManager {
   DateTime? _selectedDate = DateTime.now();
+
+  double latitude = 28.7041;
+  double longitude = 77.1025;
+  Future getLatLongitude() async {
+    var data = await getLatLng();
+    setState(() {
+      latitude = double.tryParse(data.first) ?? 0;
+      longitude = double.tryParse(data.last) ?? 0;
+    });
+  }
 
   Future<void> _showBookingDate(BuildContext context) async {
     final DateTime currentDate = DateTime.now();
@@ -101,18 +113,16 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          // slideTransition(
-                          //   context: context,
-                          //   to: ShopDetail(
-                          //     lat: latitude,
-                          //     lng: longitude,
-                          //     shopData: provider.nearShopList[index],
-                          //   ),
-                          // );
+                          slideTransition(
+                              context: context,
+                              to: SubServiceDetail(
+                                lat: latitude,
+                                lng: longitude,
+                                subServiceid: provider.showCartDetails[index].subServiceId.toString(),
+                              ));
                         },
                         child: Card(
                           elevation: 4,
-                          // shadowColor: appColors.appColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                             side:
@@ -127,7 +137,6 @@ class _CartScreenState extends State<CartScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
                                       onTap: () {},
