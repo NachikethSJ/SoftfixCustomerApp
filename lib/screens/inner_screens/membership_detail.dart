@@ -181,7 +181,6 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {},
@@ -321,7 +320,6 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                                   ),
                                                 ],
                                               ),
-
                                               const SizedBox(
                                                 height: 4,
                                               ),

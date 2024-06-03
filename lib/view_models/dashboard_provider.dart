@@ -125,7 +125,6 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       _nearShopList = res?.data
           .map<NearByShopModel>((e) => NearByShopModel.fromJson(e))
           .toList();
@@ -193,7 +192,6 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       _nearByShopPackagesList = res?.data
           .map<NearByShopPackagesModel>((e) => NearByShopPackagesModel.fromJson(e))
           .toList();
@@ -373,7 +371,6 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   //new
-
   Future<bool> getSearchMembershipList({
     required BuildContext context,
     required Map<String, dynamic> body,
@@ -393,7 +390,6 @@ class DashboardProvider extends ChangeNotifier {
       _searchmembershipList = res?.data
           .map<MembershipModel>((e) => MembershipModel.fromJson(e))
           .toList();
-
       _setShowLoader(false);
       notifyListeners();
       return true;
@@ -421,14 +417,9 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      /*_packageList = res?.data
-          .map<PackagesModel>((e) => PackagesModel.fromJson(e))
-          .toList();*/
         print("=gfhgfhjghfghf==${res?.data}");
         _packageList = res?.data?.map<PackagesModel>((e) => PackagesModel.fromJson(e))
             .toList();
-
-
       _setShowLoader(false);
       notifyListeners();
       return true;

@@ -116,14 +116,10 @@ class CartProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       if (res?.data is List) {
         _deleteCart = (res?.data as List<dynamic>)
             .map<ResponseModel>((e) => ResponseModel.fromJson(e))
             .toList();
-
-        // validateConnectivity(context: context, provider: provider)
-        print("dfhjfghdsgfhsdfsdh");
         showToast(res?.message, isSuccess: true);
       } else {
         _setShowLoader(false);
@@ -161,7 +157,6 @@ class CartProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
       if (res?.data is List) {
         _updateCart = (res?.data as List<dynamic>)
             .map<ResponseModel>((e) => ResponseModel.fromJson(e))
@@ -171,7 +166,7 @@ class CartProvider extends ChangeNotifier {
       } else {
         _setShowLoader(false);
         showToast(res?.message, isSuccess: true);
-// Handle the case where res?.data is not a List
+        // Handle the case where res?.data is not a List
         print('Response data is not a List');
       }
       _setShowLoader(false);
@@ -217,37 +212,4 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-
-  ///_createOrderSlotForCart
-  Future<bool> createOrder({
-    required BuildContext context,
-    required Map<String, dynamic> body,
-  }) async {
-    // _setShowLoader(true);
-    _createOrderSlotForCart = CreateOrderModel();
-    notifyListeners();
-    try {
-      var state = AuthProvider(await SharedPreferences.getInstance());
-      var res = await ApiClient.postApi(
-        url: appUrls.createOrder,
-        body: body,
-        headers: {
-          'Authorization': 'Bearer ${state.userData.token ?? ''}',
-        },
-      );
-      _createOrderSlotForCart = CreateOrderModel.fromJson(res?.data);
-
-      _setShowLoader(false);
-      notifyListeners();
-      return true;
-    } catch (e) {
-      print("=====Exception=============$e");
-      if (e is ServerError) {
-        showToast(e.message);
-      }
-      _setShowLoader(false);
-      notifyListeners();
-      return false;
-    }
-  }
 }

@@ -259,10 +259,10 @@ class _ProfileState extends State<Profile> {
       onTap: () {
         if (navigationData[index]['title'] == texts.myBooking) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyBooking()));
+              context, MaterialPageRoute(builder: (context) => const MyBooking()));
         } else if (navigationData[index]['title'] == texts.history) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HistoryPage()));
+              context, MaterialPageRoute(builder: (context) => const HistoryPage()));
         } else if (navigationData[index]['title'] == texts.help) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HelpPage()));
@@ -271,7 +271,7 @@ class _ProfileState extends State<Profile> {
               MaterialPageRoute(builder: (context) =>const PackageScreen()));
         } else if (navigationData[index]['title'] == texts.membership) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MemberShipspage()));
+              MaterialPageRoute(builder: (context) => const MemberShipspage()));
         }
       },
       child: Padding(

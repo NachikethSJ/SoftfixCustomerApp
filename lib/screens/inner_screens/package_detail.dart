@@ -42,34 +42,33 @@ class _PackageDetailState extends State<PackageDetail> {
   Widget build(BuildContext context) {
     return Consumer<ServicesDetailsProvider>(
       builder: (context, provider, child) {
-      if(provider.showLoader){
-        return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
-      }
-      return Scaffold(
+        if (provider.showLoader) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        return Scaffold(
           appBar: AppBar(
-              leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                  )),
-              title: Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: appColors.appColor,
-                  ),
-                  Text(
-                    "${provider.showPackageDetails.shopName} ",
-                    style: TextStyle(fontSize: 14),
-                  ),
-
-                ],
-              ),
-             ),
+            leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                )),
+            title: Row(
+              children: [
+                Icon(
+                  Icons.location_on,
+                  color: appColors.appColor,
+                ),
+                Text(
+                  "${provider.showPackageDetails.shopName} ",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
           body: Consumer<ServicesDetailsProvider>(
             builder: (context, provider, child) {
               return SingleChildScrollView(
@@ -84,35 +83,32 @@ class _PackageDetailState extends State<PackageDetail> {
                             height: 120,
                             width: double.infinity,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: FadeInImage.assetNetwork(
-                                placeholder:
-                                'assets/images/placeholder.png', // Path to placeholder image
-                                image:   provider.showPackageDetails.imageUrl?[0]??'',
-                                fit: BoxFit.cover,
-                                width: 90,
-                                height: 90,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) {
-                                  // Custom image error builder
-                                  return Image.network(
-                                      provider.showPackageDetails.imageUrl?[0]??''
-                                  );
-                                },
-                              )
-                              /*Image.network(
-                               provider.showPackageDetails.imageUrl?[0]??'',
-                                fit: BoxFit.fill,
-                              ),*/
-                            ),
+                                borderRadius: BorderRadius.circular(4),
+                                child: FadeInImage.assetNetwork(
+                                  placeholder:
+                                      'assets/images/placeholder.png', // Path to placeholder image
+                                  image: provider
+                                          .showPackageDetails.imageUrl?[0] ??
+                                      '',
+                                  fit: BoxFit.cover,
+                                  width: 90,
+                                  height: 90,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    // Custom image error builder
+                                    return Image.network(provider
+                                            .showPackageDetails.imageUrl?[0] ??
+                                        '');
+                                  },
+                                )),
                           ),
                           Positioned(
                             bottom: 10,
                             right: 10,
                             child: GestureDetector(
                               onTap: () async {
-                                await openMap(
-                                    widget.lat.toDouble(), widget.lang.toDouble());
+                                await openMap(widget.lat.toDouble(),
+                                    widget.lang.toDouble());
                               },
                               child: Container(
                                 height: 40,
@@ -153,18 +149,19 @@ class _PackageDetailState extends State<PackageDetail> {
                             height: 12,
                           );
                         },
-                        itemCount: provider.showPackageDetails.serviceIdData?.length??0,
+                        itemCount:
+                            provider.showPackageDetails.serviceIdData?.length ??
+                                0,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {},
                             child: Card(
                               elevation: 4,
-                              // shadowColor: appColors.appColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
-                                side:
-                                    BorderSide(color: appColors.appColor, width: 1),
+                                side: BorderSide(
+                                    color: appColors.appColor, width: 1),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -175,7 +172,6 @@ class _PackageDetailState extends State<PackageDetail> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {},
@@ -186,19 +182,23 @@ class _PackageDetailState extends State<PackageDetail> {
                                                 SizedBox(
                                                   height: 120,
                                                   width: 130,
-                                                  child: FadeInImage.assetNetwork(
+                                                  child:
+                                                      FadeInImage.assetNetwork(
                                                     placeholder:
-                                                    'assets/images/placeholder.png', // Path to placeholder image
-                                                    image:  provider.showPackageDetails.imageUrl?[0],
+                                                        'assets/images/placeholder.png', // Path to placeholder image
+                                                    image: provider
+                                                        .showPackageDetails
+                                                        .imageUrl?[0],
                                                     fit: BoxFit.cover,
                                                     width: 90,
                                                     height: 90,
-                                                    imageErrorBuilder:
-                                                        (context, error, stackTrace) {
+                                                    imageErrorBuilder: (context,
+                                                        error, stackTrace) {
                                                       // Custom image error builder
                                                       return Image.network(
-                                                          provider.showPackageDetails.imageUrl?[0]
-                                                      );
+                                                          provider
+                                                              .showPackageDetails
+                                                              .imageUrl?[0]);
                                                     },
                                                   ),
                                                 ),
@@ -208,12 +208,13 @@ class _PackageDetailState extends State<PackageDetail> {
                                                   child: Container(
                                                     height: 25,
                                                     width: 70,
-                                                    decoration: const BoxDecoration(
-                                                        color: Colors.blue),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color: Colors.blue),
                                                     child: Center(
                                                         child: Text(
                                                       "${provider.showPackageDetails.package?.discount}%Off",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -228,14 +229,15 @@ class _PackageDetailState extends State<PackageDetail> {
                                           width: 20,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(right: 10),
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               appText(
                                                 title:
-                                                '${provider.showPackageDetails.serviceIdData?[index].serviceName?.name}',
+                                                    '${provider.showPackageDetails.serviceIdData?[index].serviceName?.name}',
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -243,7 +245,12 @@ class _PackageDetailState extends State<PackageDetail> {
                                                 height: 2,
                                               ),
                                               appText(
-                                                title: provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].type??"",
+                                                title: provider
+                                                        .showPackageDetails
+                                                        .serviceIdData?[index]
+                                                        .subserviceName?[0]
+                                                        .type ??
+                                                    "",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey,
@@ -266,24 +273,6 @@ class _PackageDetailState extends State<PackageDetail> {
                                                   )
                                                 ],
                                               ),
-                                              // Row(
-                                              //   mainAxisAlignment:
-                                              //   MainAxisAlignment.start,
-                                              //   children: [
-                                              //     Icon(
-                                              //       Icons.star,
-                                              //       color: appColors.appColor,
-                                              //     ),
-                                              //     const SizedBox(
-                                              //       width: 2,
-                                              //     ),
-                                              //     appText(
-                                              //       title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
-                                              //       fontSize: 14,
-                                              //       fontWeight: FontWeight.bold,
-                                              //     ),
-                                              //   ],
-                                              // ),
                                               const SizedBox(
                                                 height: 4,
                                               ),
@@ -291,8 +280,16 @@ class _PackageDetailState extends State<PackageDetail> {
                                                 children: [
                                                   appText(
                                                     title: '₹${calculatePrice(
-                                                      provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].price,
-                                                      provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].offer,
+                                                      provider
+                                                          .showPackageDetails
+                                                          .serviceIdData?[index]
+                                                          .subserviceName?[0]
+                                                          .price,
+                                                      provider
+                                                          .showPackageDetails
+                                                          .serviceIdData?[index]
+                                                          .subserviceName?[0]
+                                                          .offer,
                                                       /*widget.data.price,
                                                       widget.data.discount,*/
                                                     )}',
@@ -306,46 +303,57 @@ class _PackageDetailState extends State<PackageDetail> {
                                                       title:
                                                           '₹${provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].price}',
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: Colors.grey,
-                                                      textDecoration: TextDecoration
-                                                          .lineThrough),
+                                                      textDecoration:
+                                                          TextDecoration
+                                                              .lineThrough),
                                                   const SizedBox(
                                                     width: 10,
                                                   ),
                                                 ],
                                               ),
-
                                               const SizedBox(
                                                 height: 4,
                                               ),
                                               Row(
                                                 children: [
-                                                  Consumer<ServicesDetailsProvider>(
-                                                  builder: (context, provider, child) {
-                                                  return RatingBar.builder(
-                                                    wrapAlignment:
-                                                        WrapAlignment.start,
-                                                    itemSize: 14,
-                                                    initialRating: provider.showPackageDetails.serviceIdData?[index].subserviceName?[0].rating??0,
-                                                    minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    ignoreGestures: true,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    itemBuilder: (context, _) =>
-                                                        const Icon(
-                                                      Icons.star,
-                                                      color: Colors.amber,
-                                                    ),
-                                                    onRatingUpdate: (value) {},
-                                                  );
-  },
-),
+                                                  Consumer<
+                                                          ServicesDetailsProvider>(
+                                                      builder: (context,
+                                                          provider, child) {
+                                                    return RatingBar.builder(
+                                                      wrapAlignment:
+                                                          WrapAlignment.start,
+                                                      itemSize: 14,
+                                                      initialRating: provider
+                                                              .showPackageDetails
+                                                              .serviceIdData?[
+                                                                  index]
+                                                              .subserviceName?[
+                                                                  0]
+                                                              .rating ??
+                                                          0,
+                                                      minRating: 1,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      ignoreGestures: true,
+                                                      allowHalfRating: true,
+                                                      itemCount: 5,
+                                                      itemBuilder:
+                                                          (context, _) =>
+                                                              const Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                      ),
+                                                      onRatingUpdate:
+                                                          (value) {},
+                                                    );
+                                                  }),
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
-
                                                 ],
                                               ),
                                             ],
@@ -360,15 +368,12 @@ class _PackageDetailState extends State<PackageDetail> {
                           );
                         },
                       ),
-
                       const SizedBox(
                         height: 40,
                       ),
                       Center(
                         child: AppButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           title: texts.bookSlotLater,
                           radius: 8,
                           fontSize: 12,
@@ -392,11 +397,13 @@ class _PackageDetailState extends State<PackageDetail> {
     return (p * (100 - d) / 100).toStringAsFixed(0);
   }
 
-  void showSlotBookingDialog(BuildContext context,int id) {
+  void showSlotBookingDialog(BuildContext context, int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SlotBookingDialog(subServiceId: id,);
+        return SlotBookingDialog(
+          subServiceId: id,
+        );
       },
     );
   }

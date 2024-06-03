@@ -16,6 +16,7 @@ class SuccessScreen extends StatefulWidget {
 }
 
 class _SuccessScreenState extends State<SuccessScreen> {
+
   Future<bool> successOrder() async {
     var res = await Provider.of<DashboardProvider>(context, listen: false)
         .orderSuccess(

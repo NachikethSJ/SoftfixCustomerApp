@@ -71,14 +71,14 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
               title: Row(
                 children: [
                   Text('${provider.subServiceDetail.shopDetail?.name??''}',
-                      style: TextStyle(fontSize: 14)
+                      style: const TextStyle(fontSize: 14)
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Icon(Icons.location_on,
                     color: appColors.appColor,
                   ),
                   Text('30 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.subServiceDetail.shopDetail?.lat!, provider.subServiceDetail.shopDetail?.lng!) / 1000).toStringAsFixed(2)} Km',
-                      style: TextStyle(fontSize: 14)
+                      style: const TextStyle(fontSize: 14)
                   )
                 ],
               ),
@@ -116,11 +116,6 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                     );
                                   },
                                 )
-                                /*Image.network(
-                                  provider.subServiceDetail.imageUrl?.first ??
-                                      '',
-                                  fit: BoxFit.cover,
-                                ),*/
                               ),
                             ),
                             provider.subServiceDetail.subService?.offer !=null?
@@ -144,7 +139,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                 )),
                               ),
                             )
-                            :SizedBox(),
+                            :const SizedBox(),
                             Positioned(
                               bottom: 10,
                               right: 10,
@@ -173,7 +168,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                           },
                                           child: Text(
                                             texts.getDirection,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           )),
@@ -206,13 +201,13 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(left: 5),
+                                    padding: const EdgeInsets.only(left: 5),
                                     child: Text(
                                       '${provider.subServiceDetail.subService?.rating??"2"}.0',
-                                      style: TextStyle(color: Colors.white),
+                                      style: const TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.star,
                                     size: 20,
                                     color: Colors.white,
@@ -354,7 +349,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               appText(
-                  title: '$title',
+                  title: title,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                   color: appColors.appColor),

@@ -300,7 +300,6 @@ class _DashboardState extends State<Dashboard>
       texts.serviceAtShop,
       texts.serviceAtHome,
     ];
-
     return DefaultTabController(
       length: 3,
       child: GestureDetector(
@@ -586,13 +585,6 @@ class _DashboardState extends State<Dashboard>
                                                           '');
                                                 },
                                               ),
-                                              /*Image.network(
-                                                subService[index]
-                                                        .image
-                                                        ?.first ??
-                                                    '',
-                                                fit: BoxFit.fill,
-                                              ),*/
                                             ),
                                           ),
                                           subService[index].offer != null
@@ -616,7 +608,7 @@ class _DashboardState extends State<Dashboard>
                                                     fontWeight: FontWeight.bold,
                                                   )),
                                                 )
-                                              : SizedBox(),
+                                              : const SizedBox(),
                                         ],
                                       ),
                                       const SizedBox(
@@ -721,7 +713,6 @@ class _DashboardState extends State<Dashboard>
                         );
                       },
                     ),
-
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   children: [
@@ -975,10 +966,6 @@ class _DashboardState extends State<Dashboard>
                                   width: 1, color: appColors.appColor),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            // BoxDecoration(
-                            //   color: appColors.appGray,
-                            //   borderRadius: BorderRadius.circular(30),
-                            // ),
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                               child: Row(
@@ -1133,12 +1120,6 @@ class _DashboardState extends State<Dashboard>
                               shopsData[index].imageUrl?[0] ?? '');
                         },
                       ),
-
-                      ///placeholderImagePath
-                      /*Image.network(
-                        shopsData[index].imageUrl?[0] ?? '',
-                        fit: BoxFit.fill,
-                      ),*/
                     ),
                   ),
                   Padding(
@@ -1202,10 +1183,6 @@ class _DashboardState extends State<Dashboard>
                                     height: 15,
                                     width: 15,
                                   ),
-                                  // Icon(
-                                  //   Icons.train,
-                                  //   color: appColors.appGreen,
-                                  // ),
                                   const SizedBox(
                                     width: 4,
                                   ),
@@ -1389,12 +1366,6 @@ class _DashboardState extends State<Dashboard>
                                     // Custom image error builder
                                     return Image.network(
                                         "${provider.membershipList[index].image}");
-                                    /*Image.asset(
-                                      'assets/images/placeholder.png', // Path to placeholder image
-                                      fit: BoxFit.cover,
-                                      width: 90,
-                                      height: 90,
-                                    );*/
                                   },
                                 ),
                               ),
@@ -2315,12 +2286,10 @@ class _DashboardState extends State<Dashboard>
                             ),
                           ),
                         ),
-
                         appText(
                           title: '5',
                           fontSize: 12,
                         ),
-
                         // Checkbox(
                         //   value: isOffer,
                         //   activeColor: appColors.appColor,

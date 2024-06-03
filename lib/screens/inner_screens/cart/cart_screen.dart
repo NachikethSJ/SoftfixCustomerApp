@@ -254,7 +254,7 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 4,
                                           ),
                                           GestureDetector(
@@ -279,7 +279,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     .bookingDetailsSlotsCart?[0]
                                                     .shopId,
                                               });
-                                              //showSlotBookingDialog(context,'${provider.showCartDetails[index].subServiceId}');
+
                                               ///directPaymentScreenOpen
                                               var body = {
                                                 "id": provider
@@ -291,8 +291,6 @@ class _CartScreenState extends State<CartScreen> {
                                                 "bookingDetailsArray":
                                                     bookingDetailsSlotsCarts
                                               };
-                                              print(
-                                                  "=====RequestCreateOrderBody===$body");
                                               setState(() {
                                                 provider.showCartDetails[index]
                                                     .isLoading = true;
@@ -325,15 +323,13 @@ class _CartScreenState extends State<CartScreen> {
                                                                 ordrId: dashboardProvider
                                                                     .createOrderSlot
                                                                     .orderId,
-                                                              )));// Close the dialog
+                                                              ))); // Close the dialog
                                                 }
                                               });
                                               // Close the dialog
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(10),
-                                              //width: 100,
-                                              //height: 35,
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
@@ -382,11 +378,6 @@ class _CartScreenState extends State<CartScreen> {
           provider.cartDetails(
             context: context,
           );
-          //     .then((value) {
-          //   if (value) {
-          //     Navigator.pop(context);
-          //   }
-          // });
         });
   }
 
@@ -422,47 +413,4 @@ class _CartScreenState extends State<CartScreen> {
     double d = double.tryParse(discount.toString()) ?? 0;
     return (p * (100 - d) / 100).toStringAsFixed(0);
   }
-
-  // createSlotOrder(String shopName){
-  //   WidgetsBinding.instance.addPostFrameCallback(
-  //         (timeStamp) {
-  //       validateConnectivity(context: context, provider: (){
-  //         var provider = Provider.of<DashboardProvider>(context, listen: false);
-  //         List<Map<String,dynamic>> bookingDetailsArray=[];
-  //         int flag=0;
-  //         provider.slotList.forEach((element) {
-  //           element.slots?.forEach((e) {
-  //             if(e.isChecked==true){
-  //               flag=1;
-  //               bookingDetailsArray.add({
-  //                 "startTime":e.start,
-  //                 "endTime":e.end,
-  //                 "employeeId":element.employId,
-  //                 "shopId":shopName
-  //               });
-  //             }
-  //           });
-  //         });
-  //         if(flag==1){
-  //           var body = {
-  //             "id": widget.subServiceId,
-  //             "date":formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
-  //             "bookingDetailsArray":bookingDetailsArray
-  //           };
-  //           print("=====Request Body===$body");
-  //           provider.createOrder(
-  //             context: context,
-  //             body: body,
-  //           ).then((value) {
-  //             if(value){
-  //               Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentContinueScreen(date: formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),ordrId: provider.createOrderSlot.orderId,)));// Close the dialog
-  //             }
-  //           });
-  //         }else{
-  //           showToast('Please select slot.');
-  //         }
-  //       });
-  //     },
-  //   );
-  // }
 }

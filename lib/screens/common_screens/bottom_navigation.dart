@@ -312,11 +312,6 @@ class _BottomNavigationState extends State<BottomNavigation> with CacheManager {
           provider.cartDetails(
             context: context,
           );
-          //     .then((value) {
-          //   if (value) {
-          //     Navigator.pop(context);
-          //   }
-          // });
         });
   }
 }

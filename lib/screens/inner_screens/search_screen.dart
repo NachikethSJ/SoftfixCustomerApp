@@ -107,76 +107,6 @@ class _SearchScreenState extends State<SearchScreen>
       return secondContainerItems;
     }
   }
-  // _openMap() async {
-  //   var permission = await Geolocator.checkPermission();
-  //   permission = await Geolocator.requestPermission();
-  //
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //   } else {
-  //     var res = await showModalBottomSheet(
-  //       isScrollControlled: true,
-  //       enableDrag: false,
-  //       useSafeArea: true,
-  //       shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(20.0),
-  //           topRight: Radius.circular(20.0),
-  //         ),
-  //       ),
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           decoration: const BoxDecoration(
-  //             borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(20.0),
-  //               topRight: Radius.circular(20.0),
-  //             ),
-  //           ),
-  //           child: Column(
-  //             children: [
-  //               SizedBox(
-  //                 height: 40,
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.end,
-  //                   children: [
-  //                     IconButton(
-  //                         onPressed: () {
-  //                           Navigator.pop(context);
-  //                         },
-  //                         icon: const Icon(Icons.cancel))
-  //                   ],
-  //                 ),
-  //               ),
-  //               Expanded(
-  //                 child: MapScreen(
-  //                   lat: latitude,
-  //                   lng: longitude,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  //       },
-  //     );
-  //     // var res = await navigateTo(
-  //     //   context: context,
-  //     //   to: MapScreen(
-  //     //     lat: latitude,
-  //     //     lng: longitude,
-  //     //   ),
-  //     // );
-  //     if (res != null) {
-  //       setState(() {
-  //         addressController.text = res['address'];
-  //         latitude = res['latitude'];
-  //         longitude = res['longitude'];
-  //       });
-  //       await setLatLng(latitude, longitude);
-  //       _getNearByData();
-  //     }
-  //   }
-  // }
 
   _getNearByData() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -185,8 +115,6 @@ class _SearchScreenState extends State<SearchScreen>
         var body = {
           'lat': widget.lat,
           'lng': widget.lang,
-          // "lat": "26.8310467",
-          // "lng": "80.9243877",
           'personType': widget.personType,
           'serviceTypeId': "1",
           'minOffer': int.tryParse(offerLabels.start),
@@ -339,7 +267,7 @@ class _SearchScreenState extends State<SearchScreen>
                           Icons.arrow_back,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 2,
                       ),
                       SizedBox(
@@ -384,7 +312,7 @@ class _SearchScreenState extends State<SearchScreen>
                         child: Container(
                           height: MediaQuery.of(context).size.height * .060,
                           width: MediaQuery.of(context).size.width * 0.2,
-                          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                           decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.yellow),
                             borderRadius: BorderRadius.circular(4),
@@ -411,7 +339,6 @@ class _SearchScreenState extends State<SearchScreen>
                     ],
                   ),
                 ),
-
                 ///SearchBoxAndShowFilterCommentedHere
                 /*Row(
                   children: [
@@ -708,9 +635,6 @@ class _SearchScreenState extends State<SearchScreen>
                                                 errorBuilder: (context, error,
                                                     stackTrace) {
                                                   return Container(
-                                                    // decoration: BoxDecoration(
-                                                    //   border: Border.all(color: Colors.grey)
-                                                    // ),
                                                     color: appColors.appGray100,
                                                     child: Center(
                                                       child: Icon(
@@ -740,14 +664,14 @@ class _SearchScreenState extends State<SearchScreen>
                                                     child: Center(
                                                         child: Text(
                                                       "${serviceData[index].subService?[i].offer}% Off",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     )),
                                                   ),
                                                 )
-                                              : SizedBox(),
+                                              : const SizedBox(),
                                         ],
                                       ),
                                       const SizedBox(
