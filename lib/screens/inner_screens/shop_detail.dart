@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
+import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
@@ -37,6 +38,8 @@ class ShopDetail extends StatefulWidget {
 }
 
 class _ShopDetailState extends State<ShopDetail> with CacheManager {
+  TextEditingController searchController = TextEditingController();
+  bool searchTextBoxVisible = false;
   double latitude = 28.7041;
   double longitude = 77.1025;
   Future getLatLongitude() async {
@@ -66,34 +69,81 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.arrow_back,
-              )),
-          title: Row(
-            children: [
-              Icon(
-                Icons.location_on,
-                color: appColors.appColor,
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+            )),
+        title: searchTextBoxVisible == false
+            ? Row(
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: appColors.appColor,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
+              )
+            : SizedBox(
+                height: MediaQuery.of(context).size.height * .070,
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: appColors.appColor),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: SizedBox(
+                    height: 46,
+                    child: TextFormField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: texts.searchShop,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: appColors.appBlack,
+                        ),
+                        contentPadding: const EdgeInsets.only(
+                            left: 14, right: 14, top: 10, bottom: 10),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          searchController.text = value;
+                        });
+
+                        ///APICalling
+                      },
+                    ),
+                  ),
+                ),
               ),
-              Text(
-                "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
-                style: const TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-          actions: [
-            Padding(
+        actions: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                searchTextBoxVisible = true;
+              });
+            },
+            child: Padding(
               padding: const EdgeInsets.only(right: 15),
               child: Icon(
                 Icons.search,
                 color: appColors.appColor,
               ),
-            )
-          ]),
+            ),
+          )
+        ],
+      ),
       body: DefaultTabController(
         length: 3,
         child: Padding(
@@ -256,7 +306,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: appText(
                         title: provider
                                 .nearByShopServicesList[index].service?.name ??
@@ -313,7 +363,26 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       SizedBox(
                                         height: 125,
                                         width: 125,
-                                        child: Image.network(
+                                        child: /*FadeInImage.assetNetwork(
+                                          placeholder:
+                                              'assets/images/placeholder.png', // Path to placeholder image
+                                          image:
+                                              '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
+                                          fit: BoxFit.cover,
+                                          width: 90,
+                                          height: 90,
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            // Custom image error builder
+                                            return Image.asset(
+                                                'assets/images/placeholder.png',
+                                              fit: BoxFit.fill,
+                                              width: 90,
+                                                height: 90,
+                                              );
+                                            },
+                                          ),*/
+                                            Image.network(
                                           '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
                                           fit: BoxFit.fill,
                                           errorBuilder:
@@ -367,7 +436,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width:120,
+                                      width: 120,
                                       child: appText(
                                         title: provider
                                                 .nearByShopServicesList[index]
@@ -434,7 +503,8 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                           initialRating: provider
                                                   .nearByShopServicesList[index]
                                                   .subServices?[childIndex]
-                                                  .rating??0,
+                                                  .rating ??
+                                              0,
                                           minRating: 2,
                                           direction: Axis.horizontal,
                                           ignoreGestures: true,

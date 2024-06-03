@@ -343,12 +343,12 @@ class _CartScreenState extends State<CartScreen> {
                                                               index]
                                                           .isLoading ==
                                                       true
-                                                  ? Center(
+                                                  ? const Center(
                                                       child: SizedBox(
                                                           height: 20,
                                                           width: 20,
                                                           child:
-                                                              const CircularProgressIndicator()))
+                                                              CircularProgressIndicator()))
                                                   : const Text(
                                                       "Continue To Pay"),
                                             ),

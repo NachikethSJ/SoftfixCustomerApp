@@ -261,7 +261,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                                   width: 70,
                                                   child: Center(
                                                     child: appText(
-                                                      title: '${provider.slotList[index].slots?[i].start}-${provider.slotList[index].slots?[i].end} PM',
+                                                      title: '${provider.slotList[index].slots?[i].start}-${provider.slotList[index].slots?[i].end}',
                                                       fontSize: 8,
                                                     ),
                                                   ),

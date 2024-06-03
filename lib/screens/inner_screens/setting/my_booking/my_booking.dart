@@ -131,18 +131,19 @@ class _MyBookingState extends State<MyBooking> {
                                                 Row(
                                                   children: [
                                                     appText(
-                                                      title: provider
-                                                              .showbookingDetails[
-                                                                  index]
-                                                              .shop ??
-                                                          '',
-                                                      fontSize: 14,
-                                                      color:
-                                                          Colors.teal.shade500,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      textOverflow: TextOverflow.ellipsis
-                                                    ),
+                                                        title: provider
+                                                                .showbookingDetails[
+                                                                    index]
+                                                                .shop ??
+                                                            '',
+                                                        fontSize: 14,
+                                                        color: Colors
+                                                            .teal.shade500,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        textOverflow:
+                                                            TextOverflow
+                                                                .ellipsis),
                                                     appText(
                                                       title:
                                                           "(Waiting For Approval)",
@@ -318,49 +319,58 @@ class _MyBookingState extends State<MyBooking> {
                                                   //   ),
                                                   // ),
                                                   Consumer<AccountsProvider>(
-                                                    builder: (context, provider, child) {
-                                                    return GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  HelpPage(vendorId:provider.showbookingDetails[index].vendorId??"")));
+                                                    builder: (context, provider,
+                                                        child) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => HelpPage(
+                                                                      vendorId: provider
+                                                                              .showbookingDetails[index]
+                                                                              .vendorId ??
+                                                                          "")));
+                                                        },
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: appColors
+                                                                          .appColor,
+                                                                      width: 2),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left:
+                                                                            20,
+                                                                        right:
+                                                                            20,
+                                                                        top: 8,
+                                                                        bottom:
+                                                                            8),
+                                                                child: appText(
+                                                                    title:
+                                                                        "Help?",
+                                                                    color: appColors
+                                                                        .appGray,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                        ),
+                                                      );
                                                     },
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.topRight,
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: appColors
-                                                                      .appColor,
-                                                                  width: 2),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 20,
-                                                                    right: 20,
-                                                                    top: 8,
-                                                                    bottom: 8),
-                                                            child: appText(
-                                                                title: "Help?",
-                                                                color: appColors
-                                                                    .appGray,
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          )),
-                                                    ),
-                                                  );
-  },
-),
+                                                  )
                                                 ],
                                               )),
                                         ),

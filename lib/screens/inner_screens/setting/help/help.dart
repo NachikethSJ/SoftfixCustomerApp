@@ -201,7 +201,6 @@ class _HelpPageState extends State<HelpPage> {
   getHelpLastMessage() {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<AccountsProvider>(context, listen: false);
-
       provider.getHelpMessageDetail(context: context, body: {
         "vendorId": widget.vendorId,
       });
