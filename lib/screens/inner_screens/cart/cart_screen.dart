@@ -200,10 +200,6 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
                                               GestureDetector(
                                                   onTap: () {
                                                     deleteCartItem(index);
-
-                                                    //     .then((value){
-                                                    //   cartDeatils();
-                                                    // });
                                                   },
                                                   child: Icon(Icons.delete))
                                             ],

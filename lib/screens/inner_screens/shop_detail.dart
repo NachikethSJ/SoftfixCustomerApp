@@ -345,7 +345,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                     SizedBox(
                                       height: 125,
                                       width: 125,
-                                      child: /*FadeInImage.assetNetwork(
+                                      child: FadeInImage.assetNetwork(
                                         placeholder:
                                             'assets/images/placeholder.png', // Path to placeholder image
                                         image:
@@ -356,19 +356,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                         imageErrorBuilder:
                                             (context, error, stackTrace) {
                                           // Custom image error builder
-                                          return Image.asset(
-                                              'assets/images/placeholder.png',
-                                            fit: BoxFit.fill,
-                                            width: 90,
-                                              height: 90,
-                                            );
-                                          },
-                                        ),*/
-                                          Image.network(
-                                        '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
-                                        fit: BoxFit.fill,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
                                           return Container(
                                             color: appColors.appGray100,
                                             child: Center(
@@ -378,8 +365,8 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                               ),
                                             ),
                                           );
-                                        },
-                                      ),
+                                          },
+                                        ),
                                     ),
                                     provider
                                                 .nearByShopServicesList[index]
