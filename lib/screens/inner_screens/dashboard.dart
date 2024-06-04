@@ -274,13 +274,6 @@ class _DashboardState extends State<Dashboard>
           );
         },
       );
-      // var res = await navigateTo(
-      //   context: context,
-      //   to: MapScreen(
-      //     lat: latitude,
-      //     lng: longitude,
-      //   ),
-      // );
       if (res != null) {
         setState(() {
           addressController.text = res['address'];
@@ -370,7 +363,7 @@ class _DashboardState extends State<Dashboard>
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ServiceAtHomeScreen()));
+                                  builder: (context) => const ServiceAtHomeScreen()));
                         } else {
                           selectedIndex = "2";
                         }
@@ -447,7 +440,7 @@ class _DashboardState extends State<Dashboard>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationScreen()));
+                              builder: (context) => const NotificationScreen()));
                     },
                     child: Card(
                       color: appColors.appColor,
@@ -701,12 +694,6 @@ class _DashboardState extends State<Dashboard>
                         }
                         return DynamicPageView(
                           imagePaths: provider.imageList,
-                          // const [
-                          //   "assets/images/ban1.jpg",
-                          //   "assets/images/ban2.jpg",
-                          //   "assets/images/ban3.jpg",
-                          //   "assets/images/ban4.jpg",
-                          // ],
                           indicatorColor: Colors.teal,
                           activeIndicatorColor: appColors.appColor,
                           lat: latitude, lang: longitude,
@@ -1392,7 +1379,7 @@ class _DashboardState extends State<Dashboard>
                           fontWeight: FontWeight.bold,
                         )),
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 Positioned(
                   bottom: 10,
                   left: 8,

@@ -7,6 +7,7 @@ import 'package:salon_customer_app/screens/common_screens/custom_providers.dart'
 import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(

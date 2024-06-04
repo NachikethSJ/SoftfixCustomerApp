@@ -281,7 +281,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
         itemBuilder: (context, index) {
           return Card(
             elevation: 3,
-            // shadowColor: appColors.appColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
               side: BorderSide(color: appColors.appColor, width: 1),
@@ -518,14 +517,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                                           color: appColors
                                                               .appColor))),
                                             )
-                                            // AppButton(
-                                            //   radius: 8,
-                                            //   onPressed: () {
-                                            //     showSlotBookingDialog(context);
-                                            //   },
-                                            //   title: '+ Book',
-                                            //   fontSize: 12,
-                                            // ),
                                             ),
                                       )
                                     ],
@@ -718,7 +709,11 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
-                                      'assets/images/placeholder.png', // Path to placeholder image
+                                      provider
+                                          .nearByShopMembershipList[index]
+                                          .image
+                                          ?.first ??
+                                          '', // Path to placeholder image
                                       fit: BoxFit.cover,
                                       width: 90,
                                       height: 90,
@@ -967,7 +962,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
-                                      'assets/images/placeholder.png', // Path to placeholder image
+                                      '${provider.nearByShopPackagesList[index].image}',// Path to placeholder image
                                       fit: BoxFit.cover,
                                       width: 90,
                                       height: 90,
@@ -1161,22 +1156,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
           );
         },
       );
-      // var res = await navigateTo(
-      //   context: context,
-      //   to: MapScreen(
-      //     lat: latitude,
-      //     lng: longitude,
-      //   ),
-      // );
-      // if (res != null) {
-      //   setState(() {
-      //     addressController.text = res['address'];
-      //     latitude = res['latitude'];
-      //     longitude = res['longitude'];
-      //   });
-      //   await setLatLng(latitude, longitude);
-      //   _getNearByData();
-      // }
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.salonCustomer
+package com.cherry.salonCustomer
 
 import io.flutter.embedding.android.FlutterActivity
 
