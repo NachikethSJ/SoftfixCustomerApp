@@ -76,28 +76,30 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             Container(
-              height: 100,
+              height: 105,
+              width: double.maxFinite,
               decoration: BoxDecoration(
                 color: appColors.appColor,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: appText(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.personal_injury_sharp,
+                      color: appColors.appBlack,
+                      size: 30,
+                    ),
+                    const SizedBox(height: 5,),
+                    appText(
                       title: number,
-                      fontSize: 12,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
-                  ),
-                  Icon(
-                    Icons.personal_injury_sharp,
-                    color: appColors.appBlack,
-                    size: 40,
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              )
             ),
             /*Container(
               decoration: BoxDecoration(
@@ -298,7 +300,8 @@ class _ProfileState extends State<Profile> {
                     title: title,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600,
+                    //color: Colors.grey.shade600,
+                    color: appColors.appColor
                   ),
                 ),
                 Icon(

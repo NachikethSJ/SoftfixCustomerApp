@@ -53,13 +53,13 @@ class _DynamicPageViewState extends State<DynamicPageView> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_pageController.page == widget.imagePaths.length - 1) {
         _pageController.animateToPage(0,
-            duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+            duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
       } else {
         _pageController.nextPage(
-            duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
+            duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
       }
     });
   }
@@ -107,7 +107,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
                   child: InkWell(
                     onTap: () {
                       _pageController.animateToPage(index,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn);
                     },
                     child: CircleAvatar(
@@ -127,7 +127,7 @@ class _DynamicPageViewState extends State<DynamicPageView> {
   }
 }
 
-class ImagePlaceHolder extends StatelessWidget {
+class ImagePlaceHolder extends StatelessWidget{
   final String? imagePath;
   final int index;
   final dynamic lat;

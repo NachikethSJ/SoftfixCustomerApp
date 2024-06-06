@@ -114,7 +114,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                   onTap: () {
                                     _showBookingDate(context);
                                     //API Calling for Future Dates Slots
-                                    //_getSlot();
+                                    _getSlot();
                                   },
                                   child: Container(
                                     height: 45,
