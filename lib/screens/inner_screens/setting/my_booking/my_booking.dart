@@ -145,8 +145,9 @@ class _MyBookingState extends State<MyBooking> {
                                                             TextOverflow
                                                                 .ellipsis),
                                                     appText(
-                                                      title:
-                                                          "(Waiting For Approval)",
+                                                      title:" ${provider
+                                                          .showbookingDetails[
+                                                      index].bookingStatus}",
                                                       fontSize: 10,
                                                       color:
                                                           Colors.orangeAccent,

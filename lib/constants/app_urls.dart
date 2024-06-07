@@ -72,6 +72,8 @@ class AppUrls {
  String get getNearByShopPackagesUrl => '/user/get-packages-by-shop';
 
  String get getNearByShopMembershipUrl => '/user/get-membership-by-shop';
+
+ String get searchByShopServicesUrl => 'user/search';
 }
 
 AppUrls appUrls = AppUrls();

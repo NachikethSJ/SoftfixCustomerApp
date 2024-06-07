@@ -3,8 +3,8 @@ class BookingDetailListModel {
   String? bookingStatus;
   String? startTime;
   String? endTime;
-  dynamic serviceId;
   String? service;
+  dynamic serviceId;
   dynamic shopId;
   String? shop;
   String? vendorId;
@@ -12,29 +12,31 @@ class BookingDetailListModel {
   String? subServiceType;
   dynamic price;
   String? offer;
+  dynamic subServiceId;
 
   BookingDetailListModel(
       {this.bookingDate,
         this.bookingStatus,
         this.startTime,
         this.endTime,
-        this.serviceId,
         this.service,
+        this.serviceId,
         this.shopId,
         this.shop,
         this.vendorId,
         this.employName,
         this.subServiceType,
         this.price,
-        this.offer});
+        this.offer,
+        this.subServiceId});
 
   BookingDetailListModel.fromJson(Map<String, dynamic> json) {
     bookingDate = json['bookingDate'];
     bookingStatus = json['bookingStatus'];
     startTime = json['startTime'];
     endTime = json['endTime'];
-    serviceId = json['serviceId'];
     service = json['service'];
+    serviceId = json['serviceId'];
     shopId = json['shopId'];
     shop = json['shop'];
     vendorId = json['vendorId'];
@@ -42,6 +44,7 @@ class BookingDetailListModel {
     subServiceType = json['sub_service_Type'];
     price = json['price'];
     offer = json['offer'];
+    subServiceId = json['subServiceId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,8 +53,8 @@ class BookingDetailListModel {
     data['bookingStatus'] = this.bookingStatus;
     data['startTime'] = this.startTime;
     data['endTime'] = this.endTime;
-    data['serviceId'] = this.serviceId;
     data['service'] = this.service;
+    data['serviceId'] = this.serviceId;
     data['shopId'] = this.shopId;
     data['shop'] = this.shop;
     data['vendorId'] = this.vendorId;
@@ -59,6 +62,7 @@ class BookingDetailListModel {
     data['sub_service_Type'] = this.subServiceType;
     data['price'] = this.price;
     data['offer'] = this.offer;
+    data['subServiceId'] = this.subServiceId;
     return data;
   }
 }

@@ -116,6 +116,9 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         setState(() {
                           searchController.text = value;
                         });
+                        _getNearByShopServices();
+                        _getNearByShopPackages();
+                        _getNearByShopMembership();
                         ///APICalling
                       },
                     ),
@@ -1043,7 +1046,10 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
-        var body = {"id": widget.shopData.id};
+        var body = {
+          "id": widget.shopData.id,
+          "search": searchController.text
+        };
         provider.getNearByShopServicesList(
           context: context,
           body: body,
@@ -1057,7 +1063,10 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
-        var body = {"id": widget.shopData.id};
+        var body = {
+          "id": widget.shopData.id,
+          "search": searchController.text
+        };
         provider.getNearByShopPackagesList(
           context: context,
           body: body,
@@ -1071,7 +1080,10 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
-        var body = {"id": widget.shopData.id};
+        var body = {
+          "id": widget.shopData.id,
+          "search": searchController.text
+        };
         provider.getNearByShopMembershipList(
           context: context,
           body: body,
@@ -1081,18 +1093,20 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
   }
 
   ///SearchByShopServicesApi
- /* _getSearchByShopServices() {
+  /*_getSearchByShopServices() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var provider = Provider.of<DashboardProvider>(context, listen: false);
-      var body = {};
+      var body = {
+      "shopId":widget.shopData.id,
+      "search":searchController.text
+      };
       provider.getSearchByShopServices(
         context:context,
         body:body,
       );
     }
     );
-  }
-*/
+  }*/
   _getServiceName(List<Service> data) {
     String text = '';
     for (int i = 0; i < data.length; i++) {

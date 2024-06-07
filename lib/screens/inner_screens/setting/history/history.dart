@@ -189,8 +189,8 @@ class _HistoryPageState extends State<HistoryPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    /*showSlotBookingDialog(context,
-                                        '${provider.bookingDetailHistory[index].}');*/
+                                    showSlotBookingDialog(context,
+                                        '${provider.bookingDetailHistory[index].subServiceId}');
                                   },
                                   child: Container(
                                     height: 50,

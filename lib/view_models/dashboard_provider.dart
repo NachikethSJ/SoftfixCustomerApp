@@ -20,6 +20,7 @@ import '../models/dashboard_models/near_by_shop_membership_model.dart';
 import '../models/dashboard_models/near_by_shop_model.dart';
 import '../models/dashboard_models/near_by_shop_packages_model.dart';
 import '../models/dashboard_models/packages_model.dart';
+import '../models/dashboard_models/search_by_shop_services.dart';
 import '../models/dashboard_models/slot_booking_model.dart';
 import '../models/dashboard_models/slot_by_sub_services_model.dart';
 import '../models/help_model.dart';
@@ -56,8 +57,8 @@ class DashboardProvider extends ChangeNotifier {
   List<NearByShopMembershipModel> _nearByShopMembershipList = [];
   List<NearByShopMembershipModel> get nearByShopMembershipList => _nearByShopMembershipList;
 
- /* List<> _searchByShopServices = [];
-  List <> get searchByShopServices => _searchByShopServices;*/
+  List<SearchByShopServicesModel> _searchByShopServices = [];
+  List <SearchByShopServicesModel> get searchByShopServices => _searchByShopServices;
 
   //new
 
@@ -725,7 +726,7 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   ///SearchByShopServices&SubServices&Package&Membership
-  /*Future<bool> getSearchByShopServices({
+/*  Future<bool> getSearchByShopServices({
     required BuildContext context,
     required Map<String, dynamic> body,
   }) async {
@@ -734,14 +735,14 @@ class DashboardProvider extends ChangeNotifier {
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
       var res = await ApiClient.postApi(
-        url: appUrls.,
+        url: appUrls.searchByShopServicesUrl,
         body: body,
         headers: {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
       _searchByShopServices = res?.data
-          .map<NearByShopModel>((e) => NearByShopModel.fromJson(e))
+          .map<SearchByShopServicesModel>((e) => SearchByShopServicesModel.fromJson(e))
           .toList();
       _setShowLoader(false);
       notifyListeners();
@@ -751,7 +752,6 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return false;
     }
-  }
-*/
+  }*/
 
 }
