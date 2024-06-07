@@ -68,7 +68,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         ListView.builder(
                           itemCount: provider.bookingDetailHistory.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, index) {
                             return buildListItem(context, index);
                           },

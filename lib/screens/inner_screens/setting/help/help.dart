@@ -120,7 +120,7 @@ class _HelpPageState extends State<HelpPage> {
                                 }, title: 'Submit', radius: 12);
                           },
                         ),
-                        Consumer<AccountsProvider>(
+                        /*Consumer<AccountsProvider>(
                           builder: (context, provider, child) {
                             if (provider.showLoader) {
                               return ListView.separated(
@@ -166,7 +166,7 @@ class _HelpPageState extends State<HelpPage> {
                           ],
                         );
                         },
-                      ),
+                      ),*/
                       ],
                     );
                   },

@@ -1130,8 +1130,8 @@ class _DashboardState extends State<Dashboard>
                                   fontSize: 14,
                                   color: Colors.grey.shade600,
                                   textOverflow: TextOverflow.ellipsis),
-                              Spacer(),
-                              Icon(
+                              const Spacer(),
+                              const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                                 size: 18,

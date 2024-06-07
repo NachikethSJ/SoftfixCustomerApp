@@ -76,15 +76,15 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
             child: const Icon(
               Icons.arrow_back,
             )),
-        title: searchTextBoxVisible == false
+            title: searchTextBoxVisible == false
             ? Row(
                 children: [
                   Icon(
                     Icons.location_on,
                     color: appColors.appColor,
                   ),
-                  SizedBox(
-                    width: 5,
+                  const SizedBox(
+                    width: 2,
                   ),
                   Text(
                     "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
@@ -109,10 +109,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         hintText: texts.searchShop,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: appColors.appBlack,
-                        ),
                         contentPadding: const EdgeInsets.only(
                             left: 14, right: 14, top: 10, bottom: 10),
                       ),
@@ -120,7 +116,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         setState(() {
                           searchController.text = value;
                         });
-
                         ///APICalling
                       },
                     ),
@@ -348,7 +343,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                         placeholder:
                                             'assets/images/placeholder.png', // Path to placeholder image
                                         image:
-                                            '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl ?? ""}',
+                                            '${provider.nearByShopServicesList[index].subServices?[childIndex].imageurl?[0] ?? ""}',
                                         fit: BoxFit.cover,
                                         width: 90,
                                         height: 90,
@@ -954,7 +949,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                   placeholder:
                                       'assets/images/placeholder.png', // Path to placeholder image
                                   image:
-                                      '${provider.nearByShopPackagesList[index].image}',
+                                      '${provider.nearByShopPackagesList[index].image?.first}',
                                   fit: BoxFit.cover,
                                   width: 90,
                                   height: 90,
@@ -962,7 +957,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.asset(
-                                      '${provider.nearByShopPackagesList[index].image}',// Path to placeholder image
+                                      '${provider.nearByShopPackagesList[index].image?.first}',// Path to placeholder image
                                       fit: BoxFit.cover,
                                       width: 90,
                                       height: 90,
@@ -1085,6 +1080,19 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     );
   }
 
+  ///SearchByShopServicesApi
+ /* _getSearchByShopServices() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      var provider = Provider.of<DashboardProvider>(context, listen: false);
+      var body = {};
+      provider.getSearchByShopServices(
+        context:context,
+        body:body,
+      );
+    }
+    );
+  }
+*/
   _getServiceName(List<Service> data) {
     String text = '';
     for (int i = 0; i < data.length; i++) {

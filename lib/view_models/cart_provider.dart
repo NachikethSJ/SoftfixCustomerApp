@@ -88,7 +88,6 @@ class CartProvider extends ChangeNotifier {
       _cartDetail = res?.data
           .map<CartDetailsModel>((e) => CartDetailsModel.fromJson(e))
           .toList();
-
       _setShowLoader(false);
       notifyListeners();
       return true;

@@ -56,6 +56,9 @@ class DashboardProvider extends ChangeNotifier {
   List<NearByShopMembershipModel> _nearByShopMembershipList = [];
   List<NearByShopMembershipModel> get nearByShopMembershipList => _nearByShopMembershipList;
 
+ /* List<> _searchByShopServices = [];
+  List <> get searchByShopServices => _searchByShopServices;*/
+
   //new
 
   List<NearByShopModel> _searchnearShopList = [];
@@ -720,4 +723,35 @@ class DashboardProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  ///SearchByShopServices&SubServices&Package&Membership
+  /*Future<bool> getSearchByShopServices({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async {
+    _setShowLoader(true);
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _searchByShopServices = res?.data
+          .map<NearByShopModel>((e) => NearByShopModel.fromJson(e))
+          .toList();
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+*/
+
 }

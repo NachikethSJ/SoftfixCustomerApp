@@ -51,7 +51,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
   void initState() {
     super.initState();
     print("Subservice Type id===${widget.subServiceId}");
-    // Initialize time slots and checkbox states
+    //Initialize time slots and checkbox states
     timeSlots = ['10:30-11 AM', '10:30-11 AM', '10:30-11 AM', '10:30-11 AM'];
     _getSlot();
   }
@@ -109,12 +109,12 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                             Row(
                               children: [
                                 appText(title: "Booking Date"),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 GestureDetector(
                                   onTap: () {
                                     _showBookingDate(context);
                                     //API Calling for Future Dates Slots
-                                    _getSlot();
+                                    //_getSlot();
                                   },
                                   child: Container(
                                     height: 45,
