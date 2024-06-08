@@ -144,10 +144,11 @@ class _MyBookingState extends State<MyBooking> {
                                                         textOverflow:
                                                             TextOverflow
                                                                 .ellipsis),
+                                                    const SizedBox(width: 2,),
                                                     appText(
-                                                      title:" ${provider
+                                                      title:"(${provider
                                                           .showbookingDetails[
-                                                      index].bookingStatus}",
+                                                      index].bookingStatus})",
                                                       fontSize: 10,
                                                       color:
                                                           Colors.orangeAccent,

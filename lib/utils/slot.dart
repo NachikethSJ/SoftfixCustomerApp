@@ -191,14 +191,14 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                           child: FadeInImage.assetNetwork(
                                             placeholder:
                                             'assets/images/placeholder.png', // Path to placeholder image
-                                            image: '${provider.slotList[index].image}',
+                                            image: '${provider.slotList[index].image?.first}',
                                             fit: BoxFit.cover,
                                             width: 90,
                                             height: 90,
                                             imageErrorBuilder: (context, error, stackTrace) {
                                               // Custom image error builder
                                               return Image.network(
-                                                '${provider.slotList[index].image}',fit: BoxFit.cover,);
+                                                '${provider.slotList[index].image?.first}',fit: BoxFit.cover,);
                                             },
                                           ),
                                           /*Image.network(

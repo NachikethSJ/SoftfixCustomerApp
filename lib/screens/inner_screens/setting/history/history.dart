@@ -126,8 +126,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                     color: Colors.teal.shade500,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  const SizedBox(width:2),
                                   appText(
-                                    title: " (Completed)",
+                                    title: "(${provider.bookingDetailHistory[index].bookingStatus})",
                                     fontSize: 12,
                                     color: Colors.orangeAccent,
                                     fontWeight: FontWeight.bold,

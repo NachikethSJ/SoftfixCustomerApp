@@ -16,7 +16,7 @@ class SlotBySubServicesModel {
   dynamic gender;
   String? file;
   dynamic approvalByAdmin;
-  List<String>? image;
+  List<dynamic>? image;
   List<Slots>? slots;
   dynamic shopName;
 
@@ -60,7 +60,7 @@ class SlotBySubServicesModel {
     gender = json['gender'];
     file = json['file'];
     approvalByAdmin = json['approvalByAdmin'];
-    image = json['image'].cast<String>();
+    image = json['image'];
     if (json['slots'] != null) {
       slots = <Slots>[];
       json['slots'].forEach((v) {
