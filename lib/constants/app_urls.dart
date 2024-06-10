@@ -6,7 +6,8 @@ class AppUrls {
   ///local...
   ///String get baseUrl => 'http://192.168.29.202:3000';
 
-
+  ///NewIP
+  //String get baseUrl => 'http://192.168.29.82:5000';
 
   String get loginUrl => '/user/login';
 

@@ -5,7 +5,7 @@ class BookSlotDetailsModel {
   String? employeeName;
   String? subServiceName;
   int? price;
-  List<String>? image;
+  List<dynamic>? image;
 
   BookSlotDetailsModel(
       {this.bookingDate,
@@ -23,7 +23,7 @@ class BookSlotDetailsModel {
     employeeName = json['employeeName'];
     subServiceName = json['subServiceName'];
     price = json['price'];
-    image = json['image'].cast<String>();
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
