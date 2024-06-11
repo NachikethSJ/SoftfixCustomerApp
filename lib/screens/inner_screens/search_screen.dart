@@ -688,7 +688,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               children: [
                                                 appText(
                                                   title:
-                                                      '${serviceData[index].subService?[i].type ?? ""}',
+                                                      serviceData[index].subService?[i].type ?? "",
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -923,14 +923,14 @@ class _SearchScreenState extends State<SearchScreen>
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       children: [
                         /* appText(title: texts.minPrice,
                             fontSize: 12),*/
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         SizedBox(
@@ -939,7 +939,7 @@ class _SearchScreenState extends State<SearchScreen>
                           //padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
                           child: TextField(
                             controller: minPriceController,
-                            decoration: InputDecoration(
+                            decoration:const   InputDecoration(
                               labelText: 'Min Price',
                               labelStyle: TextStyle(
                                 fontSize: 10,
@@ -951,11 +951,11 @@ class _SearchScreenState extends State<SearchScreen>
                             cursorHeight: 17,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         /*appText(title: texts.maxPrice,
                         fontSize: 12
                         ),*/
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         SizedBox(
@@ -964,7 +964,7 @@ class _SearchScreenState extends State<SearchScreen>
                           child: TextField(
                             keyboardType: TextInputType.number,
                             controller: maxPriceController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Max Price',
                               labelStyle: TextStyle(
                                 fontSize: 10,
@@ -1489,12 +1489,12 @@ class _SearchScreenState extends State<SearchScreen>
                                   labels = RangeLabels('0', '0');*/
                                   minPriceController.text = "";
                                   maxPriceController.text = "";
-                                  offerValue = RangeValues(1, 1);
+                                  offerValue = const RangeValues(1, 1);
                                   // offerLabels= RangeValues('1','1');
-                                  rangeValue = RangeValues(1, 1);
-                                  rangeLabels = RangeLabels('1', '1');
-                                  ratingValue = RangeValues(1, 1);
-                                  ratingLabels = RangeLabels('1', '1');
+                                  rangeValue = const RangeValues(1, 1);
+                                  rangeLabels = const RangeLabels('1', '1');
+                                  ratingValue = const RangeValues(1, 1);
+                                  ratingLabels = const RangeLabels('1', '1');
                                   isOffer = false;
                                   isNearest = false;
                                 });

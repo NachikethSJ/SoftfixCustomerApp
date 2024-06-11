@@ -28,7 +28,7 @@ class _BookServiceHomeState extends State<BookServiceHome> {
               ),
               ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: 6,
                   itemBuilder: (context, index){
                     return Padding(
@@ -63,7 +63,7 @@ class _BookServiceHomeState extends State<BookServiceHome> {
                                           )),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 14,
                                   ),
                                   Column(
@@ -72,7 +72,7 @@ class _BookServiceHomeState extends State<BookServiceHome> {
                                       Row(
                                         children: [
                                           Image.asset('assets/images/time_icon1.png',height: 20,width: 20,),
-                                          SizedBox(width: 2,),
+                                          const SizedBox(width: 2,),
                                           const Text("2km 10-15min"),
                                         ],
                                       ),
@@ -97,13 +97,13 @@ class _BookServiceHomeState extends State<BookServiceHome> {
                               Align(
                                   alignment:Alignment.topRight,
                                   child: Container(
-                                      margin: EdgeInsets.only(right: 10),
+                                      margin: const EdgeInsets.only(right: 10),
                                       decoration: BoxDecoration(
                                           color: appColors.appColor,
                                           borderRadius: BorderRadius.circular(4)
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 15,right: 15,top: 8,bottom: 8),
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(left: 15,right: 15,top: 8,bottom: 8),
                                         child: Text("Book"),
                                       ))),
                             ],

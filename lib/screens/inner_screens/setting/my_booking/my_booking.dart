@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/screens/common_screens/bottom_navigation.dart';
 import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../constants/texts.dart';
 import '../../../../styles/app_colors.dart';
 import '../../../../utils/app_text.dart';
 import '../../../../view_models/accounts_provider.dart';
-import '../../../../view_models/dashboard_provider.dart';
 import '../help/help.dart';
 
 class MyBooking extends StatefulWidget {
@@ -32,12 +28,13 @@ class _MyBookingState extends State<MyBooking> {
     bookingDetails();
   }
 
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: widget.isGoBackDashboard == true ? false : true,
       onPopInvoked: (didPop) {
         if (widget.isGoBackDashboard == true) {
-          navigateRemoveUntil(context: context, to: BottomNavigation());
+          navigateRemoveUntil(context: context, to: const BottomNavigation());
         }
       },
       child: Scaffold(
@@ -48,12 +45,12 @@ class _MyBookingState extends State<MyBooking> {
           leading: GestureDetector(
               onTap: () {
                 if (widget.isGoBackDashboard == true) {
-                  navigateRemoveUntil(context: context, to: BottomNavigation());
+                  navigateRemoveUntil(context: context, to: const BottomNavigation());
                 } else {
                   Navigator.pop(context);
                 }
               },
-              child: Icon(Icons.arrow_back)),
+              child: const Icon(Icons.arrow_back)),
           actions: [
             appText(
               title: "My Booking",
@@ -91,7 +88,7 @@ class _MyBookingState extends State<MyBooking> {
                   builder: (context, provider, child) {
                     return ListView.builder(
                         itemCount: provider.showbookingDetails.length,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, index) {
                           return Padding(
@@ -401,7 +398,7 @@ class _MyBookingState extends State<MyBooking> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.location_on,
                                                     color: Colors.white,
                                                   ),
@@ -412,7 +409,7 @@ class _MyBookingState extends State<MyBooking> {
                                                     color: appColors.appWhite,
                                                     fontSize: 8,
                                                   ),
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.directions,
                                                     color: Colors.white,
                                                   ),
@@ -434,7 +431,7 @@ class _MyBookingState extends State<MyBooking> {
                         });
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
@@ -458,7 +455,7 @@ class _MyBookingState extends State<MyBooking> {
 
   Future<void> openMap(double latitude, double longitude) async {
     String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}';
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {

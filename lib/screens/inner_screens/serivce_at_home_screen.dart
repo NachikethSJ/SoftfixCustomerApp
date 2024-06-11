@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
-
 import '../../constants/texts.dart';
-import '../../models/dashboard_models/near_by_service_model.dart';
 import '../../styles/app_colors.dart';
 import '../../utils/app_text.dart';
 import '../../utils/loading_shimmer.dart';
-import '../../utils/navigation.dart';
 import '../../utils/validator.dart';
 import '../../view_models/dashboard_provider.dart';
 class ServiceHome extends StatefulWidget {
@@ -21,7 +17,7 @@ class _ServiceHomeState extends State<ServiceHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(""),),
+      appBar: AppBar(title: const Text(""),),
       body: SingleChildScrollView(
         child: Column(
           children: [

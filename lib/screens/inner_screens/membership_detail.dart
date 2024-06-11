@@ -4,10 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/membership_model.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
-import 'package:salon_customer_app/utils/validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/slot.dart';
@@ -63,7 +61,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                   ),
                   Text(
                     '${provider.showMemberShipDetails.shopName}',
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -140,7 +138,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                         },
                                         child:  Text(
                                           texts.getDirection,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         )),
@@ -219,14 +217,14 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                                     child: Center(
                                                         child: Text(
                                                           "${provider.showMemberShipDetails.membership?.offer??""}%Off",
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color: Colors.white,
                                                               fontWeight:
                                                               FontWeight.bold),
                                                         )),
                                                   ),
                                                 )
-                                                :SizedBox(),
+                                                :const SizedBox(),
                                               ],
                                             ),
                                           ),
@@ -950,7 +948,7 @@ class _MembershipDetailState extends State<MembershipDetail> {
 
   Future<void> openMap(double latitude, double longitude) async {
     String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}';
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {

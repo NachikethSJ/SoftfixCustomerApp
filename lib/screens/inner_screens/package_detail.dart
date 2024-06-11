@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
-import 'package:salon_customer_app/utils/validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/slot.dart';
@@ -64,7 +61,7 @@ class _PackageDetailState extends State<PackageDetail> {
                 ),
                 Text(
                   "${provider.showPackageDetails.shopName} ",
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),
@@ -130,7 +127,7 @@ class _PackageDetailState extends State<PackageDetail> {
                                         },
                                         child: Text(
                                           texts.getDirection,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
                                         )),

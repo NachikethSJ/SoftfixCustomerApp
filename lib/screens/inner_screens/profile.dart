@@ -9,7 +9,6 @@ import 'package:salon_customer_app/screens/inner_screens/setting/my_booking/my_b
 import 'package:salon_customer_app/screens/inner_screens/setting/package/packge.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/alert.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/auth_provider.dart';

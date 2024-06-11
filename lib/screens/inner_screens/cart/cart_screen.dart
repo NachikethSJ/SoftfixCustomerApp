@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
-
 import '../../../cache_manager/cache_manager.dart';
 import '../../../utils/continue_to_payment.dart';
 import '../../../utils/slot.dart';
@@ -34,24 +32,6 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
     });
   }
 
-  Future<void> _showBookingDate(BuildContext context) async {
-    final DateTime currentDate = DateTime.now();
-    final DateTime oneWeekLater = currentDate.add(Duration(days: 7));
-
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? currentDate,
-      firstDate: currentDate,
-      lastDate: oneWeekLater,
-    );
-
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -65,7 +45,7 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
       builder: (context, provider, child) {
         print('Cart item${provider.showCartDetails.length}');
         if (provider.showLoader) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (provider.showCartDetails.isEmpty) {
@@ -75,7 +55,7 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
               automaticallyImplyLeading: false,
               centerTitle: true,
             ),
-            body: Center(child: Text("Cart is Empty")),
+            body: const Center(child: Text("Cart is Empty")),
           );
         }
         return Scaffold(
@@ -201,7 +181,7 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
                                                   onTap: () {
                                                     deleteCartItem(index);
                                                   },
-                                                  child: Icon(Icons.delete))
+                                                  child: const Icon(Icons.delete))
                                             ],
                                           ),
                                           const SizedBox(

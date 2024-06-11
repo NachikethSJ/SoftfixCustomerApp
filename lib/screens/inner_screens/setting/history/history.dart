@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/view_models/accounts_provider.dart';
-import 'package:salon_customer_app/view_models/cart_provider.dart';
-
 import '../../../../styles/app_colors.dart';
 import '../../../../utils/app_bar.dart';
 import '../../../../utils/app_text.dart';

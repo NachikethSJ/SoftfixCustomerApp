@@ -6,10 +6,7 @@ import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/validate_connectivity.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
-
-import '../../../../constants/texts.dart';
 import '../../../../utils/custom_textfield.dart';
-import '../../../../utils/loading_shimmer.dart';
 import '../../../../view_models/accounts_provider.dart';
 
 class HelpPage extends StatefulWidget {

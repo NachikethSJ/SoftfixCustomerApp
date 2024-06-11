@@ -188,7 +188,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                   },
                                   child: Text(
                                     texts.getDirection,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   )),
@@ -381,14 +381,14 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                               child: Center(
                                                   child: Text(
                                                 "${provider.nearByShopServicesList[index].subServices?[childIndex].offer}% Off",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               )),
                                             ),
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                   ],
                                 ),
                               ),

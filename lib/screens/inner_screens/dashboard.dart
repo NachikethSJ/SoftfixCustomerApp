@@ -7,8 +7,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
@@ -19,23 +17,18 @@ import 'package:salon_customer_app/screens/inner_screens/map/map_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
-import 'package:salon_customer_app/screens/inner_screens/serivce_at_home_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/setting/service_at_home.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
-import 'package:salon_customer_app/utils/fixed_gridview_height.dart';
 import 'package:salon_customer_app/utils/loading_shimmer.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
-
-import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../utils/slot.dart';
 import '../../utils/validate_connectivity.dart';
 import '../../utils/validator.dart';
 import '../../view_models/cart_provider.dart';
 import '../common_screens/cutome_image_slider.dart';
-import '../common_screens/local_notifications.dart';
 import '../common_screens/notification.dart';
 import 'shop_detail.dart';
 import 'sub_service_detail.dart';
@@ -57,13 +50,11 @@ class _DashboardState extends State<Dashboard>
   double longitude = 77.1025;
   bool isOffer = false;
   bool isNearest = false;
-  bool _istoggle = false;
   TextEditingController searchController = TextEditingController();
   TextEditingController addressController =
       TextEditingController(text: 'Select Location');
   late TabController _tabController;
   String personType = '';
-  DateTime _selectedDate = DateTime.now();
   List<String> timeItems = [
     '12:00 AM',
     '01:00 AM',
@@ -91,19 +82,6 @@ class _DashboardState extends State<Dashboard>
     '11:00 PM',
   ];
 
-  Future<void> _selectbookingDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2015, 8),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
-  }
 
 // Define the selected times for "From" and "To" containers
   String? selectedTimeFrom;
@@ -2210,7 +2188,7 @@ class _DashboardState extends State<Dashboard>
                     //     ),
                     //   ],
                     // ),
-                    Divider(
+                    const Divider(
                       color: Colors.grey,
                       endIndent: 15,
                       indent: 15,
@@ -2288,7 +2266,7 @@ class _DashboardState extends State<Dashboard>
                         // ),
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.grey,
                       endIndent: 15,
                       indent: 15,
