@@ -42,6 +42,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        _getSlot();
       });
     }
   }
@@ -114,7 +115,6 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                   onTap: () {
                                     _showBookingDate(context);
                                     //API Calling for Future Dates Slots
-                                    //_getSlot();
                                   },
                                   child: Container(
                                     height: 45,
