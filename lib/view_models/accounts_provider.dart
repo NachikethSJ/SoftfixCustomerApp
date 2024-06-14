@@ -165,7 +165,6 @@ class AccountsProvider extends ChangeNotifier {
     required Map<String, dynamic> body,
   }) async{
     _setShowLoader(true);
-    //_getLatestOTP = GetLatestOTPModel();
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -176,27 +175,11 @@ class AccountsProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
+      ///When You have not data in a list
       _getLatestOTP = GetLatestOTPModel.fromJson(res?.data);
-
       _setShowLoader(false);
       notifyListeners();
       return true;
-      /*if(res?.data is List) {
-        _getLatestOTP = (res?.data as List<dynamic>).map<GetLatestOTPModel>((e) => GetLatestOTPModel.fromJson(e))
-            .toList();
-        print("====OTP====");
-        showToast(
-            res?.message, isSuccess: true);
-      } else {
-        _setShowLoader(false);
-        showToast(
-            res?.message, isSuccess: true);
-        // Handle the case where res?.data is not a List
-        print('Response data is not a List');
-      }
-      _setShowLoader(false);
-      notifyListeners();
-      return true;*/
     } catch (e) {
       print("=====Exception===$e");
       if(e is ServerError){

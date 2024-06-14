@@ -260,9 +260,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                 SizedBox(
                                   height: 40,
                                   width: 190,
-                                  // decoration: BoxDecoration(
-                                  //     border: Border.all(
-                                  //         color: appColors.appColor)),
                                   child: TextField(
                                     controller: reviewControllers[index],
                                     decoration: const InputDecoration(

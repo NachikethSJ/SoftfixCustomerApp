@@ -38,9 +38,9 @@ class _ProfileState extends State<Profile> {
 
   List<Map<String, dynamic>> navigationData = [
     {'icon': Icons.book, 'title': texts.myBooking},
+    {'icon': Icons.history, 'title': texts.history},
     {'icon': Icons.pattern, 'title': texts.package},
     {'icon': Icons.card_membership, 'title': texts.membership},
-    {'icon': Icons.chat_bubble_outline, 'title': texts.history},
     {'icon': Icons.phone,'title': texts.shareUs},
     {'icon': Icons.copy,'title': texts.copyLink},
   ];
@@ -75,29 +75,27 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             Container(
-              height: 105,
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
               width: double.maxFinite,
               decoration: BoxDecoration(
                 color: appColors.appColor,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.personal_injury_sharp,
-                      color: appColors.appBlack,
-                      size: 30,
-                    ),
-                    const SizedBox(height: 5,),
-                    appText(
-                      title: number,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const SizedBox(height: 10,),
+                  Icon(
+                    Icons.personal_injury_sharp,
+                    color: appColors.appBlack,
+                    size: 30,
+                  ),
+                  const SizedBox(height: 35,),
+                  appText(
+                    title: number,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               )
             ),
             /*Container(
@@ -164,86 +162,81 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),*/
-            Card(
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Divider(
-                            color: Colors.grey.shade100,
-                          ),
-                        );
-                      },
-                      itemCount: navigationData.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return _navigationCard(
-                          navigationData[index]['icon'],
-                          navigationData[index]['title'],
-                          index,
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () async {
-                        await alert(
-                          heading: 'Logout',
-                          subTitle: 'Are you sure, Do you want to log out?',
-                          acceptTitle: 'Yes',
-                          context: context,
-                          denyTitle: 'No',
-                          height: 210,
-                          onPressed: () {
-                            _logout();
-                          },
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: appColors.appGray100,
-                          borderRadius: BorderRadius.circular(4),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Divider(
+                          color: Colors.grey.shade100,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 12, bottom: 12, left: 10, right: 10),
-                          child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              appText(
-                                title: texts.logout,
-                                fontSize: 16,
-                              ),
-                              Icon(
-                                Icons.logout,
-                                color: appColors.appBlack,
-                              )
-                            ],
-                          ),
+                      );
+                    },
+                    itemCount: navigationData.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return _navigationCard(
+                        navigationData[index]['icon'],
+                        navigationData[index]['title'],
+                        index,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () async {
+                      await alert(
+                        heading: 'Logout',
+                        subTitle: 'Are you sure, Do you want to log out?',
+                        acceptTitle: 'Yes',
+                        context: context,
+                        denyTitle: 'No',
+                        height: 210,
+                        onPressed: () {
+                          _logout();
+                        },
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: appColors.appGray100,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 12, bottom: 12, left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                          children: [
+                            appText(
+                              title: texts.logout,
+                              fontSize: 16,
+                            ),
+                            Icon(
+                              Icons.logout,
+                              color: appColors.appBlack,
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
           ],
         ),
@@ -299,8 +292,8 @@ class _ProfileState extends State<Profile> {
                     title: title,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    //color: Colors.grey.shade600,
-                    color: appColors.appColor
+                    color: Colors.grey.shade600,
+                    //color: appColors.appColor
                   ),
                 ),
                 Icon(

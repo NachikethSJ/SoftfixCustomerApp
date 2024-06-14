@@ -140,7 +140,6 @@ class _MapScreenState extends State<MapScreen> {
         children: [
           GoogleMap(
             compassEnabled: true,
-
             myLocationButtonEnabled: true,
             minMaxZoomPreference: MinMaxZoomPreference(17, 26),
             myLocationEnabled: true,
@@ -164,10 +163,10 @@ class _MapScreenState extends State<MapScreen> {
           Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 36.0),
+                padding: const EdgeInsets.only(bottom: 36.0),
                 child: Image.asset(
-                  'assets/images/map_pin.jpeg',
-                  height: 36,
+                  'assets/images/mapPin.png',
+                  height: 40,
                 ),
               )),
           Padding(

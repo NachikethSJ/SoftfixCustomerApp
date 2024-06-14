@@ -70,7 +70,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
             appBar: AppBar(
               title: Row(
                 children: [
-                  Text('${provider.subServiceDetail.shopDetail?.name??''}',
+                  Text(provider.subServiceDetail.shopDetail?.name??'',
                       style: const TextStyle(fontSize: 14)
                   ),
                   const Spacer(),
@@ -85,14 +85,13 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.only(left: 12,right: 12,top: 5),
                 child: Consumer<ServicesDetailsProvider>(
                   builder: (context, provider, child) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Stack(
-                          //alignment: Alignment.bottomLeft,
                           children: [
                             SizedBox(
                               height: 180,
@@ -180,7 +179,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                           ],
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 3,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +190,8 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                     '',
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black87),
+                                color: Colors.black.withOpacity(0.7)
+                            ),
                             Container(
                               height: 30,
                               width: 50,
@@ -217,16 +217,14 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 3,
-                        ),
                         Row(
                           children: [
                             appText(
                               title:
                                   '₹${calculatePrice(double.parse(provider.subServiceDetail.subService?.price?.toString() ?? '0'), double.parse(provider.subServiceDetail.subService?.offer?.toString() ?? '0'))}',
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
+                                color: Colors.black.withOpacity(0.7)
                             ),
                             const SizedBox(
                               width: 10,
@@ -244,9 +242,6 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                           title:
                               '${provider.subServiceDetail.subService?.timeTaken?.toString()} Min Service',
                           fontSize: 15,
-                        ),
-                        const SizedBox(
-                          height: 5,
                         ),
                         dataCard(
                           texts.detail,
@@ -344,7 +339,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
           borderRadius: BorderRadius.circular(4),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.only(left: 5,right: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -354,7 +349,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                   fontSize: 16,
                   color: appColors.appColor),
               const SizedBox(
-                height: 6,
+                height: 2,
               ),
               appText(
                 title: detail,

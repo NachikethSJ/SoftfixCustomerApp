@@ -338,12 +338,12 @@ class _DashboardState extends State<Dashboard>
                         print("kfhjksyhfkjsdf $i");
                         if (index == 0) {
                           selectedIndex = "1";
+                        } else {
+                          selectedIndex = "2";
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const ServiceAtHomeScreen()));
-                        } else {
-                          selectedIndex = "2";
                         }
                         index = i;
                         _getNearByData();
@@ -386,6 +386,9 @@ class _DashboardState extends State<Dashboard>
                                   controller: searchController,
                                   decoration: InputDecoration(
                                       hintText: texts.searchShop,
+                                      hintStyle: TextStyle(
+                                        fontSize: 15
+                                      ),
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       suffixIcon: Icon(

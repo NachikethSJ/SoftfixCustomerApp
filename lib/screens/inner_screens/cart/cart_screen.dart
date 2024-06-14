@@ -239,6 +239,18 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
                                               ),
                                             ],
                                           ),
+                                          Row(
+                                            children: [
+                                              appText(title: 'Booking Time:- ',fontSize: 11),
+                                              appText(
+                                                title:
+                                                '${provider.showCartDetails[index].bookingDetailsSlotsCart?[index].startTime} - ${provider.showCartDetails[index].bookingDetailsSlotsCart?[index].endTime}',
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
                                           const SizedBox(
                                             height: 4,
                                           ),

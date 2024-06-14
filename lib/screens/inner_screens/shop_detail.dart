@@ -68,7 +68,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -106,7 +106,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                     child: TextFormField(
                       controller: searchController,
                       decoration: InputDecoration(
-                        hintText: texts.searchShop,
+                        hintText: texts.searchServices,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         contentPadding: const EdgeInsets.only(
@@ -141,7 +141,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
             ),
           )
         ],
-      ),
+      ),*/
       body: DefaultTabController(
         length: 3,
         child: Padding(
@@ -149,6 +149,88 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(height: 30,),
+                SizedBox(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back,
+                          )
+                      ),
+                      searchTextBoxVisible == false
+                     ? Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: appColors.appColor,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            "${widget.shopData.name} (${(Geolocator.distanceBetween(widget.lat, widget.lng, widget.shopData.lat!, widget.shopData.lng!) / 1000).toStringAsFixed(2)} Km Away)",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      )
+                      :SizedBox(
+                        height: MediaQuery.of(context).size.height * .070,
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: appColors.appColor),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: SizedBox(
+                            height: 46,
+                            child: TextFormField(
+                              cursorHeight: 17,
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                hintText: texts.searchServices,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 14, right: 14, top: 10, bottom: 10),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  searchController.text = value;
+                                });
+                                _getNearByShopServices();
+                                _getNearByShopPackages();
+                                _getNearByShopMembership();
+                                ///APICalling
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            searchTextBoxVisible = true;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Icon(
+                            Icons.search,
+                            color: appColors.appColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5,),
                 Stack(
                   children: [
                     SizedBox(

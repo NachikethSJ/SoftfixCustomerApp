@@ -34,7 +34,9 @@ class Texts {
 
   String get serviceAtShop => 'Service At Shop';
 
-  String get searchShop => 'Search for nearest shop';
+  String get searchShop => 'Search for Nearest Salon & Services';
+
+  String get searchServices => 'Search for Services';
 
   String get bookAgain => 'Book again / Recommendation';
 
