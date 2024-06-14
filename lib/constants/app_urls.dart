@@ -3,11 +3,9 @@ class AppUrls {
 
     String get baseUrl => 'http://13.50.84.221:5000';
 
-  ///local...
-  ///String get baseUrl => 'http://192.168.29.202:3000';
 
   ///NewIP
-  //String get baseUrl => 'http://192.168.29.82:5000';
+  //String get baseUrl => 'http://192.168.29.154:5000';
 
   String get loginUrl => '/user/login';
 
@@ -74,7 +72,9 @@ class AppUrls {
 
  String get getNearByShopMembershipUrl => '/user/get-membership-by-shop';
 
- String get searchByShopServicesUrl => 'user/search';
+ String get searchByShopServicesUrl => '/user/search';
+
+ String get getLatestOTP => '/user/get-latest-otp';
 }
 
 AppUrls appUrls = AppUrls();

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_client.dart';
 import '../constants/app_urls.dart';
 import '../models/booking/booking_history_detail_model.dart';
+import '../models/booking/get_latest_otp_model.dart';
 import '../models/help_model.dart';
 import '../utils/show_toast.dart';
 import 'auth_provider.dart';
@@ -27,6 +28,8 @@ class AccountsProvider extends ChangeNotifier {
   List<GetHelpMessageModel> _getHelpMessageDetail = [];
   List<GetHelpMessageModel> get getHelpMessageList => _getHelpMessageDetail;
 
+  GetLatestOTPModel _getLatestOTP = GetLatestOTPModel();
+  GetLatestOTPModel get getLatestOTP => _getLatestOTP;
 
   _setShowLoader(bool value) {
     _showLoader = value;
@@ -145,6 +148,55 @@ class AccountsProvider extends ChangeNotifier {
       _setShowLoader(false);
       notifyListeners();
       return true;
+    } catch (e) {
+      print("=====Exception===$e");
+      if(e is ServerError){
+        showToast(e.message);
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  ///GetLatestOTP
+  Future<bool> getLatestOTPView({
+    required BuildContext context,
+    required Map<String, dynamic> body,
+  }) async{
+    _setShowLoader(true);
+    //_getLatestOTP = GetLatestOTPModel();
+    notifyListeners();
+    try {
+      var state = AuthProvider(await SharedPreferences.getInstance());
+      var res = await ApiClient.postApi(
+        url: appUrls.getLatestOTP,
+        body: body,
+        headers: {
+          'Authorization': 'Bearer ${state.userData.token ?? ''}',
+        },
+      );
+      _getLatestOTP = GetLatestOTPModel.fromJson(res?.data);
+
+      _setShowLoader(false);
+      notifyListeners();
+      return true;
+      /*if(res?.data is List) {
+        _getLatestOTP = (res?.data as List<dynamic>).map<GetLatestOTPModel>((e) => GetLatestOTPModel.fromJson(e))
+            .toList();
+        print("====OTP====");
+        showToast(
+            res?.message, isSuccess: true);
+      } else {
+        _setShowLoader(false);
+        showToast(
+            res?.message, isSuccess: true);
+        // Handle the case where res?.data is not a List
+        print('Response data is not a List');
+      }
+      _setShowLoader(false);
+      notifyListeners();
+      return true;*/
     } catch (e) {
       print("=====Exception===$e");
       if(e is ServerError){
