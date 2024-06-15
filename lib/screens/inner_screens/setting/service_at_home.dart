@@ -17,9 +17,9 @@ class _ServiceAtHomeScreenState extends State<ServiceAtHomeScreen> {
             onTap: (){
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back)
+            child: const Icon(Icons.arrow_back)
         ),
-        title: Text(
+        title: const Text(
           "Service At Home",
           style: TextStyle(
             fontSize: 14,
@@ -27,7 +27,7 @@ class _ServiceAtHomeScreenState extends State<ServiceAtHomeScreen> {
           ),
         ),
       ) ,
-      body: Center(child: Text("Coming Soon")),
+      body: const Center(child: Text("Coming Soon")),
     );
   }
 }

@@ -1137,7 +1137,7 @@ class _DashboardState extends State<Dashboard>
                                     width: 6,
                                   ),
                                   appText(
-                                      title: '50% OFF up to 250',
+                                      title: 'UpTo ${shopsData[index].discountAvg.toStringAsFixed(0)}%',
                                       color: Colors.indigo.shade400)
                                 ],
                               ),

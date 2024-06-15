@@ -125,8 +125,6 @@ class _SearchScreenState extends State<SearchScreen>
           'maxDistance': int.tryParse(rangeLabels.end),
           'minRating': int.tryParse(ratingLabels.start),
           'maxRating': int.tryParse(ratingLabels.end),
-          //'searchShop': searchController.text ?? '',
-          //'searchService': searchController.text ?? '',
           'search': searchController.text ?? '',
         };
         print("====$body");
@@ -252,12 +250,11 @@ class _SearchScreenState extends State<SearchScreen>
             child: Column(
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 35,
                 ),
                 Container(
                   height: 50,
                   child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -459,16 +456,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   _serviceList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
-      List<NearServiceModel> serviceData =
-          provider.searchserviceList.where((element) {
-        if (searchController.text.isNotEmpty) {
-          return element.serviceName
-                  ?.toLowerCase()
-                  .contains(searchController.text.toLowerCase()) ??
-              false;
-        }
-        return true;
-      }).toList();
+
       if (provider.showLoader) {
         return const SizedBox(
           height: 100,
@@ -476,7 +464,7 @@ class _SearchScreenState extends State<SearchScreen>
             child: CircularProgressIndicator(),
           ),
         );
-      } else if (serviceData.isEmpty) {
+      } else if (provider.searchserviceList.isEmpty) {
         return SizedBox(
           height: 200,
           child: Center(
@@ -492,7 +480,7 @@ class _SearchScreenState extends State<SearchScreen>
             height: 12,
           );
         },
-        itemCount: serviceData.length > 10 ? 10 : serviceData.length,
+        itemCount: provider.searchserviceList.length > 10 ? 10 : provider.searchserviceList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(
@@ -505,7 +493,7 @@ class _SearchScreenState extends State<SearchScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   appText(
-                      title: '${serviceData[index].shopName}',
+                      title: '${provider.searchserviceList[index].shopName}',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
@@ -530,7 +518,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                             title:
-                                '${serviceData[index].rating}',
+                                '${provider.searchserviceList[index].rating}',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -551,7 +539,7 @@ class _SearchScreenState extends State<SearchScreen>
                           ),
                           appText(
                               title:
-                                  '${serviceData[index].subService?[0].timeTaken ?? "30"} Min',
+                                  '${provider.searchserviceList[index].subService?[0].timeTaken ?? "30"} Min',
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.blueGrey.shade400),
@@ -564,7 +552,7 @@ class _SearchScreenState extends State<SearchScreen>
                         children: [
                           appText(
                               title:
-                                  '${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, serviceData[index].lat!, serviceData[index].lng!) / 1000).toStringAsFixed(2)}Km',
+                                  '${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, provider.searchserviceList[index].lat!, provider.searchserviceList[index].lng!) / 1000).toStringAsFixed(2)}Km',
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.blueGrey.shade400),
@@ -591,7 +579,7 @@ class _SearchScreenState extends State<SearchScreen>
                           width: 1,
                         );
                       },
-                      itemCount: serviceData[index].subService?.length ?? 0,
+                      itemCount: provider.searchserviceList[index].subService?.length ?? 0,
                       itemBuilder: (context, i) {
                         return Row(
                           children: [
@@ -602,7 +590,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     to: SubServiceDetail(
                                       lat: widget.lat,
                                       lng: widget.lang,
-                                      subServiceid: serviceData[index]
+                                      subServiceid: provider.searchserviceList[index]
                                           .subService![i]
                                           .id
                                           .toString(),
@@ -626,7 +614,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                               child: Image.network(
-                                                serviceData[index]
+                                                provider.searchserviceList[index]
                                                         .subService?[i]
                                                         .image
                                                         ?.first ??
@@ -648,7 +636,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               ),
                                             ),
                                           ),
-                                          serviceData[index]
+                                          provider.searchserviceList[index]
                                                       .subService?[i]
                                                       .offer !=
                                                   null
@@ -663,7 +651,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                             color: Colors.blue),
                                                     child: Center(
                                                         child: Text(
-                                                      "${serviceData[index].subService?[i].offer}% Off",
+                                                      "${provider.searchserviceList[index].subService?[i].offer}% Off",
                                                       style: const TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:
@@ -688,7 +676,7 @@ class _SearchScreenState extends State<SearchScreen>
                                               children: [
                                                 appText(
                                                   title:
-                                                      serviceData[index].subService?[i].type ?? "",
+                                                  provider.searchserviceList[index].subService?[i].type ?? "",
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -714,7 +702,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     ),
                                                     appText(
                                                       title:
-                                                          '${serviceData[index].rating}',
+                                                          '${provider.searchserviceList[index].rating}',
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -728,7 +716,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                   children: [
                                                     appText(
                                                       title:
-                                                          '₹${calculatePrice(double.parse(serviceData[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
+                                                          '₹${calculatePrice(double.parse(provider.searchserviceList[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -738,7 +726,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     ),
                                                     appText(
                                                         title:
-                                                            '₹${serviceData[index].subService?[i].price ?? ""}',
+                                                            '₹${provider.searchserviceList[index].subService?[i].price ?? ""}',
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -765,7 +753,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     ),
                                                     appText(
                                                       title:
-                                                          '${serviceData[index].subService?[i].timeTaken ?? "0"} Min Services',
+                                                          '${provider.searchserviceList[index].subService?[i].timeTaken ?? "0"} Min Services',
                                                     )
                                                   ],
                                                 ),
@@ -783,7 +771,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     onPressed: () {
                                                       showSlotBookingDialog(
                                                           context,
-                                                          serviceData[index]
+                                                          provider.searchserviceList[index]
                                                                   .subService?[
                                                                       0]
                                                                   .id ??

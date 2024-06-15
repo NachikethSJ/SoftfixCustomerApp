@@ -2,6 +2,7 @@ class CartDetailsModel {
   dynamic cartId;
   List<BookingDetailsSlotsCart>? bookingDetailsSlotsCart;
   dynamic subServiceId;
+  dynamic bookingDate;
   dynamic price;
   dynamic time;
   dynamic offer;
@@ -14,15 +15,17 @@ class CartDetailsModel {
       {this.cartId,
         this.bookingDetailsSlotsCart,
         this.subServiceId,
+        this.bookingDate,
         this.price,
         this.time,
         this.offer,
         this.type,
         this.name,
-        this.image,this.isLoading});
+        this.image,
+        this.isLoading
+      });
 
   CartDetailsModel.fromJson(Map<String, dynamic> json) {
-    isLoading=false;
     cartId = json['cartId'];
     if (json['bookingDetailsSlotsCart'] != null) {
       bookingDetailsSlotsCart = <BookingDetailsSlotsCart>[];
@@ -30,7 +33,8 @@ class CartDetailsModel {
         bookingDetailsSlotsCart!.add(new BookingDetailsSlotsCart.fromJson(v));
       });
     }
-    subServiceId = json['subServiceId'].toInt();
+    subServiceId = json['subServiceId'];
+    bookingDate = json['bookingDate'];
     price = json['price'];
     time = json['time'];
     offer = json['offer'];
@@ -47,6 +51,7 @@ class CartDetailsModel {
           this.bookingDetailsSlotsCart!.map((v) => v.toJson()).toList();
     }
     data['subServiceId'] = this.subServiceId;
+    data['bookingDate'] = this.bookingDate;
     data['price'] = this.price;
     data['time'] = this.time;
     data['offer'] = this.offer;

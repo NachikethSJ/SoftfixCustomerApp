@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
+import 'package:salon_customer_app/utils/show_toast.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 import '../../../cache_manager/cache_manager.dart';
@@ -244,7 +245,20 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
                                               appText(title: 'Booking Time:- ',fontSize: 11),
                                               appText(
                                                 title:
-                                                '${provider.showCartDetails[index].bookingDetailsSlotsCart?[index].startTime} - ${provider.showCartDetails[index].bookingDetailsSlotsCart?[index].endTime}',
+                                                '${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime} - ${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime}',
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 2,),
+                                          Row(
+                                            children: [
+                                              appText(title: 'Booking Date:- ',fontSize: 11),
+                                              appText(
+                                                title:
+                                                provider.showCartDetails[index].bookingDate.toString(),
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey,
@@ -256,73 +270,81 @@ class _CartScreenState extends State<CartScreen>  with CacheManager {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              List<Map<String, dynamic>>
-                                                  bookingDetailsSlotsCarts = [];
-                                              bookingDetailsSlotsCarts.add({
-                                                "startTime": provider
-                                                    .showCartDetails[index]
-                                                    .bookingDetailsSlotsCart?[0]
-                                                    .startTime,
-                                                "endTime": provider
-                                                    .showCartDetails[index]
-                                                    .bookingDetailsSlotsCart?[0]
-                                                    .endTime,
-                                                "employeeId": provider
-                                                    .showCartDetails[index]
-                                                    .bookingDetailsSlotsCart?[0]
-                                                    .employeeId,
-                                                "shopId": provider
-                                                    .showCartDetails[index]
-                                                    .bookingDetailsSlotsCart?[0]
-                                                    .shopId,
-                                              });
+                                              DateTime startTime=DateTime.parse('${formatDateTime(provider.showCartDetails[index].bookingDate??'', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime}:00Z');
+                                              DateTime endTime=DateTime.parse('${formatDateTime(provider.showCartDetails[index].bookingDate??'', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime}:00Z');
+                                              if(DateTime.now().isAfter(startTime) || DateTime.now().isAfter(endTime)){
+                                                showToast('This slot is not valid.');
+                                              }else {
+                                                List<Map<String, dynamic>>
+                                                bookingDetailsSlotsCarts = [];
+                                                bookingDetailsSlotsCarts.add({
+                                                  "startTime": provider
+                                                      .showCartDetails[index]
+                                                      .bookingDetailsSlotsCart?[0]
+                                                      .startTime,
+                                                  "endTime": provider
+                                                      .showCartDetails[index]
+                                                      .bookingDetailsSlotsCart?[0]
+                                                      .endTime,
+                                                  "employeeId": provider
+                                                      .showCartDetails[index]
+                                                      .bookingDetailsSlotsCart?[0]
+                                                      .employeeId,
+                                                  "shopId": provider
+                                                      .showCartDetails[index]
+                                                      .bookingDetailsSlotsCart?[0]
+                                                      .shopId,
+                                                });
 
-                                              ///directPaymentScreenOpen
-                                              var body = {
-                                                "id": provider
-                                                    .showCartDetails[index]
-                                                    .subServiceId,
-                                                "date": formatDateTime(
-                                                    _selectedDate.toString(),
-                                                    'yyyy-MM-dd'),
-                                                "bookingDetailsArray":
-                                                    bookingDetailsSlotsCarts
-                                              };
-                                              setState(() {
-                                                provider.showCartDetails[index]
-                                                    .isLoading = true;
-                                              });
-                                              var dashboardProvider = Provider
-                                                  .of<DashboardProvider>(
-                                                      context,
-                                                      listen: false);
-                                              dashboardProvider
-                                                  .createOrder(
-                                                context: context,
-                                                body: body,
-                                              )
-                                                  .then((value) {
+                                                ///directPaymentScreenOpen
+                                                var body = {
+                                                  "id": provider
+                                                      .showCartDetails[index]
+                                                      .subServiceId,
+                                                  "date": formatDateTime(
+                                                      _selectedDate.toString(),
+                                                      'yyyy-MM-dd'),
+                                                  "bookingDetailsArray":
+                                                  bookingDetailsSlotsCarts
+                                                };
                                                 setState(() {
                                                   provider
                                                       .showCartDetails[index]
-                                                      .isLoading = false;
+                                                      .isLoading = true;
                                                 });
-                                                if (value) {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PaymentContinueScreen(
-                                                                date: formatDateTime(
-                                                                    _selectedDate
-                                                                        .toString(),
-                                                                    'yyyy-MM-dd'),
-                                                                ordrId: dashboardProvider
-                                                                    .createOrderSlot
-                                                                    .orderId,
-                                                              ))); // Close the dialog
-                                                }
-                                              });
+                                                var dashboardProvider = Provider
+                                                    .of<DashboardProvider>(
+                                                    context,
+                                                    listen: false);
+                                                dashboardProvider
+                                                    .createOrder(
+                                                  context: context,
+                                                  body: body,
+                                                )
+                                                    .then((value) {
+                                                  setState(() {
+                                                    provider
+                                                        .showCartDetails[index]
+                                                        .isLoading = false;
+                                                  });
+                                                  if (value) {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (
+                                                                context) =>
+                                                                PaymentContinueScreen(
+                                                                  date: formatDateTime(
+                                                                      _selectedDate
+                                                                          .toString(),
+                                                                      'yyyy-MM-dd'),
+                                                                  ordrId: dashboardProvider
+                                                                      .createOrderSlot
+                                                                      .orderId,
+                                                                ))); // Close the dialog
+                                                  }
+                                                });
+                                              }
                                               // Close the dialog
                                             },
                                             child: Container(

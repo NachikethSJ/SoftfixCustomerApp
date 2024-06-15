@@ -87,7 +87,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
       child: SizedBox(
-        height: 360,
+        //height: 360,
         width: double.infinity,
         child: Card(
           elevation: 4,
@@ -210,102 +210,95 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     ],
                   ),
-                  Visibility(
-                    visible: israteShowList[index],
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 18, bottom: 2),
-                            child: Row(
-                              children: [
-                                appText(
-                                    title: "Rating:",
-                                    fontWeight: FontWeight.bold),
-                                RatingBar.builder(
-                                  wrapAlignment: WrapAlignment.start,
-                                  itemSize: 25,
-                                  initialRating: 0,
-                                  minRating: 0,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (value) {
-                                    setState(() {
-                                      ratings[index] = value;
-                                    });
-                                  },
-                                ),
-                              ],
+                  israteShowList[index]
+                  ?Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18, bottom: 2),
+                        child: Row(
+                          children: [
+                            appText(
+                                title: "Rating:",
+                                fontWeight: FontWeight.bold),
+                            RatingBar.builder(
+                              wrapAlignment: WrapAlignment.start,
+                              itemSize: 25,
+                              initialRating: 0,
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (value) {
+                                setState(() {
+                                  ratings[index] = value;
+                                });
+                              },
                             ),
-                          ),
-                          //appText(title: '${provider.bookingDetailHistory[index].vendorId}'),
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: appText(title: "Review Vendor"),
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: 190,
-                                  child: TextField(
-                                    controller: reviewControllers[index],
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.only(bottom: 10, left: 8),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    reviewUser(
-                                        context,
-                                        index,
-                                        provider.bookingDetailHistory[index]
-                                            .vendorId
-                                            .toString(),
-                                        provider.bookingDetailHistory[index]
-                                            .shopId.toString(),
-                                      provider.bookingDetailHistory[index].serviceId.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: appColors.appColor,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: appText(title: "Submit Review"),
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                            ),
+                            child: appText(title: "Review Vendor"),
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 40,
+                              width: 190,
+                              child: TextField(
+                                controller: reviewControllers[index],
+                                decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 10, left: 8),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                reviewUser(
+                                    context,
+                                    index,
+                                    provider.bookingDetailHistory[index]
+                                        .vendorId
+                                        .toString(),
+                                    provider.bookingDetailHistory[index]
+                                        .shopId.toString(),
+                                  provider.bookingDetailHistory[index].serviceId.toString(),
+                                );
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: appColors.appColor,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: appText(title: "Submit Review"),
+                                  )),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                  : const SizedBox(),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10,top: 10),
                     child: Container(
                       width: double.infinity,
                       height: 40,

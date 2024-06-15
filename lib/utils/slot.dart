@@ -201,10 +201,6 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                                 '${provider.slotList[index].image?.first}',fit: BoxFit.cover,);
                                             },
                                           ),
-                                          /*Image.network(
-                                            '${provider.slotList[index].image}',
-                                            fit: BoxFit.cover,
-                                          ),*/
                                         ),
                                       ],
                                     ),
@@ -416,7 +412,7 @@ createSlotOrder(String shopName){
               "startTime": e.start,
               "endTime":e.end,
               "employeeId":element.employId,
-              "shopId": shopName
+              "shopId": shopName,
             });
           }
         });
@@ -426,6 +422,7 @@ createSlotOrder(String shopName){
         {
           "subServiceId":widget.subServiceId,
           "quantity":1,
+          "bookingDate": formatDateTime(_selectedDate.toString(),'yyyy-MM-dd'),
           "bookingDetailsSlotsCart":bookingDetailsSlotsCart
         };
         print("=====Request Body===$body");
@@ -459,3 +456,10 @@ createSlotOrder(String shopName){
         });
   }
 }
+
+
+
+
+
+
+

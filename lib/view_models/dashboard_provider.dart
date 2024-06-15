@@ -337,6 +337,7 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      print("===========$e");
       _setShowLoader(false);
       notifyListeners();
       return false;

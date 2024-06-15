@@ -36,6 +36,8 @@ class NearByShopModel {
   String? cityName;
   String? branchName;
   List<dynamic>? imageUrl;
+  double? distance;
+  dynamic discountAvg;
 
   NearByShopModel(
       {this.id,
@@ -74,7 +76,9 @@ class NearByShopModel {
         this.stateName,
         this.cityName,
         this.branchName,
-        this.imageUrl});
+        this.imageUrl,
+        this.distance,
+        this.discountAvg});
 
   NearByShopModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -114,6 +118,8 @@ class NearByShopModel {
     cityName = json['cityName'];
     branchName = json['branchName'];
     imageUrl = json['imageUrl'];
+    distance = json['distance'];
+    discountAvg = json['discountAvg'];
   }
 
   Map<String, dynamic> toJson() {
@@ -155,6 +161,8 @@ class NearByShopModel {
     data['cityName'] = this.cityName;
     data['branchName'] = this.branchName;
     data['imageUrl'] = this.imageUrl;
+    data['distance'] = this.distance;
+    data['discountAvg'] = this.discountAvg;
     return data;
   }
 }

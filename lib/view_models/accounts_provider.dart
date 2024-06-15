@@ -16,8 +16,8 @@ class AccountsProvider extends ChangeNotifier {
 
   bool get showLoader => _showLoader;
 
-  List<SupportModel> _review = [];
-  List<SupportModel> get reviewuser => _review;
+  SupportModel _review = SupportModel();
+  SupportModel get reviewuser => _review;
 
   List<BookingDetailListModel> _bookingDetail = [];
   List<BookingDetailListModel> get showbookingDetails => _bookingDetail;
@@ -25,8 +25,8 @@ class AccountsProvider extends ChangeNotifier {
   List<BookingDetailListModel> _bookingDetailHistory = [];
   List<BookingDetailListModel> get bookingDetailHistory => _bookingDetailHistory;
 
-  List<GetHelpMessageModel> _getHelpMessageDetail = [];
-  List<GetHelpMessageModel> get getHelpMessageList => _getHelpMessageDetail;
+  GetHelpMessageModel _getHelpMessageDetail = GetHelpMessageModel();
+  GetHelpMessageModel get getHelpMessageList => _getHelpMessageDetail;
 
   GetLatestOTPModel _getLatestOTP = GetLatestOTPModel();
   GetLatestOTPModel get getLatestOTP => _getLatestOTP;
@@ -40,7 +40,6 @@ class AccountsProvider extends ChangeNotifier {
     required Map<String, dynamic> body,
   }) async {
     _setShowLoader(true);
-    _review = [];
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -51,8 +50,8 @@ class AccountsProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-
-      if (res?.data is List) {
+      _review = SupportModel.fromJson(res?.data);
+      /*if (res?.data is List) {
         _review = (res?.data as List<dynamic>)
             .map<SupportModel>((e) => SupportModel.fromJson(e))
             .toList();
@@ -66,7 +65,7 @@ class AccountsProvider extends ChangeNotifier {
             res?.message, isSuccess: true);
         // Handle the case where res?.data is not a List
         print('Response data is not a List');
-      }
+      }*/
       _setShowLoader(false);
       notifyListeners();
       return true;
@@ -121,7 +120,6 @@ class AccountsProvider extends ChangeNotifier {
     required Map<String, dynamic> body,
   }) async{
     _setShowLoader(true);
-    _getHelpMessageDetail = [];
     notifyListeners();
     try {
       var state = AuthProvider(await SharedPreferences.getInstance());
@@ -132,19 +130,7 @@ class AccountsProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-      if(res?.data is List) {
-        _getHelpMessageDetail = (res?.data as List<dynamic>).map<GetHelpMessageModel>((e) => GetHelpMessageModel.fromJson(e))
-            .toList();
-        print("====Help Message===");
-        showToast(
-            res?.message, isSuccess: true);
-      } else {
-        _setShowLoader(false);
-        showToast(
-            res?.message, isSuccess: true);
-        // Handle the case where res?.data is not a List
-        print('Response data is not a List');
-      }
+      _getHelpMessageDetail = GetHelpMessageModel.fromJson(res?.data);
       _setShowLoader(false);
       notifyListeners();
       return true;

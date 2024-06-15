@@ -1,15 +1,15 @@
 class GetHelpMessageModel {
-  dynamic id;
+  int? id;
   String? name;
   String? message;
-  dynamic status;
+  int? status;
   String? createdBy;
   dynamic updatedBy;
   String? createdAt;
   dynamic updatedAt;
-  dynamic isDelete;
-  dynamic vendorId;
-  dynamic userId;
+  int? isDelete;
+  int? vendorId;
+  int? userId;
 
   GetHelpMessageModel(
       {this.id,

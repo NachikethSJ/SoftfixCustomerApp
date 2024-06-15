@@ -1,12 +1,12 @@
 class SupportModel {
-  int? fieldCount;
-  int? affectedRows;
-  int? insertId;
-  int? serverStatus;
-  int? warningCount;
+  dynamic fieldCount;
+  dynamic affectedRows;
+  dynamic insertId;
+  dynamic serverStatus;
+  dynamic warningCount;
   String? message;
   bool? protocol41;
-  int? changedRows;
+  dynamic changedRows;
 
   SupportModel(
       {this.fieldCount,

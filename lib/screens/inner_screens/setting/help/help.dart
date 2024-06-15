@@ -10,8 +10,8 @@ import '../../../../utils/custom_textfield.dart';
 import '../../../../view_models/accounts_provider.dart';
 
 class HelpPage extends StatefulWidget {
-   String? vendorId;
-   HelpPage({super.key, this.vendorId});
+  String? vendorId;
+  HelpPage({super.key, this.vendorId});
 
   @override
   State<HelpPage> createState() => _HelpPageState();
@@ -21,12 +21,13 @@ class _HelpPageState extends State<HelpPage> {
   String _enteredText = "";
   TextEditingController subjectController = TextEditingController();
   TextEditingController messageController = TextEditingController();
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getHelpLastMessage();
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -54,8 +55,8 @@ class _HelpPageState extends State<HelpPage> {
                         ),
                         const Text(
                           "How can i help you?",
-                          style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         const SizedBox(
                           height: 20,
@@ -111,59 +112,41 @@ class _HelpPageState extends State<HelpPage> {
                         Consumer<DashboardProvider>(
                           builder: (context, provider, child) {
                             return AppButton(
-                                isLoading:provider.showLoader,
+                                isLoading: provider.showLoader,
                                 onPressed: () {
                                   helpQueryUser();
-                                }, title: 'Submit', radius: 12);
+                                },
+                                title: 'Submit',
+                                radius: 12);
                           },
                         ),
-                        /*Consumer<AccountsProvider>(
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Consumer<AccountsProvider>(
                           builder: (context, provider, child) {
-                            if (provider.showLoader) {
-                              return ListView.separated(
-                                itemCount: 4,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(
-                                    width: 14,
-                                  );
-                                },
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 100,
-                                    width: 130,
-                                    child: loadingShimmer(),
-                                  );
-                                },
-                              );
-                            } else if (provider.getHelpMessageList.isEmpty) {
-                              return Center(
-                                heightFactor:10,
-                                child: appText(title: 'No Messages from Shopkeeper'),
-                              );
-                            }
-                          return Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 10,right: 10,top: 30),
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(color: Colors.yellow,width: 1)
-                              ),
-                              child: Row(
-                                children: [
-                                  Text("Last Message:- "),
-                                  appText(title: provider.getHelpMessageList[0].message??"")
-                                  //Text("${provider.getHelpMessageList[0].message}"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                        },
-                      ),*/
+                            return SizedBox(
+                                height: 100,
+                                child: Row(
+                                  children: [
+                                    appText(
+                                        title: 'Last Message from Vendor:-',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    appText(
+                                        title:
+                                            '${provider.getHelpMessageList.message}',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400
+                                    ),
+                                  ],
+                                ));
+                          },
+                        )
                       ],
                     );
                   },
@@ -175,32 +158,39 @@ class _HelpPageState extends State<HelpPage> {
       ),
     );
   }
-  helpQueryUser() {
-    validateConnectivity(context: context, provider: () {
-      var provider = Provider.of<DashboardProvider>(context, listen: false);
 
-      var body = {
-        "vendorId": widget.vendorId,
-        "name": subjectController.text,
-        "message": messageController.text
-      };
-      provider.help(
+  helpQueryUser() {
+    validateConnectivity(
         context: context,
-        body: body,
-      ).then((value) {
-        if (value) {
-          Navigator.pop(context);
-        }
-      });
-    });
+        provider: () {
+          var provider = Provider.of<DashboardProvider>(context, listen: false);
+
+          var body = {
+            "vendorId": widget.vendorId,
+            "name": subjectController.text,
+            "message": messageController.text
+          };
+          provider
+              .help(
+            context: context,
+            body: body,
+          )
+              .then((value) {
+            if (value) {
+              Navigator.pop(context);
+            }
+          });
+        });
   }
 
   getHelpLastMessage() {
-    validateConnectivity(context: context, provider: () {
-      var provider = Provider.of<AccountsProvider>(context, listen: false);
-      provider.getHelpMessageDetail(context: context, body: {
-        "vendorId": widget.vendorId,
-      });
-    });
+    validateConnectivity(
+        context: context,
+        provider: () {
+          var provider = Provider.of<AccountsProvider>(context, listen: false);
+          provider.getHelpMessageDetail(context: context, body: {
+            "vendorId": widget.vendorId,
+          });
+        });
   }
 }
