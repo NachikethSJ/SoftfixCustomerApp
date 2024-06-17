@@ -125,26 +125,32 @@ class _HelpPageState extends State<HelpPage> {
                         ),
                         Consumer<AccountsProvider>(
                           builder: (context, provider, child) {
-                            return SizedBox(
+                            var helpMessageList = provider.getHelpMessageList;
+                            if (helpMessageList.message != null &&
+                                helpMessageList.message!.isNotEmpty) {
+                              return SizedBox(
                                 height: 100,
                                 child: Row(
                                   children: [
                                     appText(
-                                        title: 'Last Message from Vendor:-',
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold
+                                      title: 'Last Message from Vendor:-',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     appText(
-                                        title:
-                                            '${provider.getHelpMessageList.message}',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400
+                                      title: '${helpMessageList.message}',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ],
-                                ));
+                                ),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
                           },
                         )
                       ],

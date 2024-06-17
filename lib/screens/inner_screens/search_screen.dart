@@ -1,26 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
-import 'package:salon_customer_app/screens/inner_screens/map/map_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/loading_shimmer.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
-
-import '../../models/dashboard_models/near_by_service_model.dart';
 import '../../utils/slot.dart';
 import 'membership_detail.dart';
 
@@ -336,6 +329,7 @@ class _SearchScreenState extends State<SearchScreen>
                     ],
                   ),
                 ),
+
                 ///SearchBoxAndShowFilterCommentedHere
                 /*Row(
                   children: [
@@ -456,7 +450,6 @@ class _SearchScreenState extends State<SearchScreen>
 
   _serviceList() {
     return Consumer<DashboardProvider>(builder: (context, provider, child) {
-
       if (provider.showLoader) {
         return const SizedBox(
           height: 100,
@@ -480,7 +473,9 @@ class _SearchScreenState extends State<SearchScreen>
             height: 12,
           );
         },
-        itemCount: provider.searchserviceList.length > 10 ? 10 : provider.searchserviceList.length,
+        itemCount: provider.searchserviceList.length > 10
+            ? 10
+            : provider.searchserviceList.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(
@@ -579,7 +574,9 @@ class _SearchScreenState extends State<SearchScreen>
                           width: 1,
                         );
                       },
-                      itemCount: provider.searchserviceList[index].subService?.length ?? 0,
+                      itemCount: provider
+                              .searchserviceList[index].subService?.length ??
+                          0,
                       itemBuilder: (context, i) {
                         return Row(
                           children: [
@@ -590,7 +587,8 @@ class _SearchScreenState extends State<SearchScreen>
                                     to: SubServiceDetail(
                                       lat: widget.lat,
                                       lng: widget.lang,
-                                      subServiceid: provider.searchserviceList[index]
+                                      subServiceid: provider
+                                          .searchserviceList[index]
                                           .subService![i]
                                           .id
                                           .toString(),
@@ -614,7 +612,9 @@ class _SearchScreenState extends State<SearchScreen>
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                               child: Image.network(
-                                                provider.searchserviceList[index]
+                                                provider
+                                                        .searchserviceList[
+                                                            index]
                                                         .subService?[i]
                                                         .image
                                                         ?.first ??
@@ -637,8 +637,7 @@ class _SearchScreenState extends State<SearchScreen>
                                             ),
                                           ),
                                           provider.searchserviceList[index]
-                                                      .subService?[i]
-                                                      .offer !=
+                                                      .subService?[i].offer !=
                                                   null
                                               ? Positioned(
                                                   left: 5,
@@ -675,8 +674,12 @@ class _SearchScreenState extends State<SearchScreen>
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 appText(
-                                                  title:
-                                                  provider.searchserviceList[index].subService?[i].type ?? "",
+                                                  title: provider
+                                                          .searchserviceList[
+                                                              index]
+                                                          .subService?[i]
+                                                          .type ??
+                                                      "",
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -771,7 +774,9 @@ class _SearchScreenState extends State<SearchScreen>
                                                     onPressed: () {
                                                       showSlotBookingDialog(
                                                           context,
-                                                          provider.searchserviceList[index]
+                                                          provider
+                                                                  .searchserviceList[
+                                                                      index]
                                                                   .subService?[
                                                                       0]
                                                                   .id ??
@@ -927,7 +932,7 @@ class _SearchScreenState extends State<SearchScreen>
                           //padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
                           child: TextField(
                             controller: minPriceController,
-                            decoration:const   InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Min Price',
                               labelStyle: TextStyle(
                                 fontSize: 10,
@@ -1422,21 +1427,10 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                           ),
                         ),
-
                         appText(
                           title: '5',
                           fontSize: 12,
                         ),
-
-                        // Checkbox(
-                        //   value: isOffer,
-                        //   activeColor: appColors.appColor,
-                        //   onChanged: (value) {
-                        //     setState(() {
-                        //       isOffer = value!;
-                        //     });
-                        //   },
-                        // ),
                       ],
                     ),
                     const Divider(
@@ -1478,17 +1472,17 @@ class _SearchScreenState extends State<SearchScreen>
                                   minPriceController.text = "";
                                   maxPriceController.text = "";
                                   offerValue = const RangeValues(1, 1);
-                                  // offerLabels= RangeValues('1','1');
+                                  //offerLabels= RangeValues('1','1');
                                   rangeValue = const RangeValues(1, 1);
-                                  rangeLabels = const RangeLabels('1', '1');
+                                  rangeLabels = const RangeLabels('0', '40');
                                   ratingValue = const RangeValues(1, 1);
-                                  ratingLabels = const RangeLabels('1', '1');
+                                  ratingLabels = const RangeLabels('0', '5');
                                   isOffer = false;
                                   isNearest = false;
                                 });
+                                _getNearByData();
                                 Navigator.of(context, rootNavigator: true)
                                     .pop();
-                                _getNearByData();
                               },
                               title: texts.reset,
                               color: appColors.appGreen,

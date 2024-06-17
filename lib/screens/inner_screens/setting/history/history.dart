@@ -18,7 +18,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   List<TextEditingController> reviewControllers = [];
   List<double> ratings = [];
-  List<bool> israteShowList = [];
+  List<bool> isRateShowList = [];
 
   @override
   void initState() {
@@ -87,7 +87,6 @@ class _HistoryPageState extends State<HistoryPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
       child: SizedBox(
-        //height: 360,
         width: double.infinity,
         child: Card(
           elevation: 4,
@@ -210,7 +209,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     ],
                   ),
-                  israteShowList[index]
+                  isRateShowList[index]
                   ?Column(
                     children: [
                       Padding(
@@ -366,7 +365,7 @@ class _HistoryPageState extends State<HistoryPage> {
               .then((value) {
             if (value) {
               setState(() {
-                israteShowList[index] = false;
+                isRateShowList[index] = false;
               });
             }
           });
@@ -375,7 +374,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   bookingDetails() {
     setState(() {
-      israteShowList = [];
+      isRateShowList = [];
     });
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
@@ -389,7 +388,7 @@ class _HistoryPageState extends State<HistoryPage> {
             for (int i = 0; i < provider.bookingDetailHistory.length; i++) {
               reviewControllers.add(TextEditingController());
               ratings.add(0);
-              israteShowList.add(true);
+              isRateShowList.add(true);
             }
           }
         });
