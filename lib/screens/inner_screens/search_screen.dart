@@ -300,7 +300,7 @@ class _SearchScreenState extends State<SearchScreen>
                           _showFilter();
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height * .060,
+                          height: MediaQuery.of(context).size.height * .050,
                           width: MediaQuery.of(context).size.width * 0.2,
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                           decoration: BoxDecoration(
