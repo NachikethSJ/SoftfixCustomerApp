@@ -281,7 +281,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              DateTime startTime = DateTime.parse(
+                                              /*DateTime startTime = DateTime.parse(
                                                   '${formatDateTime(provider.showCartDetails[index].bookingDate ?? '', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime}:00Z');
                                               DateTime endTime = DateTime.parse(
                                                   '${formatDateTime(provider.showCartDetails[index].bookingDate ?? '', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime}:00Z');
@@ -291,7 +291,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                       .isAfter(endTime)) {
                                                 showToast(
                                                     'This slot is not valid.');
-                                              } else {
+                                              }*/
                                                 List<Map<String, dynamic>>
                                                     bookingDetailsSlotsCarts =
                                                     [];
@@ -317,6 +317,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                           0]
                                                       .shopId,
                                                 });
+
                                                 ///directPaymentScreenOpen
                                                 var body = {
                                                   "id": provider
@@ -364,7 +365,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                                 ))); // Close the dialog
                                                   }
                                                 });
-                                              }
+
                                               // Close the dialog
                                             },
                                             child: Container(
@@ -372,7 +373,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  color: appColors.appColor),
+                                                  color:  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].isExpired ==true ?appColors.appGray :appColors.appColor),
                                               child: provider
                                                           .showCartDetails[
                                                               index]
@@ -384,8 +385,16 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                           width: 20,
                                                           child:
                                                               CircularProgressIndicator()))
-                                                  : const Text(
-                                                      "Continue To Pay"),
+                                                  : provider
+                                                              .showCartDetails[
+                                                                  index]
+                                                              .bookingDetailsSlotsCart?[
+                                                                  0]
+                                                              .isExpired ==
+                                                          true
+                                                      ? Text("Slot Expired")
+                                                      : const Text(
+                                                          "Continue To Pay"),
                                             ),
                                           ),
                                         ],
@@ -453,8 +462,3 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
     return (p * (100 - d) / 100).toStringAsFixed(0);
   }
 }
-
-
-
-
-

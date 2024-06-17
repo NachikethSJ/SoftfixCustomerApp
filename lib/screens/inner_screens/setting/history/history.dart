@@ -209,7 +209,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     ],
                   ),
-                  isRateShowList[index]
+                  provider.bookingDetailHistory[index].isReviewed == false
                   ?Column(
                     children: [
                       Padding(
@@ -355,27 +355,26 @@ class _HistoryPageState extends State<HistoryPage> {
             "serviceId": serviceId,
             "vendorId": vendorId,
             "shopId": shopId,
-            //"shopName":shopName
           };
           provider
               .review(
             context: context,
             body: body,
-          )
-              .then((value) {
+          ).then((value) {
             if (value) {
-              setState(() {
-                isRateShowList[index] = false;
-              });
+              bookingDetails();
+              /*setState(() {
+                //isRateShowList[index] = false;
+              });*/
             }
           });
         });
   }
 
   bookingDetails() {
-    setState(() {
+    /*setState(() {
       isRateShowList = [];
-    });
+    });*/
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         var provider = Provider.of<AccountsProvider>(context, listen: false);
@@ -388,7 +387,7 @@ class _HistoryPageState extends State<HistoryPage> {
             for (int i = 0; i < provider.bookingDetailHistory.length; i++) {
               reviewControllers.add(TextEditingController());
               ratings.add(0);
-              isRateShowList.add(true);
+              //isRateShowList.add(true);
             }
           }
         });

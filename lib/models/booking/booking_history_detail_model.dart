@@ -1,4 +1,5 @@
 class BookingDetailListModel {
+  dynamic orderId;
   String? bookingDate;
   String? bookingStatus;
   String? startTime;
@@ -13,9 +14,11 @@ class BookingDetailListModel {
   dynamic price;
   String? offer;
   dynamic subServiceId;
+  bool? isReviewed;
 
   BookingDetailListModel(
-      {this.bookingDate,
+      {this.orderId,
+        this.bookingDate,
         this.bookingStatus,
         this.startTime,
         this.endTime,
@@ -28,9 +31,11 @@ class BookingDetailListModel {
         this.subServiceType,
         this.price,
         this.offer,
-        this.subServiceId});
+        this.subServiceId,
+        this.isReviewed});
 
   BookingDetailListModel.fromJson(Map<String, dynamic> json) {
+    orderId = json['orderId'];
     bookingDate = json['bookingDate'];
     bookingStatus = json['bookingStatus'];
     startTime = json['startTime'];
@@ -45,10 +50,12 @@ class BookingDetailListModel {
     price = json['price'];
     offer = json['offer'];
     subServiceId = json['subServiceId'];
+    isReviewed = json['isReviewed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['orderId'] = this.orderId;
     data['bookingDate'] = this.bookingDate;
     data['bookingStatus'] = this.bookingStatus;
     data['startTime'] = this.startTime;
@@ -63,6 +70,7 @@ class BookingDetailListModel {
     data['price'] = this.price;
     data['offer'] = this.offer;
     data['subServiceId'] = this.subServiceId;
+    data['isReviewed'] = this.isReviewed;
     return data;
   }
 }

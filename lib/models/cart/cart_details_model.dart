@@ -67,15 +67,21 @@ class BookingDetailsSlotsCart {
   dynamic endTime;
   dynamic employeeId;
   dynamic shopId;
+  bool? isExpired;
 
   BookingDetailsSlotsCart(
-      {this.startTime, this.endTime, this.employeeId, this.shopId});
+      {this.startTime,
+        this.endTime,
+        this.employeeId,
+        this.shopId,
+        this.isExpired});
 
   BookingDetailsSlotsCart.fromJson(Map<String, dynamic> json) {
     startTime = json['startTime'];
     endTime = json['endTime'];
     employeeId = json['employeeId'];
     shopId = json['shopId'];
+    isExpired = json['isExpired'];
   }
 
   Map<String, dynamic> toJson() {
@@ -84,6 +90,7 @@ class BookingDetailsSlotsCart {
     data['endTime'] = this.endTime;
     data['employeeId'] = this.employeeId;
     data['shopId'] = this.shopId;
+    data['isExpired'] = this.isExpired;
     return data;
   }
 }

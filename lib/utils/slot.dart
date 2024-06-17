@@ -354,7 +354,7 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
     );
   }
 
-createSlotOrder(String shopName){
+createSlotOrder(String shopId){
   WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
       validateConnectivity(context: context, provider: (){
@@ -369,7 +369,7 @@ createSlotOrder(String shopName){
                 "startTime":e.start,
                 "endTime":e.end,
                 "employeeId":element.employId,
-                "shopId":shopName
+                "shopId":shopId
               });
             }
           });
@@ -398,7 +398,7 @@ createSlotOrder(String shopName){
 }
 
 
-  addCartService(String shopName) {
+  addCartService(String shopId) {
     validateConnectivity(context: context, provider: () {
       var provider = Provider.of<CartProvider>(context, listen: false);
       var dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
@@ -412,7 +412,7 @@ createSlotOrder(String shopName){
               "startTime": e.start,
               "endTime":e.end,
               "employeeId":element.employId,
-              "shopId": shopName,
+              "shopId": shopId,
             });
           }
         });
