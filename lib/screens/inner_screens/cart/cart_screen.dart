@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
-import 'package:salon_customer_app/utils/show_toast.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
 import '../../../cache_manager/cache_manager.dart';
@@ -128,16 +127,20 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                         child: Stack(
                                           children: [
                                             SizedBox(
-                                                height: 120,
+                                                height: 160,
                                                 width: 130,
-                                                child: Image.network(
-                                                  provider
-                                                          .showCartDetails[
-                                                              index]
-                                                          .image
-                                                          ?.first ??
-                                                      '',
-                                                  fit: BoxFit.fill,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: Image.network(
+                                                    provider
+                                                            .showCartDetails[
+                                                                index]
+                                                            .image
+                                                            ?.first ??
+                                                        '',
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 )),
                                             Positioned(
                                               left: 0,
@@ -172,24 +175,26 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment
+                                                    .spaceBetween,
                                             children: [
                                               appText(
-                                                title:
-                                                    "${provider.showCartDetails[index].name}",
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
+                                                  title:
+                                                      "${provider.showCartDetails[index].name}",
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black
+                                                      .withOpacity(0.7),
+                                                  //textOverflow: TextOverflow.ellipsis
                                               ),
                                               GestureDetector(
                                                   onTap: () {
                                                     deleteCartItem(index);
                                                   },
-                                                  child:
-                                                      const Icon(Icons.delete))
+                                                  child: Icon(Icons.delete,
+                                                      color:
+                                                          appColors.appRed))
                                             ],
-                                          ),
-                                          const SizedBox(
-                                            height: 2,
                                           ),
                                           appText(
                                             title:
@@ -203,16 +208,17 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                           ),
                                           Row(
                                             children: [
-                                              Icon(
-                                                Icons.lightbulb,
-                                                color: appColors.appBlue,
+                                              Image.asset(
+                                                'assets/images/time_icon1.png',
+                                                height: 15,
+                                                width: 15,
                                               ),
                                               const SizedBox(
                                                 width: 2,
                                               ),
                                               appText(
                                                 title:
-                                                    '${provider.showCartDetails[index].time} Min Services',
+                                                    '${provider.showCartDetails[index].time} Min Service',
                                               )
                                             ],
                                           ),
@@ -224,8 +230,10 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                               appText(
                                                 title:
                                                     '₹${calculatePrice(double.parse(provider.showCartDetails[index].price?.toString() ?? '0'), double.parse(provider.showCartDetails[index].offer?.toString() ?? '0'))}',
-                                                fontSize: 14,
+                                                fontSize: 13,
                                                 fontWeight: FontWeight.bold,
+                                                  color: Colors.black
+                                                      .withOpacity(0.7)
                                               ),
                                               const SizedBox(
                                                 width: 10,
@@ -233,7 +241,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                               appText(
                                                   title:
                                                       '₹${provider.showCartDetails[index].price}',
-                                                  fontSize: 14,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.grey,
                                                   textDecoration: TextDecoration
@@ -246,7 +254,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                           Row(
                                             children: [
                                               appText(
-                                                  title: 'Booking Time:- ',
+                                                  title: 'Time- ',
                                                   fontSize: 11),
                                               appText(
                                                 title:
@@ -263,13 +271,14 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                           Row(
                                             children: [
                                               appText(
-                                                  title: 'Booking Date:- ',
+                                                  title: 'Date- ',
                                                   fontSize: 11),
                                               appText(
                                                 title: provider
-                                                    .showCartDetails[index]
-                                                    .bookingDate
-                                                    .toString(),
+                                                        .showCartDetails[index]
+                                                        .bookingDate
+                                                        .toString() ??
+                                                    "",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.grey,
@@ -292,80 +301,83 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                 showToast(
                                                     'This slot is not valid.');
                                               }*/
-                                                List<Map<String, dynamic>>
-                                                    bookingDetailsSlotsCarts =
-                                                    [];
-                                                bookingDetailsSlotsCarts.add({
-                                                  "startTime": provider
-                                                      .showCartDetails[index]
-                                                      .bookingDetailsSlotsCart?[
-                                                          0]
-                                                      .startTime,
-                                                  "endTime": provider
-                                                      .showCartDetails[index]
-                                                      .bookingDetailsSlotsCart?[
-                                                          0]
-                                                      .endTime,
-                                                  "employeeId": provider
-                                                      .showCartDetails[index]
-                                                      .bookingDetailsSlotsCart?[
-                                                          0]
-                                                      .employeeId,
-                                                  "shopId": provider
-                                                      .showCartDetails[index]
-                                                      .bookingDetailsSlotsCart?[
-                                                          0]
-                                                      .shopId,
-                                                });
+                                              List<Map<String, dynamic>>
+                                                  bookingDetailsSlotsCarts = [];
+                                              bookingDetailsSlotsCarts.add({
+                                                "startTime": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .startTime,
+                                                "endTime": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .endTime,
+                                                "employeeId": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .employeeId,
+                                                "shopId": provider
+                                                    .showCartDetails[index]
+                                                    .bookingDetailsSlotsCart?[0]
+                                                    .shopId,
+                                              });
 
-                                                ///directPaymentScreenOpen
-                                                var body = {
-                                                  "id": provider
-                                                      .showCartDetails[index]
-                                                      .subServiceId,
-                                                  "date": formatDateTime(
-                                                      _selectedDate.toString(),
-                                                      'yyyy-MM-dd'),
-                                                  "bookingDetailsArray":
-                                                      bookingDetailsSlotsCarts
-                                                };
+                                              ///directPaymentScreenOpen
+                                              var body = {
+                                                "id": provider
+                                                    .showCartDetails[index]
+                                                    .subServiceId,
+                                                "date": formatDateTime(
+                                                    _selectedDate.toString(),
+                                                    'yyyy-MM-dd'),
+                                                "bookingDetailsArray":
+                                                    bookingDetailsSlotsCarts
+                                              };
+                                              setState(() {
+                                                provider.showCartDetails[index]
+                                                    .isLoading = true;
+                                              });
+                                              var dashboardProvider = Provider
+                                                  .of<DashboardProvider>(
+                                                      context,
+                                                      listen: false);
+                                              dashboardProvider
+                                                  .createOrder(
+                                                context: context,
+                                                body: body,
+                                              )
+                                                  .then((value) {
                                                 setState(() {
                                                   provider
                                                       .showCartDetails[index]
-                                                      .isLoading = true;
+                                                      .isLoading = false;
                                                 });
-                                                var dashboardProvider = Provider
-                                                    .of<DashboardProvider>(
-                                                        context,
-                                                        listen: false);
-                                                dashboardProvider
-                                                    .createOrder(
-                                                  context: context,
-                                                  body: body,
-                                                )
-                                                    .then((value) {
-                                                  setState(() {
-                                                    provider
-                                                        .showCartDetails[index]
-                                                        .isLoading = false;
-                                                  });
-                                                  if (value) {
-                                                    provider.showCartDetails[index].bookingDetailsSlotsCart?[0].isExpired == true?null:
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                PaymentContinueScreen(
-                                                                  date: formatDateTime(
-                                                                      _selectedDate
-                                                                          .toString(),
-                                                                      'yyyy-MM-dd'),
-                                                                  ordrId: dashboardProvider
-                                                                      .createOrderSlot
-                                                                      .orderId,
-                                                                ))); // Close the dialog
-                                                  }
-                                                });
+                                                if (value) {
+                                                  provider
+                                                              .showCartDetails[
+                                                                  index]
+                                                              .bookingDetailsSlotsCart?[
+                                                                  0]
+                                                              .isExpired ==
+                                                          true
+                                                      ? showSlotBookingDialog(context,
+                                                      '${provider.showCartDetails[
+                                                      index].subServiceId}')
+                                                      : Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PaymentContinueScreen(
+                                                                    date: formatDateTime(
+                                                                        _selectedDate
+                                                                            .toString(),
+                                                                        'yyyy-MM-dd'),
+                                                                    ordrId: dashboardProvider
+                                                                        .createOrderSlot
+                                                                        .orderId,
+                                                                  ))); // Close the dialog
+                                                }
+                                              });
 
                                               // Close the dialog
                                             },
@@ -374,7 +386,15 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  color:  provider.showCartDetails[index].bookingDetailsSlotsCart?[0].isExpired ==true ?appColors.appGray :appColors.appColor),
+                                                  color: provider
+                                                              .showCartDetails[
+                                                                  index]
+                                                              .bookingDetailsSlotsCart?[
+                                                                  0]
+                                                              .isExpired ==
+                                                          true
+                                                      ? Colors.green
+                                                      : appColors.appColor),
                                               child: provider
                                                           .showCartDetails[
                                                               index]
@@ -393,7 +413,13 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                                   0]
                                                               .isExpired ==
                                                           true
-                                                      ? const Text("Slot Expired")
+                                                      ? const Text(
+                                                          "Book  Again",
+                                                          style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.white
+                                                          ),
+                                              )
                                                       : const Text(
                                                           "Continue To Pay"),
                                             ),

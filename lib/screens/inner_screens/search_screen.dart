@@ -270,19 +270,22 @@ class _SearchScreenState extends State<SearchScreen>
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: SizedBox(
-                            height: 46,
                             child: TextFormField(
                               controller: searchController,
                               decoration: InputDecoration(
                                 hintText: texts.searchShop,
+                                hintStyle: TextStyle(
+                                  fontSize: 11
+                                ),
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 suffixIcon: Icon(
                                   Icons.search,
                                   color: appColors.appBlack,
+                                  size: 17,
                                 ),
                                 contentPadding: const EdgeInsets.only(
-                                    left: 14, right: 14, top: 10, bottom: 10),
+                                    left: 8, right: 5,top: 5),
                               ),
                               onChanged: (value) {
                                 setState(() {
@@ -491,7 +494,7 @@ class _SearchScreenState extends State<SearchScreen>
                       title: '${provider.searchserviceList[index].shopName}',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                      color: Colors.black.withOpacity(0.7)),
                   const SizedBox(
                     height: 10,
                   ),
@@ -500,12 +503,13 @@ class _SearchScreenState extends State<SearchScreen>
                       Row(
                         children: [
                           const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.teal,
+                            radius: 6,
+                            backgroundColor:
+                            Colors.teal,
                             child: Icon(
                               Icons.star,
                               color: Colors.white,
-                              size: 12,
+                              size: 10,
                             ),
                           ),
                           const SizedBox(
@@ -514,7 +518,7 @@ class _SearchScreenState extends State<SearchScreen>
                           appText(
                             title:
                                 '${provider.searchserviceList[index].rating}',
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
@@ -526,8 +530,8 @@ class _SearchScreenState extends State<SearchScreen>
                         children: [
                           Image.asset(
                             'assets/images/time_icon1.png',
-                            height: 20,
-                            width: 20,
+                            height: 12,
+                            width: 12,
                           ),
                           const SizedBox(
                             width: 2,
@@ -535,7 +539,7 @@ class _SearchScreenState extends State<SearchScreen>
                           appText(
                               title:
                                   '${provider.searchserviceList[index].subService?[0].timeTaken ?? "30"} Min',
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.blueGrey.shade400),
                         ],
@@ -548,7 +552,7 @@ class _SearchScreenState extends State<SearchScreen>
                           appText(
                               title:
                                   '${(Geolocator.distanceBetween(widget.lat ?? 0, widget.lang ?? 0, provider.searchserviceList[index].lat!, provider.searchserviceList[index].lng!) / 1000).toStringAsFixed(2)}Km',
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.blueGrey.shade400),
                           const SizedBox(
@@ -557,6 +561,7 @@ class _SearchScreenState extends State<SearchScreen>
                           Icon(
                             Icons.location_on,
                             color: appColors.appColor,
+                            size: 12,
                           ),
                         ],
                       )
@@ -680,8 +685,9 @@ class _SearchScreenState extends State<SearchScreen>
                                                           .subService?[i]
                                                           .type ??
                                                       "",
-                                                  fontSize: 15,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.bold,
+                                                    color: Colors.black.withOpacity(0.7)
                                                 ),
                                                 const SizedBox(
                                                   height: 2,
@@ -691,13 +697,13 @@ class _SearchScreenState extends State<SearchScreen>
                                                       MainAxisAlignment.start,
                                                   children: [
                                                     const CircleAvatar(
-                                                      radius: 8,
+                                                      radius: 6,
                                                       backgroundColor:
                                                           Colors.teal,
                                                       child: Icon(
                                                         Icons.star,
                                                         color: Colors.white,
-                                                        size: 12,
+                                                        size: 10,
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -706,7 +712,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     appText(
                                                       title:
                                                           '${provider.searchserviceList[index].rating}',
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -720,7 +726,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     appText(
                                                       title:
                                                           '₹${calculatePrice(double.parse(provider.searchserviceList[index].subService?[i].price?.toString() ?? '0'), double.parse(provider.searchserviceList[index].subService?[i].offer?.toString() ?? '0'))}',
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -730,7 +736,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     appText(
                                                         title:
                                                             '₹${provider.searchserviceList[index].subService?[i].price ?? ""}',
-                                                        fontSize: 14,
+                                                        fontSize: 10,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: Colors.grey,
@@ -747,16 +753,17 @@ class _SearchScreenState extends State<SearchScreen>
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Icon(
-                                                      Icons.lightbulb,
-                                                      color: appColors.appBlue,
+                                                    Image.asset(
+                                                      'assets/images/time_icon1.png',
+                                                      height: 12,
+                                                      width: 12,
                                                     ),
                                                     const SizedBox(
                                                       width: 2,
                                                     ),
                                                     appText(
                                                       title:
-                                                          '${provider.searchserviceList[index].subService?[i].timeTaken ?? "0"} Min Services',
+                                                          '${provider.searchserviceList[index].subService?[i].timeTaken ?? "0"} Min Service',
                                                     )
                                                   ],
                                                 ),
@@ -1004,19 +1011,26 @@ class _SearchScreenState extends State<SearchScreen>
                               activeTickMarkColor: appColors.appColor,
                             )),
                             child: RangeSlider(
-                                divisions: 5,
-                                min: 1,
-                                max: 40,
-                                values: rangeValue,
-                                labels: rangeLabels,
-                                onChanged: (value) {
-                                  setState(() {
-                                    rangeValue = value;
-                                    rangeLabels = RangeLabels(
-                                        value.start.toInt().toString(),
-                                        value.end.toInt().toString());
-                                  });
-                                }),
+                              divisions: 40,
+                              min: 0,
+                              max: 40,
+                              values: rangeValue,
+                              labels: rangeLabels,
+                              onChanged: (value) {
+                                setState(() {
+                                  rangeValue = value;
+                                  // Update labels with specific intervals
+                                  int interval =
+                                      (rangeValue.end - rangeValue.start) ~/
+                                          1; // Calculate interval
+                                  rangeLabels = RangeLabels(
+                                    rangeValue.start.toInt().toString(),
+                                    (rangeValue.start.toInt() + interval)
+                                        .toString(),
+                                  );
+                                });
+                              },
+                            ),
                           ),
                         ),
                         appText(
@@ -1064,7 +1078,7 @@ class _SearchScreenState extends State<SearchScreen>
                               activeTickMarkColor: appColors.appColor,
                             )),
                             child: RangeSlider(
-                                divisions: 5,
+                                divisions: 100,
                                 min: 1,
                                 max: 100,
                                 values: offerValue,
@@ -1072,9 +1086,16 @@ class _SearchScreenState extends State<SearchScreen>
                                 onChanged: (value) {
                                   setState(() {
                                     offerValue = value;
+                                    // Calculate interval between each division
+                                    double interval =
+                                        (offerValue.end - offerValue.start) / 1;
+                                    // Update labels with specific intervals
                                     offerLabels = RangeLabels(
-                                        value.start.toInt().toString(),
-                                        value.end.toInt().toString());
+                                      offerValue.start.toInt().toString(),
+                                      (offerValue.start + interval)
+                                          .toInt()
+                                          .toString(),
+                                    );
                                   });
                                 }),
                           ),

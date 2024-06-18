@@ -40,6 +40,7 @@ class ShopDetail extends StatefulWidget {
 class _ShopDetailState extends State<ShopDetail> with CacheManager {
   TextEditingController searchController = TextEditingController();
   bool searchTextBoxVisible = false;
+  bool searchIcon = true;
   double latitude = 28.7041;
   double longitude = 77.1025;
   Future getLatLongitude() async {
@@ -181,7 +182,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                       )
                       :SizedBox(
                         height: MediaQuery.of(context).size.height * .070,
-                        width: MediaQuery.of(context).size.width * 0.65,
+                        width: MediaQuery.of(context).size.width * 0.82,
                         child: Card(
                           elevation: 2,
                           shape: RoundedRectangleBorder(
@@ -199,6 +200,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 focusedBorder: InputBorder.none,
                                 contentPadding: const EdgeInsets.only(
                                     left: 14, right: 14, top: 10, bottom: 10),
+                                suffixIcon: const Icon(Icons.search)
                               ),
                               onChanged: (value) {
                                 setState(() {
@@ -217,13 +219,17 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                         onTap: () {
                           setState(() {
                             searchTextBoxVisible = true;
+                            searchIcon = false;
                           });
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),
-                          child: Icon(
-                            Icons.search,
-                            color: appColors.appColor,
+                          child: Visibility(
+                            visible: searchIcon,
+                            child: Icon(
+                              Icons.search,
+                              color: appColors.appColor,
+                            ),
                           ),
                         ),
                       ),
@@ -381,6 +387,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                           "",
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.7)
                     ),
                   ),
                   const SizedBox(
@@ -493,6 +500,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                           "",
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(0.7)
                                     ),
                                   ),
                                   const SizedBox(
@@ -500,16 +508,17 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.lightbulb,
-                                        color: appColors.appBlue,
+                                      Image.asset(
+                                        'assets/images/time_icon1.png',
+                                        height: 12,
+                                        width: 12,
                                       ),
                                       const SizedBox(
                                         width: 2,
                                       ),
                                       appText(
                                         title:
-                                            '${provider.nearByShopServicesList[index].subServices?[childIndex].timeTaken ?? "30"} Min Services',
+                                            '${provider.nearByShopServicesList[index].subServices?[childIndex].timeTaken ?? "30"} Min Service',
                                       )
                                     ],
                                   ),
@@ -521,8 +530,9 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       appText(
                                         title:
                                             '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].offer?.toString() ?? '0'))}',
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
+                                          color: Colors.black.withOpacity(0.7)
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -530,7 +540,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                       appText(
                                           title:
                                               '₹${provider.nearByShopServicesList[index].subServices?[childIndex].price ?? ""}',
-                                          fontSize: 14,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey,
                                           textDecoration:
@@ -711,14 +721,14 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                         .membershipName ??
                                     '',
                                 fontSize: 20,
-                                color: Colors.black,
+                                color: Colors.black.withOpacity(0.7),
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
                                 title: provider.nearByShopMembershipList[index]
                                         .service?.name ??
                                     '',
-                                color: Colors.black,
+                                color: Colors.black.withOpacity(0.7),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -728,13 +738,13 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 children: [
                                   appText(
                                     title: 'Just in ₹',
-                                    color: Colors.black,
+                                    color: Colors.black.withOpacity(0.7),
                                     fontSize: 12,
                                   ),
                                   appText(
                                     title:
                                         '${provider.nearByShopMembershipList[index].price ?? ""}',
-                                    color: Colors.black,
+                                    color: Colors.black.withOpacity(0.7),
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -858,7 +868,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                           appText(
                             title:
                                 '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.membershipList[index].shop!.lat!, provider.membershipList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.7),
                             fontWeight: FontWeight.bold,
                           )
                         ],
@@ -954,7 +964,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                         .packageName ??
                                     '',
                                 fontSize: 20,
-                                color: Colors.black,
+                                color: Colors.black.withOpacity(0.7),
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
@@ -963,7 +973,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 /*_getServiceName(
                                     [provider.nearByShopPackagesList[index].service?[0].name]
                                 ),*/
-                                color: Colors.black,
+                                color: Colors.black.withOpacity(0.7),
                               ),
                               const SizedBox(
                                 height: 8,
@@ -973,7 +983,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                 children: [
                                   appText(
                                     title: 'Just in ₹',
-                                    color: Colors.black,
+                                    color: Colors.black.withOpacity(0.7),
                                     fontSize: 12,
                                   ),
                                   appText(
@@ -1107,7 +1117,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                           appText(
                             title:
                                 '20 Min • ${(Geolocator.distanceBetween(latitude, longitude, provider.packageList[index].shop!.lat!, provider.packageList[index].shop!.lng!) / 1000).toStringAsFixed(2)} KM',
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.7),
                             fontWeight: FontWeight.bold,
                           )
                         ],

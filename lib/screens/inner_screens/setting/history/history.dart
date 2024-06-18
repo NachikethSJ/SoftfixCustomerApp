@@ -7,6 +7,7 @@ import '../../../../utils/app_bar.dart';
 import '../../../../utils/app_text.dart';
 import '../../../../utils/slot.dart';
 import '../../../../utils/validate_connectivity.dart';
+import '../help/help.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -202,6 +203,39 @@ class _HistoryPageState extends State<HistoryPage> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     )),
+                                  ),
+                                ),
+                                const SizedBox(height: 10,),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HelpPage(vendorId: provider.bookingDetailHistory[index].vendorId ?? "")));
+                                  },
+                                  child: Align(
+                                    alignment:
+                                    Alignment
+                                        .topRight,
+                                    child:
+                                    Container(
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: appColors.appColor, width: 2),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 8,
+                                              bottom: 8),
+                                          child: appText(
+                                              title: "Help?",
+                                              color: appColors.appGray,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        )),
                                   ),
                                 ),
                               ],

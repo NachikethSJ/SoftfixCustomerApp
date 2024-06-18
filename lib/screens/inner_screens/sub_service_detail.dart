@@ -188,7 +188,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                 title: provider
                                         .subServiceDetail.subService?.type ??
                                     '',
-                                fontSize: 16,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black.withOpacity(0.7)
                             ),
@@ -222,7 +222,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                             appText(
                               title:
                                   '₹${calculatePrice(double.parse(provider.subServiceDetail.subService?.price?.toString() ?? '0'), double.parse(provider.subServiceDetail.subService?.offer?.toString() ?? '0'))}',
-                              fontSize: 18,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                                 color: Colors.black.withOpacity(0.7)
                             ),
@@ -234,14 +234,14 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                   '₹${provider.subServiceDetail.subService?.price}',
                               color: appColors.appGray,
                               textDecoration: TextDecoration.lineThrough,
-                              fontSize: 16,
+                              fontSize: 12,
                             ),
                           ],
                         ),
                         appText(
                           title:
                               '${provider.subServiceDetail.subService?.timeTaken?.toString()} Min Service',
-                          fontSize: 15,
+                          fontSize: 12,
                         ),
                         dataCard(
                           texts.detail,

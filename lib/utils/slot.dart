@@ -179,28 +179,28 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
-                                          "${provider.slotList[index].employName ?? ""} Available Slots",
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        CircleAvatar(
-                                          radius: 20,
+                                        ClipRRect(
+                                          borderRadius:BorderRadius.circular(50),
                                           child: FadeInImage.assetNetwork(
                                             placeholder:
                                             'assets/images/placeholder.png', // Path to placeholder image
                                             image: '${provider.slotList[index].image?.first}',
                                             fit: BoxFit.cover,
-                                            width: 90,
-                                            height: 90,
+                                            width: 50,
+                                            height: 50,
                                             imageErrorBuilder: (context, error, stackTrace) {
                                               // Custom image error builder
                                               return Image.network(
                                                 '${provider.slotList[index].image?.first}',fit: BoxFit.cover,);
                                             },
                                           ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          "${provider.slotList[index].employName ?? ""} Available Slots",
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
