@@ -350,6 +350,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                         .isLoading = false;
                                                   });
                                                   if (value) {
+                                                    provider.showCartDetails[index].bookingDetailsSlotsCart?[0].isExpired == true?null:
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -392,7 +393,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                                   0]
                                                               .isExpired ==
                                                           true
-                                                      ? Text("Slot Expired")
+                                                      ? const Text("Slot Expired")
                                                       : const Text(
                                                           "Continue To Pay"),
                                             ),

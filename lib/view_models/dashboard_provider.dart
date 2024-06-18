@@ -327,21 +327,6 @@ class DashboardProvider extends ChangeNotifier {
           'Authorization': 'Bearer ${state.userData.token ?? ''}',
         },
       );
-     /* if (res?.data is List) {
-        _searchserviceList = (res?.data as List<dynamic>)
-            .map<NearServiceModel>((e) => NearServiceModel.fromJson(e))
-            .toList();
-        // validateConnectivity(context: context, provider: provider)
-        print("dfhjfghdsgfhsdfsdh");
-        showToast(
-           res?.message, isSuccess: true);
-      } else {
-        _setShowLoader(false);
-        showToast(
-            res?.message, isSuccess: true);
-        // Handle the case where res?.data is not a List
-        print('Response data is not a List');
-      }*/
       _searchserviceList = res?.data
           .map<NearServiceModel>((e) => NearServiceModel.fromJson(e))
           .toList();
