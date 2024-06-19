@@ -60,12 +60,10 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Center(
-                        child: Icon(
-                          Icons.send_to_mobile_outlined,
-                          size: 120,
-                          color: appColors.appColor,
-                        ),
+                      Icon(
+                        Icons.send_to_mobile_outlined,
+                        size: 120,
+                        color: appColors.appColor,
                       ),
                       const SizedBox(
                         height: 20,
