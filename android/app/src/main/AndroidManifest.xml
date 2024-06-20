@@ -40,13 +40,13 @@
             </intent-filter>
 
         </activity>
-        <service
+        <!--<service
             android:name="com.cherry.salonCustomer.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
+        </service>-->
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

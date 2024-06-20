@@ -27,33 +27,44 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
       body: Consumer<CartProvider>(
         builder: (context, provider, child) {
-          return Column(
-            children: [
-              ListView.builder(
-                itemCount: provider.showNotificationDetails.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context,index){
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: appColors.appColor
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                ListView.builder(
+                  // itemCount: provider.showNotificationDetails.length,
+                  itemCount: 5,
+                    shrinkWrap: true,
+                    itemBuilder: (context,index){
+                    return Card(
+                      elevation: 1,
+                      shadowColor: appColors.appGray,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: appColors.appColor.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(8)
+                        ),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  // Text("hi${provider.showNotificationDetails[index].title}"),
+                                  Text("Hey user! Your slot booked successfully")
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        children: [
-                          Image.asset('assets/images/booking.png',
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.fill,
-                          ),
-                          Text("hi${provider.showNotificationDetails[index].title}"),
-                        ],
-                      ),
-                    ),
-                  );
-                  })
-            ],
+                    );
+                    })
+              ],
+            ),
           );
         },
       ),
