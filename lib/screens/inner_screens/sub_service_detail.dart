@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -71,7 +73,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
               title: Row(
                 children: [
                   Text(provider.subServiceDetail.shopDetail?.name??'',
-                      style: const TextStyle(fontSize: 14)
+                      style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500)
                   ),
                   const Spacer(),
                   Icon(Icons.location_on,
@@ -94,7 +96,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                         Stack(
                           children: [
                             SizedBox(
-                              height: 180,
+                              height: 160,
                               width: double.infinity,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
@@ -104,8 +106,6 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                   image:  provider.subServiceDetail.imageUrl?.first ??
                                       '',
                                   fit: BoxFit.cover,
-                                  width: 90,
-                                  height: 90,
                                   imageErrorBuilder:
                                       (context, error, stackTrace) {
                                     // Custom image error builder
@@ -188,12 +188,12 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                 title: provider
                                         .subServiceDetail.subService?.type ??
                                     '',
-                                fontSize: 17,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black.withOpacity(0.7)
                             ),
                             Container(
-                              height: 30,
+                              height: 25,
                               width: 50,
                               decoration: BoxDecoration(
                                   color: appColors.appColor,
@@ -209,7 +209,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                                   ),
                                   const Icon(
                                     Icons.star,
-                                    size: 20,
+                                    size: 18,
                                     color: Colors.white,
                                   )
                                 ],
@@ -238,32 +238,52 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                             ),
                           ],
                         ),
-                        appText(
-                          title:
-                              '${provider.subServiceDetail.subService?.timeTaken?.toString()} Min Service',
-                          fontSize: 12,
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/time_icon1.png',
+                              height: 12,
+                              width: 12,
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            appText(
+                              title:
+                                  '${provider.subServiceDetail.subService?.timeTaken?.toString()} Min Service',
+                              fontSize: 12,
+                            ),
+                          ],
                         ),
                         dataCard(
                           texts.detail,
                           provider.subServiceDetail.subService?.details ?? '',
+                          Icon(Icons.view_array_outlined,color: appColors.appGray,size: 18,)
                         ),
                         dataCard(
                           texts.terms,
                           provider.subServiceDetail.subService
                                   ?.termAndcondition ??
                               '',
+                            Icon(Icons.details_rounded,color: appColors.appGray,size: 18,)
                         ),
                         const SizedBox(
                           height: 5,
                         ),
                         Container(
                           margin: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            texts.reviews,
-                            style: TextStyle(
-                                color: appColors.appColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                          child: Row(
+                            children: [
+                              Icon(Icons.reviews,color: appColors.appGray,size: 18,),
+                              const SizedBox(width: 5,),
+                              Text(
+                                texts.reviews,
+                                style: TextStyle(
+                                    color: appColors.appColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(
@@ -330,7 +350,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
     );
   }
 
-  dataCard(String title, String detail) {
+  dataCard(String title, String detail,Icon icon, ) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -343,17 +363,23 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              appText(
-                  title: title,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: appColors.appColor),
+              Row(
+                children: [
+                  icon,
+                  const SizedBox(width: 2,),
+                  appText(
+                      title: title,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: appColors.appColor),
+                ],
+              ),
               const SizedBox(
                 height: 2,
               ),
               appText(
                 title: detail,
-                fontSize: 16,
+                fontSize: 12,
                 color: appColors.appGray,
               )
             ],

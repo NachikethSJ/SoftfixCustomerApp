@@ -51,7 +51,7 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
         } else if (provider.showCartDetails.isEmpty) {
           return Scaffold(
             appBar: AppBar(
-              title: appText(title: "My Cart", fontSize: 18),
+              title: appText(title: "My Cart", fontSize: 18,fontWeight: FontWeight.w600),
               automaticallyImplyLeading: false,
               centerTitle: true,
             ),
@@ -70,21 +70,6 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      appText(
-                          title: "Services added in Cart here!",
-                          fontSize: 16,
-                          color: Colors.grey),
-                      const SizedBox(
-                        width: 2,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: appColors.appColor,
-                      )
-                    ],
-                  ),
                   ListView.builder(
                     padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
@@ -290,17 +275,6 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              /*DateTime startTime = DateTime.parse(
-                                                  '${formatDateTime(provider.showCartDetails[index].bookingDate ?? '', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].startTime}:00Z');
-                                              DateTime endTime = DateTime.parse(
-                                                  '${formatDateTime(provider.showCartDetails[index].bookingDate ?? '', 'yyyy-dd-MM')}T${provider.showCartDetails[index].bookingDetailsSlotsCart?[0].endTime}:00Z');
-                                              if (DateTime.now()
-                                                      .isAfter(startTime) ||
-                                                  DateTime.now()
-                                                      .isAfter(endTime)) {
-                                                showToast(
-                                                    'This slot is not valid.');
-                                              }*/
                                               List<Map<String, dynamic>>
                                                   bookingDetailsSlotsCarts = [];
                                               bookingDetailsSlotsCarts.add({

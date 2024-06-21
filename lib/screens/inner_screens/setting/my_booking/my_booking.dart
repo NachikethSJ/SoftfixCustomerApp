@@ -162,9 +162,8 @@ class _MyBookingState extends State<MyBooking> {
                                                                         index]
                                                                     .shop ??
                                                                 '',
-                                                            fontSize: 14,
-                                                            color: Colors
-                                                                .teal.shade500,
+                                                            fontSize: 16,
+                                                            color: Colors.black.withOpacity(0.7),
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             textOverflow:
@@ -190,25 +189,37 @@ class _MyBookingState extends State<MyBooking> {
                                                                     index]
                                                                 .service ??
                                                             '',
-                                                        color: Colors.blueGrey,
+                                                        color: Colors.black.withOpacity(0.7),
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w500),
                                                     appText(
                                                         title: provider
                                                                 .showbookingDetails[
                                                                     index]
                                                                 .subServiceType ??
                                                             '',
-                                                        color: Colors.blueGrey,
-                                                        fontSize: 15,
+                                                        color: Colors.black.withOpacity(0.7),
+                                                        fontSize: 14,
                                                         fontWeight:
-                                                            FontWeight.bold),
-                                                    appText(
-                                                      title:
-                                                          '${provider.showbookingDetails[index].startTime ?? ''}-${provider.showbookingDetails[index].endTime ?? ''}(${provider.showbookingDetails[index].bookingDate})',
-                                                      color: Colors.black,
-                                                      fontSize: 12,
+                                                            FontWeight.w400),
+                                                    Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/time_icon1.png',
+                                                          height: 12,
+                                                          width: 12,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 2,
+                                                        ),
+                                                        appText(
+                                                          title:
+                                                              '(${provider.showbookingDetails[index].bookingDate}) ${provider.showbookingDetails[index].startTime ?? ''}-${provider.showbookingDetails[index].endTime ?? ''}',
+                                                          color: appColors.appGray,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ],
                                                     ),
                                                     appText(
                                                       title:
@@ -216,18 +227,30 @@ class _MyBookingState extends State<MyBooking> {
                                                       color: Colors.black,
                                                       fontSize: 12,
                                                     ),
-                                                    appText(
-                                                      title:
-                                                          'Offer:${provider.showbookingDetails[index].offer ?? ''}%',
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                    Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/offer_icon.png',
+                                                          height: 15,
+                                                          width: 15,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 6,
+                                                        ),
+                                                        appText(
+                                                          title:
+                                                              'Offer:${provider.showbookingDetails[index].offer ?? ''}%',
+                                                          color: Colors.blue,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ],
                                                     ),
                                                     appText(
                                                       title:
                                                           'Stylish:${provider.showbookingDetails[index].employName ?? ''}',
-                                                      color: Colors.black,
+                                                      color: Colors.black.withOpacity(0.7),
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.bold,

@@ -121,7 +121,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                             .bookingDetailHistory[index].shop ??
                                         '',
                                     fontSize: 16,
-                                    color: Colors.teal.shade500,
+                                    color: Colors.black.withOpacity(0.7),
                                     fontWeight: FontWeight.bold,
                                   ),
                                   const SizedBox(width:2),
@@ -137,21 +137,33 @@ class _HistoryPageState extends State<HistoryPage> {
                                   title: provider.bookingDetailHistory[index]
                                           .service ??
                                       '',
-                                  color: Colors.blueGrey,
+                                  color: Colors.black.withOpacity(0.7),
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.w500),
                               appText(
                                   title: provider.bookingDetailHistory[index]
                                           .subServiceType ??
                                       '',
-                                  color: Colors.blueGrey,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                              appText(
-                                title:
-                                    '${provider.bookingDetailHistory[index].startTime ?? ''}-${provider.bookingDetailHistory[index].endTime ?? ''}(${provider.bookingDetailHistory[index].bookingDate})',
-                                color: Colors.black,
-                                fontSize: 12,
+                                  color: Colors.black.withOpacity(0.7),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/time_icon1.png',
+                                    height: 12,
+                                    width: 12,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  appText(
+                                    title:
+                                        '(${provider.bookingDetailHistory[index].bookingDate}) ${provider.bookingDetailHistory[index].startTime ?? ''}-${provider.bookingDetailHistory[index].endTime ?? ''}',
+                                    color: appColors.appGray,
+                                    fontSize: 12,
+                                  ),
+                                ],
                               ),
                               appText(
                                 title:
@@ -159,17 +171,29 @@ class _HistoryPageState extends State<HistoryPage> {
                                 color: Colors.black,
                                 fontSize: 12,
                               ),
-                              appText(
-                                title:
-                                    'Offer:${provider.bookingDetailHistory[index].offer ?? ''}%',
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/offer_icon.png',
+                                    height: 15,
+                                    width: 15,
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  appText(
+                                    title:
+                                        'Offer:${provider.bookingDetailHistory[index].offer ?? ''}%',
+                                    color: Colors.blue,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
                               ),
                               appText(
                                 title:
                                     'Stylish:${provider.bookingDetailHistory[index].employName ?? ''}',
-                                color: Colors.black,
+                                color: Colors.black.withOpacity(0.7),
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),

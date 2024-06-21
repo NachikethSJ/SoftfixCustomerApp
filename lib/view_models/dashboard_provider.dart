@@ -725,33 +725,4 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  ///SearchByShopServices&SubServices&Package&Membership
-/*  Future<bool> getSearchByShopServices({
-    required BuildContext context,
-    required Map<String, dynamic> body,
-  }) async {
-    _setShowLoader(true);
-    notifyListeners();
-    try {
-      var state = AuthProvider(await SharedPreferences.getInstance());
-      var res = await ApiClient.postApi(
-        url: appUrls.searchByShopServicesUrl,
-        body: body,
-        headers: {
-          'Authorization': 'Bearer ${state.userData.token ?? ''}',
-        },
-      );
-      _searchByShopServices = res?.data
-          .map<SearchByShopServicesModel>((e) => SearchByShopServicesModel.fromJson(e))
-          .toList();
-      _setShowLoader(false);
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _setShowLoader(false);
-      notifyListeners();
-      return false;
-    }
-  }*/
-
 }

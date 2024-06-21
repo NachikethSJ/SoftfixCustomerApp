@@ -273,9 +273,9 @@ class _SearchScreenState extends State<SearchScreen>
                             child: TextFormField(
                               controller: searchController,
                               decoration: InputDecoration(
-                                hintText: texts.searchShop,
-                                hintStyle: TextStyle(
-                                  fontSize: 11
+                                hintText: texts.searchShopScreen,
+                                hintStyle: const TextStyle(
+                                  fontSize: 12
                                 ),
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,

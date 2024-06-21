@@ -485,133 +485,148 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                             const SizedBox(
                               width: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 120,
-                                    child: appText(
-                                      title: provider
-                                              .nearByShopServicesList[index]
-                                              .subServices?[childIndex]
-                                              .type ??
-                                          "",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                        color: Colors.black.withOpacity(0.7)
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/time_icon1.png',
-                                        height: 12,
-                                        width: 12,
-                                      ),
-                                      const SizedBox(
-                                        width: 2,
-                                      ),
-                                      appText(
-                                        title:
-                                            '${provider.nearByShopServicesList[index].subServices?[childIndex].timeTaken ?? "30"} Min Service',
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      appText(
-                                        title:
-                                            '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].offer?.toString() ?? '0'))}',
-                                        fontSize: 12,
+                            GestureDetector(
+                              onTap: () {
+                                slideTransition(
+                                    context: context,
+                                    to: SubServiceDetail(
+                                      lat: latitude,
+                                      lng: longitude,
+                                      subServiceid: provider
+                                          .nearByShopServicesList[index]
+                                          .subServices![childIndex]
+                                          .id
+                                          .toString(),
+                                    ));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 120,
+                                      child: appText(
+                                        title: provider
+                                                .nearByShopServicesList[index]
+                                                .subServices?[childIndex]
+                                                .type ??
+                                            "",
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                           color: Colors.black.withOpacity(0.7)
                                       ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      appText(
-                                          title:
-                                              '₹${provider.nearByShopServicesList[index].subServices?[childIndex].price ?? ""}',
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey,
-                                          textDecoration:
-                                              TextDecoration.lineThrough),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Row(
-                                    children: [
-                                      RatingBar.builder(
-                                        wrapAlignment: WrapAlignment.start,
-                                        itemSize: 14,
-                                        initialRating: provider
-                                                .nearByShopServicesList[index]
-                                                .subServices?[childIndex]
-                                                .rating ??
-                                            0,
-                                        minRating: 2,
-                                        direction: Axis.horizontal,
-                                        ignoreGestures: true,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemBuilder: (context, _) =>
-                                            const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/time_icon1.png',
+                                          height: 12,
+                                          width: 12,
                                         ),
-                                        onRatingUpdate: (value) {},
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showSlotBookingDialog(
-                                              context,
-                                              provider
-                                                      .nearByShopServicesList[
-                                                          index]
-                                                      .subServices?[
-                                                          childIndex]
-                                                      .id ??
-                                                  0);
-                                        },
-                                        child: SizedBox(
-                                            width: 60,
-                                            height: 30,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          4),
-                                                  border: Border.all(
-                                                      color: appColors
-                                                          .appColor)),
-                                              child: Center(
-                                                  child: Text("Book",
-                                                      style: TextStyle(
-                                                          color: appColors
-                                                              .appColor))),
-                                            )
-                                            ),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                                        const SizedBox(
+                                          width: 2,
+                                        ),
+                                        appText(
+                                          title:
+                                              '${provider.nearByShopServicesList[index].subServices?[childIndex].timeTaken ?? "30"} Min Service',
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Row(
+                                      children: [
+                                        appText(
+                                          title:
+                                              '₹${calculatePrice(double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].price?.toString() ?? '0'), double.parse(provider.nearByShopServicesList[index].subServices?[childIndex].offer?.toString() ?? '0'))}',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                            color: Colors.black.withOpacity(0.7)
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        appText(
+                                            title:
+                                                '₹${provider.nearByShopServicesList[index].subServices?[childIndex].price ?? ""}',
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey,
+                                            textDecoration:
+                                                TextDecoration.lineThrough),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Row(
+                                      children: [
+                                        RatingBar.builder(
+                                          wrapAlignment: WrapAlignment.start,
+                                          itemSize: 14,
+                                          initialRating: provider
+                                                  .nearByShopServicesList[index]
+                                                  .subServices?[childIndex]
+                                                  .rating ??
+                                              0,
+                                          minRating: 2,
+                                          direction: Axis.horizontal,
+                                          ignoreGestures: true,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemBuilder: (context, _) =>
+                                              const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (value) {},
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showSlotBookingDialog(
+                                                context,
+                                                provider
+                                                        .nearByShopServicesList[
+                                                            index]
+                                                        .subServices?[
+                                                            childIndex]
+                                                        .id ??
+                                                    0);
+                                          },
+                                          child: SizedBox(
+                                              width: 60,
+                                              height: 30,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    border: Border.all(
+                                                        color: appColors
+                                                            .appColor)),
+                                                child: Center(
+                                                    child: Text("Book",
+                                                        style: TextStyle(
+                                                            color: appColors
+                                                                .appColor))),
+                                              )
+                                              ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           ],
