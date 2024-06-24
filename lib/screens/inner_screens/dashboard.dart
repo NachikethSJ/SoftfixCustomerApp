@@ -134,19 +134,19 @@ class _DashboardState extends State<Dashboard>
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
-          'lat': latitude,
-          'lng': longitude,
-          'personType': widget.personType,
-          'serviceTypeId': "1",
-          'minOffer': int.tryParse(offerLabels.start),
-          'maxOffer': int.tryParse(offerLabels.end),
-          'minPrice': "0",
-          'maxPrice': "",
-          'minDistance': int.tryParse(rangeLabels.start),
-          'maxDistance': int.tryParse(rangeLabels.end),
-          'minRating': int.tryParse(ratingLabels.start),
-          'maxRating': int.tryParse(ratingLabels.end),
-          'search': '',
+            'lat': latitude,
+            'lng': longitude,
+            'personType': widget.personType,
+            'serviceTypeId': "1",
+            'minOffer': int.tryParse(offerLabels.start),
+            'maxOffer': int.tryParse(offerLabels.end),
+            'minPrice': "0",
+            'maxPrice': "",
+            'minDistance': int.tryParse(rangeLabels.start),
+            'maxDistance': int.tryParse(rangeLabels.end),
+            'minRating': int.tryParse(ratingLabels.start),
+            'maxRating': int.tryParse(ratingLabels.end),
+            'search': '',
         };
         provider.getShopList(
           context: context,

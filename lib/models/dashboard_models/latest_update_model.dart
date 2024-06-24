@@ -1,5 +1,4 @@
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
-
 import 'membership_model.dart';
 import 'near_by_service_model.dart';
 

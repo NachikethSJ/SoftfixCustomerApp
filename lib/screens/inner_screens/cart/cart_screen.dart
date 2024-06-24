@@ -163,15 +163,20 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                 MainAxisAlignment
                                                     .spaceBetween,
                                             children: [
-                                              appText(
-                                                  title:
-                                                      "${provider.showCartDetails[index].name}",
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black
-                                                      .withOpacity(0.7),
-                                                  //textOverflow: TextOverflow.ellipsis
+                                              SizedBox(
+                                                width:120,
+                                                child: appText(
+                                                    title:
+                                                        "${provider.showCartDetails[index].name}",
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    textOverflow: TextOverflow.ellipsis,
+                                                    color: Colors.black
+                                                        .withOpacity(0.7),
+                                                    //textOverflow: TextOverflow.ellipsis
+                                                ),
                                               ),
+                                              const SizedBox(width: 10,),
                                               GestureDetector(
                                                   onTap: () {
                                                     deleteCartItem(index);
@@ -181,12 +186,16 @@ class _CartScreenState extends State<CartScreen> with CacheManager {
                                                           appColors.appRed))
                                             ],
                                           ),
-                                          appText(
-                                            title:
-                                                '${provider.showCartDetails[index].type}',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey,
+                                          SizedBox(
+                                            width: 120,
+                                            child: appText(
+                                              title:
+                                                  '${provider.showCartDetails[index].type}',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              textOverflow: TextOverflow.ellipsis,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 2,
