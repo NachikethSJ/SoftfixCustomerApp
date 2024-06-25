@@ -3,7 +3,7 @@ class AppUrls {
     String get baseUrl => 'http://13.50.84.221:5000';
 
 
-  ///NewIP
+  ///NewIPLocal
   //String get baseUrl => 'http://192.168.29.154:5000';
 
 

@@ -1543,7 +1543,7 @@ class _DashboardState extends State<Dashboard>
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title: _getServiceName(
+                                title:  _getServiceName(
                                     provider.packageList[index].service ?? []),
                                 color: Colors.black,
                               ),
@@ -1576,7 +1576,7 @@ class _DashboardState extends State<Dashboard>
                                 decoration: BoxDecoration(
                                     color:
                                         const Color.fromARGB(255, 82, 102, 83),
-                                    borderRadius: BorderRadius.circular(2)),
+                                    borderRadius: BorderRadius.circular(4)),
                                 child: Center(
                                   child: appText(
                                     title: texts.bookNow,
