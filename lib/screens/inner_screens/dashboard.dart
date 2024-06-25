@@ -333,7 +333,6 @@ class _DashboardState extends State<Dashboard>
                     selectedLabelIndex: (i) {
                       setState(() {
                         selectedIndex = '${i + 1}';
-
                         index = i;
                         _getNearByData();
                       });
