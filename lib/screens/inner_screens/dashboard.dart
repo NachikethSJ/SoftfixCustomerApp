@@ -1381,7 +1381,7 @@ class _DashboardState extends State<Dashboard>
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.network(
-                                        "${provider.membershipList[index].image}");
+                                        "${provider.membershipList[index].image?.first??""}");
                                   },
                                 ),
                               ),

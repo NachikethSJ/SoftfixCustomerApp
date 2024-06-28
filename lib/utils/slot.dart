@@ -203,9 +203,11 @@ class _SlotBookingDialogState extends State<SlotBookingDialog> {
                                                   imageErrorBuilder: (context,
                                                       error, stackTrace) {
                                                     // Custom image error builder
-                                                    return Image.network(
-                                                      '${provider.slotList[index].image?.first}',
+                                                    return Image.asset(
+                                                      'assets/images/placeholder.png',
                                                       fit: BoxFit.cover,
+                                                      width: 50,
+                                                      height: 50,
                                                     );
                                                   },
                                                 ),

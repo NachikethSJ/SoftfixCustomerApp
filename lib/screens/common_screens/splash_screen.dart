@@ -106,10 +106,11 @@ class _SplashScreenState extends State<SplashScreen> with CacheManager {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appColors.appColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/images/logo.jpeg',height: 100,width: 180,),
+          child: Image.asset('assets/images/logo1.png',height: 100,width: 180,),
         ),
       ),
     );

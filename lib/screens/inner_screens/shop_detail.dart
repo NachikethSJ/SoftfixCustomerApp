@@ -1199,21 +1199,6 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
     );
   }
 
-  ///SearchByShopServicesApi
-  /*_getSearchByShopServices() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      var provider = Provider.of<DashboardProvider>(context, listen: false);
-      var body = {
-      "shopId":widget.shopData.id,
-      "search":searchController.text
-      };
-      provider.getSearchByShopServices(
-        context:context,
-        body:body,
-      );
-    }
-    );
-  }*/
   _getServiceName(List<Service> data) {
     String text = '';
     for (int i = 0; i < data.length; i++) {
@@ -1287,4 +1272,5 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
       );
     }
   }
+
 }
