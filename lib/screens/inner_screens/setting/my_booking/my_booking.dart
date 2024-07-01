@@ -278,6 +278,29 @@ class _MyBookingState extends State<MyBooking> {
                                                             provider, child) {
                                                           return Column(
                                                             children: [
+                                                              ClipRRect(
+                                                                borderRadius:
+                                                                BorderRadius.circular(50),
+                                                                child: FadeInImage.assetNetwork(
+                                                                  placeholder:
+                                                                  'assets/images/placeholder.png', // Path to placeholder image
+                                                                  image:
+                                                                  'assets/images/salonimg.png',
+                                                                  fit: BoxFit.cover,
+                                                                  width: 70,
+                                                                  height: 70,
+                                                                  imageErrorBuilder: (context,
+                                                                      error, stackTrace) {
+                                                                    // Custom image error builder
+                                                                    return Image.asset(
+                                                                      'assets/images/salonimg.png',
+                                                                      fit: BoxFit.cover,
+                                                                      width: 70,
+                                                                      height: 70,
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ),
                                                               const SizedBox(
                                                                 height: 10,
                                                               ),
