@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/screens/inner_screens/setting/my_booking/my_booking.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/navigation.dart';
-
 import '../../view_models/dashboard_provider.dart';
-import '../common_screens/bottom_navigation.dart';
 
 class SuccessScreen extends StatefulWidget {
   final String orderbookingId;

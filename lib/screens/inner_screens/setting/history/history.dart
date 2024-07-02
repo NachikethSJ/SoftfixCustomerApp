@@ -462,18 +462,13 @@ class _HistoryPageState extends State<HistoryPage> {
               .then((value) {
             if (value) {
               bookingDetails();
-              /*setState(() {
-                //isRateShowList[index] = false;
-              });*/
             }
           });
         });
   }
 
   bookingDetails() {
-    /*setState(() {
-      isRateShowList = [];
-    });*/
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         var provider = Provider.of<AccountsProvider>(context, listen: false);
@@ -486,7 +481,6 @@ class _HistoryPageState extends State<HistoryPage> {
             for (int i = 0; i < provider.bookingDetailHistory.length; i++) {
               reviewControllers.add(TextEditingController());
               ratings.add(0);
-              //isRateShowList.add(true);
             }
           }
         });

@@ -5,7 +5,6 @@ import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:salon_customer_app/view_models/connectivity_provider.dart';
 import 'package:salon_customer_app/view_models/dashboard_provider.dart';
-
 import '../../view_models/services_details_provider.dart';
 
 class CustomProvider extends StatelessWidget {

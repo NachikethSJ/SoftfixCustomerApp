@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../cache_manager/cache_manager.dart';
 import '../../../../constants/texts.dart';
 import '../../../../styles/app_colors.dart';

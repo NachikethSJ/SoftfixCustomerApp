@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../cache_manager/cache_manager.dart';
 import '../../../../constants/texts.dart';
 import '../../../../models/dashboard_models/packages_model.dart';
@@ -12,6 +11,7 @@ import '../../../../utils/loading_shimmer.dart';
 import '../../../../utils/navigation.dart';
 import '../../../../view_models/dashboard_provider.dart';
 import '../../package_detail.dart';
+
 class PackageScreen extends StatefulWidget {
   const PackageScreen({super.key});
   @override

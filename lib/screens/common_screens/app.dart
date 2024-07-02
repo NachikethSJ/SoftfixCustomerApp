@@ -3,7 +3,6 @@ import 'package:salon_customer_app/firebase_notifications.dart';
 import 'package:salon_customer_app/screens/common_screens/splash_screen.dart';
 import 'package:salon_customer_app/styles/app_theme.dart';
 
-import '../../main.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

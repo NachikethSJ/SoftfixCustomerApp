@@ -9,8 +9,6 @@ import 'package:salon_customer_app/utils/navigation.dart';
 import 'package:salon_customer_app/view_models/auth_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/app_text.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/models/dashboard_models/membership_model.dart';
-import 'package:salon_customer_app/models/dashboard_models/near_by_shop_model.dart';
 import 'package:salon_customer_app/models/dashboard_models/packages_model.dart';
 import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';

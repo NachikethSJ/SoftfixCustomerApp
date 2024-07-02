@@ -7,7 +7,6 @@ import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../utils/slot.dart';
 import '../../view_models/services_details_provider.dart';
 
@@ -104,10 +103,6 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                   );
                                 },
                               )
-                              /*Image.network(
-                                provider.showMemberShipDetails.shopImageUrl?[0]??'',
-                                fit: BoxFit.fill,
-                              ),*/
                             ),
                           ),
                           Positioned(
@@ -164,7 +159,6 @@ class _MembershipDetailState extends State<MembershipDetail> {
                             onTap: () {},
                             child: Card(
                               elevation: 4,
-                              // shadowColor: appColors.appColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 side:
@@ -271,24 +265,6 @@ class _MembershipDetailState extends State<MembershipDetail> {
                                                   )
                                                 ],
                                               ),
-                                              // Row(
-                                              //   mainAxisAlignment:
-                                              //   MainAxisAlignment.start,
-                                              //   children: [
-                                              //     Icon(
-                                              //       Icons.star,
-                                              //       color: appColors.appColor,
-                                              //     ),
-                                              //     const SizedBox(
-                                              //       width: 2,
-                                              //     ),
-                                              //     appText(
-                                              //       title: '${provider.serviceList[index].subService?[0].rating ?? "0"}',
-                                              //       fontSize: 14,
-                                              //       fontWeight: FontWeight.bold,
-                                              //     ),
-                                              //   ],
-                                              // ),
                                               const SizedBox(
                                                 height: 4,
                                               ),

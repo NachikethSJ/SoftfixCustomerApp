@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -17,7 +16,6 @@ import 'package:salon_customer_app/screens/inner_screens/map/map_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/membership_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
 import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
-import 'package:salon_customer_app/screens/inner_screens/setting/service_at_home.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
@@ -349,7 +347,7 @@ class _DashboardState extends State<Dashboard>
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 12, 0),
+                          padding: const EdgeInsets.fromLTRB(8                                                  , 0, 12, 0),
                           child: Row(
                             children: [
                               Expanded(

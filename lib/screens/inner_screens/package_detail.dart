@@ -7,7 +7,6 @@ import 'package:salon_customer_app/styles/app_colors.dart';
 import 'package:salon_customer_app/utils/app_button.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../utils/slot.dart';
 import '../../view_models/services_details_provider.dart';
 

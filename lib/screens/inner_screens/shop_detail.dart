@@ -5,17 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:salon_customer_app/cache_manager/cache_manager.dart';
 import 'package:salon_customer_app/constants/texts.dart';
 import 'package:salon_customer_app/screens/inner_screens/package_detail.dart';
-import 'package:salon_customer_app/screens/inner_screens/search_screen.dart';
 import 'package:salon_customer_app/screens/inner_screens/sub_service_detail.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../models/dashboard_models/near_by_elements_model.dart';
 import '../../models/dashboard_models/near_by_shop_model.dart';
 import '../../models/dashboard_models/near_by_shop_packages_model.dart';
-import '../../utils/app_button.dart';
 import '../../utils/loading_shimmer.dart';
 import '../../utils/navigation.dart';
 import '../../utils/slot.dart';

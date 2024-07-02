@@ -2,24 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_customer_app/constants/texts.dart';
-import 'package:salon_customer_app/models/dashboard_models/near_by_service_model.dart';
-import 'package:salon_customer_app/screens/inner_screens/cart/cart_screen.dart';
-import 'package:salon_customer_app/screens/inner_screens/dashboard.dart';
 import 'package:salon_customer_app/styles/app_colors.dart';
-import 'package:salon_customer_app/utils/app_bar.dart';
 import 'package:salon_customer_app/utils/app_text.dart';
 import 'package:salon_customer_app/view_models/cart_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../cache_manager/cache_manager.dart';
 import '../../utils/slot.dart';
 import '../../utils/validate_connectivity.dart';
 import '../../view_models/services_details_provider.dart';
-import '../common_screens/bottom_navigation.dart';
 
 class SubServiceDetail extends StatefulWidget {
   final dynamic lat;
