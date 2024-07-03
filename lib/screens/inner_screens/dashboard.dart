@@ -174,25 +174,6 @@ class _DashboardState extends State<Dashboard>
       _getNearByData();
       _getUpdateList();
     });
-    // Initialise  localnotification
-    // LocalNotificationService.initialize();
-    // To initialise the sg
-    // FirebaseMessaging.instance.getInitialMessage().then((message) {
-    //
-    // });
-    //
-    // // To initialise when app is not terminated
-    // FirebaseMessaging.onMessage.listen((message) {
-    //   if (message.notification != null) {
-    //     LocalNotificationService.display(message);
-    //   }
-    // });
-    //
-    // // To handle when app is open in
-    // // user divide and heshe is using it
-    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    //   print("on message opened app");
-    // });
     super.initState();
     cartDetails();
   }
