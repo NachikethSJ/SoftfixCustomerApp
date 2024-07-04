@@ -182,7 +182,7 @@ class _ServiceHomeState extends State<ServiceHome> {
                                             const EdgeInsets.fromLTRB(
                                                 14, 6, 14, 6),
                                             child: appText(
-                                              title: texts.book,
+                                              title: texts.addBtn,
                                               fontSize: 10,
                                               color: appColors.appColor,
                                               fontWeight: FontWeight.bold,

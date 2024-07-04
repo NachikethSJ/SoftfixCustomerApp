@@ -779,7 +779,7 @@ class _SearchScreenState extends State<SearchScreen>
                                                     color: Colors.white,
                                                     radius: 4,
                                                     onPressed: () {
-                                                      showSlotBookingDialog(
+                                                      /*showSlotBookingDialog(
                                                           context,
                                                           provider
                                                                   .searchserviceList[
@@ -787,9 +787,9 @@ class _SearchScreenState extends State<SearchScreen>
                                                                   .subService?[
                                                                       0]
                                                                   .id ??
-                                                              0);
+                                                              0);*/
                                                     },
-                                                    title: 'Book',
+                                                    title: 'Add',
                                                     fontSize: 12,
                                                     textColor:
                                                         appColors.appColor,

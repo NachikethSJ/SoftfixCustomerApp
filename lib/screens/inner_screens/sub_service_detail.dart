@@ -315,10 +315,10 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                 padding: const EdgeInsets.all(12),
                 child: GestureDetector(
                   onTap: () {
-                    showSlotBookingDialog(
+                    /*showSlotBookingDialog(
                         context,
                         provider.subServiceDetail.subService?.id.toString() ??
-                            '');
+                            '');*/
                     //item Add to cart
                     //  addCartService();
                   },
@@ -330,7 +330,7 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                         border: Border.all(color: appColors.appColor)),
                     child: Center(
                       child: appText(
-                        title: texts.book,
+                        title: texts.addBtn,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: appColors.appColor,

@@ -42,7 +42,7 @@ class Texts {
 
   String get bookAgain => 'Book again / Recommendation';
 
-  String get book => 'Book';
+  String get addBtn => 'Add';
 
   String get seeAll => 'See All';
 

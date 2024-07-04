@@ -113,9 +113,7 @@ class ApiClient {
     debugPrint('Headers: $headers');
 
     http.Response response = await http.delete(
-        Uri.parse(
-          appUrls.baseUrl + url,
-        ),
+        Uri.parse(appUrls.baseUrl + url,),
         headers: headers,
         body: jsonEncode(body));
     debugPrint("data: ${response.body}");

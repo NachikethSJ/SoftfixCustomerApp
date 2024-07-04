@@ -80,6 +80,8 @@ class _DashboardState extends State<Dashboard>
     '11:00 PM',
   ];
 
+  bool isBottomSheetOpen = false;
+
 // Define the selected times for "From" and "To" containers
   String? selectedTimeFrom;
   String? selectedTimeTo;
@@ -132,19 +134,19 @@ class _DashboardState extends State<Dashboard>
       (timeStamp) {
         var provider = Provider.of<DashboardProvider>(context, listen: false);
         var body = {
-            'lat': latitude,
-            'lng': longitude,
-            'personType': widget.personType,
-            'serviceTypeId': "1",
-            'minOffer': int.tryParse(offerLabels.start),
-            'maxOffer': int.tryParse(offerLabels.end),
-            'minPrice': "0",
-            'maxPrice': "",
-            'minDistance': int.tryParse(rangeLabels.start),
-            'maxDistance': int.tryParse(rangeLabels.end),
-            'minRating': int.tryParse(ratingLabels.start),
-            'maxRating': int.tryParse(ratingLabels.end),
-            'search': '',
+          'lat': latitude,
+          'lng': longitude,
+          'personType': widget.personType,
+          'serviceTypeId': "1",
+          'minOffer': int.tryParse(offerLabels.start),
+          'maxOffer': int.tryParse(offerLabels.end),
+          'minPrice': "0",
+          'maxPrice': "",
+          'minDistance': int.tryParse(rangeLabels.start),
+          'maxDistance': int.tryParse(rangeLabels.end),
+          'minRating': int.tryParse(ratingLabels.start),
+          'maxRating': int.tryParse(ratingLabels.end),
+          'search': '',
         };
         provider.getShopList(
           context: context,
@@ -254,772 +256,868 @@ class _DashboardState extends State<Dashboard>
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-            body: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 4.5,
-                    child: InkWell(
-                      onTap: () async {
-                        await _openMap();
-                      },
-                      child: IgnorePointer(
-                        child: TextField(
-                          style: const TextStyle(fontSize: 12),
-                          controller: addressController,
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: appColors.appColor,
+          body: Column(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 4.5,
+                      child: InkWell(
+                        onTap: () async {
+                          await _openMap();
+                        },
+                        child: IgnorePointer(
+                          child: TextField(
+                            style: const TextStyle(fontSize: 12),
+                            controller: addressController,
+                            decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: appColors.appColor,
+                                  ),
                                 ),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: appColors.appColor,
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: appColors.appColor,
+                                  ),
                                 ),
-                              ),
-                              suffixIcon: Icon(
-                                Icons.location_on,
-                                color: appColors.appColor,
-                              )),
+                                suffixIcon: Icon(
+                                  Icons.location_on,
+                                  color: appColors.appColor,
+                                )),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
-                  child: FlutterToggleTab(
-                    height: 42,
-                    selectedBackgroundColors: [appColors.appWhite],
-                    unSelectedBackgroundColors: const [Colors.yellow],
-                    width: MediaQuery.of(context).size.width / 5.5,
-                    borderRadius: 4,
-                    selectedTextStyle: TextStyle(
-                        color: appColors.appBlack,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w500),
-                    unSelectedTextStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500),
-                    labels: label,
-                    icons: icon,
-                    selectedIndex: index,
-                    selectedLabelIndex: (i) {
-                      setState(() {
-                        selectedIndex = '${i + 1}';
-                        index = i;
-                        _getNearByData();
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
+                    child: FlutterToggleTab(
+                      height: 42,
+                      selectedBackgroundColors: [appColors.appWhite],
+                      unSelectedBackgroundColors: const [Colors.yellow],
+                      width: MediaQuery.of(context).size.width / 5.5,
+                      borderRadius: 4,
+                      selectedTextStyle: TextStyle(
+                          color: appColors.appBlack,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w500),
+                      unSelectedTextStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500),
+                      labels: label,
+                      icons: icon,
+                      selectedIndex: index,
+                      selectedLabelIndex: (i) {
+                        setState(() {
+                          selectedIndex = '${i + 1}';
+                          index = i;
+                          _getNearByData();
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            selectedIndex == '1'
-                ? Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8                                                  , 0, 12, 0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    return InkWell(
-                                      onTap: () {
-                                        slideTransition(
-                                            context: context,
-                                            to: SearchScreen(
-                                              personType: provider.personType,
-                                              lang: longitude,
-                                              lat: latitude,
-                                            ));
-                                      },
-                                      child: IgnorePointer(
-                                        child: Card(
-                                          elevation: 4,
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                color: appColors.appColor),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: SizedBox(
-                                            height: 46,
-                                            child: TextFormField(
-                                              controller: searchController,
-                                              decoration: InputDecoration(
-                                                  hintText: texts.searchShop,
-                                                  hintStyle:
-                                                      TextStyle(fontSize: 12),
-                                                  enabledBorder:
-                                                      InputBorder.none,
-                                                  focusedBorder:
-                                                      InputBorder.none,
-                                                  suffixIcon: Icon(
-                                                    Icons.search,
-                                                    color: appColors.appGray,
-                                                  ),
-                                                  contentPadding:
-                                                      const EdgeInsets.only(
-                                                          left: 12,
-                                                          right: 12,
-                                                          top: 10,
-                                                          bottom: 10)),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  searchController.text = value;
-                                                });
-                                              },
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              selectedIndex == '1'
+                  ? Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 12, 0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Consumer<DashboardProvider>(
+                                    builder: (context, provider, child) {
+                                      return InkWell(
+                                        onTap: () {
+                                          slideTransition(
+                                              context: context,
+                                              to: SearchScreen(
+                                                personType: provider.personType,
+                                                lang: longitude,
+                                                lat: latitude,
+                                              ));
+                                        },
+                                        child: IgnorePointer(
+                                          child: Card(
+                                            elevation: 4,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  color: appColors.appColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: SizedBox(
+                                              height: 46,
+                                              child: TextFormField(
+                                                controller: searchController,
+                                                decoration: InputDecoration(
+                                                    hintText: texts.searchShop,
+                                                    hintStyle:
+                                                        TextStyle(fontSize: 12),
+                                                    enabledBorder:
+                                                        InputBorder.none,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    suffixIcon: Icon(
+                                                      Icons.search,
+                                                      color: appColors.appGray,
+                                                    ),
+                                                    contentPadding:
+                                                        const EdgeInsets.only(
+                                                            left: 12,
+                                                            right: 12,
+                                                            top: 10,
+                                                            bottom: 10)),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    searchController.text =
+                                                        value;
+                                                  });
+                                                },
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NotificationScreen()));
-                                },
-                                child: Card(
-                                  color: appColors.appColor,
-                                  elevation: 4,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
+                                      );
+                                    },
                                   ),
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 46,
-                                    child: Center(
-                                      child: Badge(
-                                        label: const Text("0"),
-                                        backgroundColor: Colors.teal,
-                                        child: Icon(
-                                          Icons.notifications,
-                                          color: appColors.appBlack,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NotificationScreen()));
+                                  },
+                                  child: Card(
+                                    color: appColors.appColor,
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 46,
+                                      child: Center(
+                                        child: Badge(
+                                          label: const Text("0"),
+                                          backgroundColor: Colors.teal,
+                                          child: Icon(
+                                            Icons.notifications,
+                                            color: appColors.appBlack,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  height: 162,
-                                  child: Consumer<DashboardProvider>(
-                                      builder: (context, provider, child) {
-                                    List<SubService> subService = provider
-                                        .subServiceList
-                                        .where((element) {
-                                      if (searchController.text.isNotEmpty) {
-                                        return element.type
-                                                ?.toLowerCase()
-                                                .contains(searchController.text
-                                                    .toLowerCase()) ??
-                                            false;
+                          Expanded(
+                              child: SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    height: 162,
+                                    child: Consumer<DashboardProvider>(
+                                        builder: (context, provider, child) {
+                                      List<SubService> subService = provider
+                                          .subServiceList
+                                          .where((element) {
+                                        if (searchController.text.isNotEmpty) {
+                                          return element.type
+                                                  ?.toLowerCase()
+                                                  .contains(searchController
+                                                      .text
+                                                      .toLowerCase()) ??
+                                              false;
+                                        }
+                                        return true;
+                                      }).toList();
+                                      if (provider.showLoader) {
+                                        return ListView.separated(
+                                          itemCount: 4,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          separatorBuilder: (context, index) {
+                                            return const SizedBox(
+                                              width: 14,
+                                            );
+                                          },
+                                          itemBuilder: (context, index) {
+                                            return SizedBox(
+                                              height: 100,
+                                              width: 130,
+                                              child: loadingShimmer(),
+                                            );
+                                          },
+                                        );
+                                      } else if (subService.isEmpty) {
+                                        return Center(
+                                          child: appText(title: texts.notFound),
+                                        );
                                       }
-                                      return true;
-                                    }).toList();
-                                    if (provider.showLoader) {
                                       return ListView.separated(
-                                        itemCount: 4,
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
                                         separatorBuilder: (context, index) {
                                           return const SizedBox(
                                             width: 14,
                                           );
                                         },
+                                        itemCount: subService.length > 10
+                                            ? 10
+                                            : subService.length,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
-                                          return SizedBox(
-                                            height: 100,
-                                            width: 130,
-                                            child: loadingShimmer(),
+                                          return InkWell(
+                                            onTap: () {
+                                              slideTransition(
+                                                  context: context,
+                                                  to: SubServiceDetail(
+                                                    lat: latitude,
+                                                    lng: longitude,
+                                                    subServiceid:
+                                                        subService[index]
+                                                            .id
+                                                            .toString(),
+                                                  ));
+                                            },
+                                            child: Container(
+                                              width: 130,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                border: Border.all(
+                                                  color: Colors.grey.shade300,
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(6),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Stack(
+                                                      alignment:
+                                                          Alignment.bottomLeft,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 80,
+                                                          width:
+                                                              double.infinity,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                            child: FadeInImage
+                                                                .assetNetwork(
+                                                              placeholder:
+                                                                  'assets/images/placeholder.png', // Path to placeholder image
+                                                              image: subService[
+                                                                          index]
+                                                                      .image
+                                                                      ?.first ??
+                                                                  '',
+                                                              fit: BoxFit.cover,
+                                                              width: 90,
+                                                              height: 90,
+                                                              imageErrorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                // Custom image error builder
+                                                                return Image.network(
+                                                                    subService[index]
+                                                                            .image
+                                                                            ?.first ??
+                                                                        '');
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        subService[index]
+                                                                    .offer !=
+                                                                null
+                                                            ? Container(
+                                                                height: 25,
+                                                                width: 50,
+                                                                decoration:
+                                                                    const BoxDecoration(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  borderRadius:
+                                                                      BorderRadius.only(
+                                                                          topRight:
+                                                                              Radius.circular(8)),
+                                                                ),
+                                                                child: Center(
+                                                                    child:
+                                                                        appText(
+                                                                  title:
+                                                                      '${subService[index].offer}% OFF',
+                                                                  color: appColors
+                                                                      .appWhite,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                )),
+                                                              )
+                                                            : const SizedBox(),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    appText(
+                                                        title:
+                                                            truncateWithEllipsis(
+                                                                14,
+                                                                subService[index]
+                                                                        .type ??
+                                                                    ''),
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.black
+                                                            .withOpacity(0.7)),
+                                                    const SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              appText(
+                                                                  title:
+                                                                      '₹${subService[index].price}',
+                                                                  color: appColors
+                                                                      .appGray,
+                                                                  textDecoration:
+                                                                      TextDecoration
+                                                                          .lineThrough,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              const SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              appText(
+                                                                  title:
+                                                                      '₹${calculatePrice(double.parse(subService[index].price?.toString() ?? '0'), double.parse(subService[index].offer?.toString() ?? '0'))}',
+                                                                  fontSize: 11,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.7)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              isBottomSheetOpen =
+                                                                  true;
+                                                            });
+                                                            //Select Slot Dialog
+                                                            /*showSlotBookingDialog(
+                                                              context,
+                                                              '${subService[index].id}');*/
+                                                            //addCartService()
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            width: 70,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      color: appColors
+                                                                          .appColor,
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5)),
+                                                            child:
+                                                                isBottomSheetOpen ==
+                                                                        true
+                                                                    ? Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Center(
+                                                                              child: appText(title: '-', color: appColors.appBlack, fontSize: 22)),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                10,
+                                                                          ),
+                                                                          appText(
+                                                                            title:
+                                                                                '1',
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                appColors.appColor,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                10,
+                                                                          ),
+                                                                          Center(
+                                                                              child: appText(title: '+', color: appColors.appBlack, fontSize: 16)),
+                                                                        ],
+                                                                      )
+                                                                    : Center(
+                                                                        child:
+                                                                            appText(
+                                                                          title:
+                                                                              texts.addBtn,
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              appColors.appColor,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                           );
                                         },
                                       );
-                                    } else if (subService.isEmpty) {
-                                      return Center(
-                                        child: appText(title: texts.notFound),
+                                    }),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  //Slider.........
+                                  Consumer<DashboardProvider>(
+                                    builder: (context, provider, child) {
+                                      if (provider.showLoader) {
+                                        return const CircularProgressIndicator();
+                                      }
+                                      return DynamicPageView(
+                                        imagePaths: provider.imageList,
+                                        indicatorColor: Colors.teal,
+                                        activeIndicatorColor:
+                                            appColors.appColor,
+                                        lat: latitude,
+                                        lang: longitude,
                                       );
-                                    }
-                                    return ListView.separated(
-                                      separatorBuilder: (context, index) {
-                                        return const SizedBox(
-                                          width: 14,
-                                        );
-                                      },
-                                      itemCount: subService.length > 10
-                                          ? 10
-                                          : subService.length,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap: () {
-                                            slideTransition(
-                                                context: context,
-                                                to: SubServiceDetail(
-                                                  lat: latitude,
-                                                  lng: longitude,
-                                                  subServiceid:
-                                                      subService[index]
-                                                          .id
-                                                          .toString(),
-                                                ));
-                                          },
-                                          child: Container(
-                                            width: 130,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              border: Border.all(
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(6),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Stack(
-                                                    alignment:
-                                                        Alignment.bottomLeft,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 80,
-                                                        width: double.infinity,
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          child: FadeInImage
-                                                              .assetNetwork(
-                                                            placeholder:
-                                                                'assets/images/placeholder.png', // Path to placeholder image
-                                                            image: subService[
-                                                                        index]
-                                                                    .image
-                                                                    ?.first ??
-                                                                '',
-                                                            fit: BoxFit.cover,
-                                                            width: 90,
-                                                            height: 90,
-                                                            imageErrorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              // Custom image error builder
-                                                              return Image.network(
-                                                                  subService[index]
-                                                                          .image
-                                                                          ?.first ??
-                                                                      '');
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      subService[index].offer !=
-                                                              null
-                                                          ? Container(
-                                                              height: 25,
-                                                              width: 50,
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color:
-                                                                    Colors.blue,
-                                                                borderRadius: BorderRadius.only(
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            8)),
-                                                              ),
-                                                              child: Center(
-                                                                  child:
-                                                                      appText(
-                                                                title:
-                                                                    '${subService[index].offer}% OFF',
-                                                                color: appColors
-                                                                    .appWhite,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              )),
-                                                            )
-                                                          : const SizedBox(),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  appText(
-                                                      title:
-                                                          truncateWithEllipsis(
-                                                              14,
-                                                              subService[index]
-                                                                      .type ??
-                                                                  ''),
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black
-                                                          .withOpacity(0.7)),
-                                                  const SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            appText(
-                                                                title:
-                                                                    '₹${subService[index].price}',
-                                                                color: appColors
-                                                                    .appGray,
-                                                                textDecoration:
-                                                                    TextDecoration
-                                                                        .lineThrough,
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                            const SizedBox(
-                                                              height: 2,
-                                                            ),
-                                                            appText(
-                                                                title:
-                                                                    '₹${calculatePrice(double.parse(subService[index].price?.toString() ?? '0'), double.parse(subService[index].offer?.toString() ?? '0'))}',
-                                                                fontSize: 11,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                color: Colors
-                                                                    .black
-                                                                    .withOpacity(
-                                                                        0.7)),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          //Select Slot Dialog
-                                                          showSlotBookingDialog(
-                                                              context,
-                                                              '${subService[index].id}');
-                                                        },
-                                                        child: Container(
-                                                          height: 25,
-                                                          width: 45,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: appColors
-                                                                        .appColor,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                          child: Center(
-                                                            child: appText(
-                                                              title: texts.book,
-                                                              fontSize: 12,
-                                                              color: appColors
-                                                                  .appColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }),
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                //Slider.........
-                                Consumer<DashboardProvider>(
-                                  builder: (context, provider, child) {
-                                    if (provider.showLoader) {
-                                      return const CircularProgressIndicator();
-                                    }
-                                    return DynamicPageView(
-                                      imagePaths: provider.imageList,
-                                      indicatorColor: Colors.teal,
-                                      activeIndicatorColor: appColors.appColor,
-                                      lat: latitude,
-                                      lang: longitude,
-                                    );
-                                  },
-                                ),
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //   children: [
-                                //     appText(
-                                //       title: texts.bookAgain,
-                                //       fontSize: 16,
-                                //       fontWeight: FontWeight.bold,
-                                //     ),
-                                //     appText(
-                                //       title: texts.seeAll,
-                                //       fontSize: 14,
-                                //       fontWeight: FontWeight.bold,
-                                //       color: appColors.appGreen,
-                                //     ),
-                                //   ],
-                                // ),
-                                // const SizedBox(
-                                //   height: 12,
-                                // ),
-                                //
-                                // SizedBox(
-                                //   height: 174,
-                                //   child: Consumer<DashboardProvider>(
-                                //       builder: (context, provider, child) {
-                                //     if (provider.showLoader) {
-                                //       return ListView.separated(
-                                //         itemCount: 4,
-                                //         shrinkWrap: true,
-                                //         scrollDirection: Axis.horizontal,
-                                //         separatorBuilder: (context, index) {
-                                //           return const SizedBox(
-                                //             width: 14,
-                                //           );
-                                //         },
-                                //         itemBuilder: (context, index) {
-                                //           return SizedBox(
-                                //             height: 100,
-                                //             width: 130,
-                                //             child: loadingShimmer(),
-                                //           );
-                                //         },
-                                //       );
-                                //     } else if (provider.serviceList.isEmpty) {
-                                //       return Center(
-                                //         child: appText(title: texts.notFound),
-                                //       );
-                                //     }
-                                //     return ListView.separated(
-                                //       separatorBuilder: (context, index) {
-                                //         return const SizedBox(
-                                //           width: 6,
-                                //         );
-                                //       },
-                                //       padding: const EdgeInsets.all(0),
-                                //       itemCount: provider.serviceList.length,
-                                //       shrinkWrap: true,
-                                //       scrollDirection: Axis.horizontal,
-                                //       itemBuilder: (context, index) {
-                                //         return SizedBox(
-                                //           width: 150,
-                                //           child: Padding(
-                                //             padding: const EdgeInsets.all(8),
-                                //             child: Column(
-                                //               crossAxisAlignment: CrossAxisAlignment.start,
-                                //               children: [
-                                //                 SizedBox(
-                                //                   width: 150,
-                                //                   height: 120,
-                                //                   child: ClipRRect(
-                                //                     borderRadius: BorderRadius.circular(16),
-                                //                     child: Container(
-                                //                       color: Colors.yellowAccent.shade100,
-                                //                       child: Padding(
-                                //                         padding: const EdgeInsets.all(6),
-                                //                         child: Column(
-                                //                           mainAxisAlignment:
-                                //                               MainAxisAlignment.start,
-                                //                           children: [
-                                //                             // GridView.builder(
-                                //                             //   padding:
-                                //                             //       const EdgeInsets.all(0),
-                                //                             //   shrinkWrap: true,
-                                //                             //   physics:
-                                //                             //       const NeverScrollableScrollPhysics(),
-                                //                             //   itemCount: provider
-                                //                             //               .serviceList[
-                                //                             //                   index]
-                                //                             //               .subService!
-                                //                             //               .length >
-                                //                             //           4
-                                //                             //       ? 4
-                                //                             //       : provider
-                                //                             //           .serviceList[index]
-                                //                             //           .subService
-                                //                             //           ?.length,
-                                //                             //   gridDelegate:
-                                //                             //       const FixedGridViewHeight(
-                                //                             //           crossAxisCount: 2,
-                                //                             //           height: 50,
-                                //                             //           mainAxisSpacing: 5,
-                                //                             //           crossAxisSpacing: 5),
-                                //                             //   itemBuilder: (context, i) {
-                                //                             //     return Column(
-                                //                             //       crossAxisAlignment: CrossAxisAlignment.center,
-                                //                             //       children: [
-                                //                             //         Container(
-                                //                             //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                //                             //           height:35,
-                                //                             //           width: 35,
-                                //                             //           child: ClipRRect(
-                                //                             //             borderRadius:BorderRadius.circular(12),
-                                //                             //             child: Image.network(
-                                //                             //               provider
-                                //                             //                       .serviceList[
-                                //                             //                           index]
-                                //                             //                       .subService?[i]
-                                //                             //                       .image
-                                //                             //                       ?.first ??
-                                //                             //                   '',
-                                //                             //               fit: BoxFit.fill,
-                                //                             //             ),
-                                //                             //           ),
-                                //                             //         ),
-                                //                             //         const SizedBox(height: 2,),
-                                //                             //         Text("${provider.serviceList[index].subService?[i].type}",style: TextStyle(fontSize: 8),),
-                                //                             //       ],
-                                //                             //     );
-                                //                             //   },
-                                //                             // ),
-                                //                             GridView.builder(
-                                //                               padding: const EdgeInsets.all(0),
-                                //                               shrinkWrap: true,
-                                //                               physics: const NeverScrollableScrollPhysics(),
-                                //                               itemCount: provider.serviceList[index].subService!.length > 4
-                                //                                   ? 4
-                                //                                   : provider.serviceList[index].subService!.length,
-                                //                               gridDelegate: const FixedGridViewHeight(
-                                //                                 crossAxisCount: 2,
-                                //                                 height: 50,
-                                //                                 mainAxisSpacing: 5,
-                                //                                 crossAxisSpacing: 5,
-                                //                               ),
-                                //                               itemBuilder: (context, i) {
-                                //                                 if (i == 3 && provider.serviceList[index].subService!.length > 4) {
-                                //                                   return Column(
-                                //                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                //                                     children: [
-                                //                                       Container(
-                                //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                //                                         height: 35,
-                                //                                         width: 35,
-                                //                                         child: ClipRRect(
-                                //                                           borderRadius: BorderRadius.circular(12),
-                                //                                           child: Center(
-                                //                                             child: Text(
-                                //                                               '+${provider.serviceList[index].subService!.length - 3}',
-                                //                                               style: TextStyle(fontSize: 12),
-                                //                                             ),
-                                //                                           ),
-                                //                                         ),
-                                //                                       ),
-                                //                                       const SizedBox(height: 2,),
-                                //                                       Text(
-                                //                                         "More",
-                                //                                         style: TextStyle(fontSize: 8),
-                                //                                       ),
-                                //                                     ],
-                                //                                   );
-                                //                                 } else {
-                                //                                   return Column(
-                                //                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                //                                     children: [
-                                //                                       Container(
-                                //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                                //                                         height: 35,
-                                //                                         width: 35,
-                                //                                         child: ClipRRect(
-                                //                                           borderRadius: BorderRadius.circular(12),
-                                //                                           child: Image.network(
-                                //                                             provider.serviceList[index].subService![i].image?.first ?? '',
-                                //                                             fit: BoxFit.fill,
-                                //                                           ),
-                                //                                         ),
-                                //                                       ),
-                                //                                       const SizedBox(height: 2,),
-                                //                                       Text(
-                                //                                         "${provider.serviceList[index].subService![i].type}",
-                                //                                         style: TextStyle(fontSize: 8),
-                                //                                       ),
-                                //                                     ],
-                                //                                   );
-                                //                                 }
-                                //                               },
-                                //                             ),
-                                //
-                                //                           ],
-                                //                         ),
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                 ),
-                                //                 const SizedBox(
-                                //                   height: 6,
-                                //                 ),
-                                //                 appText(
-                                //                   title: provider.serviceList[index].name ??
-                                //                       '',
-                                //                   fontSize: 14,
-                                //                   fontWeight: FontWeight.w500,
-                                //                 ),
-                                //                 const SizedBox(
-                                //                   height: 4,
-                                //                 ),
-                                //                 // appText(
-                                //                 //   title:
-                                //                 //       '${provider.serviceList[index].subService?.length ?? 0} Products',
-                                //                 //   color: appColors.appGray,
-                                //                 //   fontSize: 12,
-                                //                 //   fontWeight: FontWeight.w500,
-                                //                 // ),
-                                //               ],
-                                //             ),
-                                //           ),
-                                //         );
-                                //       },
-                                //     );
-                                //   }),
-                                // ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    appText(
-                                      title: texts.nearBy,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: appColors.appColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 25,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        _showFilter();
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 1,
-                                              color: appColors.appColor),
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              16, 4, 16, 4),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.badge,
-                                                color: appColors.appColor,
-                                              ),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              appText(
-                                                color: appColors.appColor,
-                                                title: texts.filter,
-                                                fontWeight: FontWeight.w600,
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                    },
+                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     appText(
+                                  //       title: texts.bookAgain,
+                                  //       fontSize: 16,
+                                  //       fontWeight: FontWeight.bold,
+                                  //     ),
+                                  //     appText(
+                                  //       title: texts.seeAll,
+                                  //       fontSize: 14,
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: appColors.appGreen,
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // const SizedBox(
+                                  //   height: 12,
+                                  // ),
+                                  //
+                                  // SizedBox(
+                                  //   height: 174,
+                                  //   child: Consumer<DashboardProvider>(
+                                  //       builder: (context, provider, child) {
+                                  //     if (provider.showLoader) {
+                                  //       return ListView.separated(
+                                  //         itemCount: 4,
+                                  //         shrinkWrap: true,
+                                  //         scrollDirection: Axis.horizontal,
+                                  //         separatorBuilder: (context, index) {
+                                  //           return const SizedBox(
+                                  //             width: 14,
+                                  //           );
+                                  //         },
+                                  //         itemBuilder: (context, index) {
+                                  //           return SizedBox(
+                                  //             height: 100,
+                                  //             width: 130,
+                                  //             child: loadingShimmer(),
+                                  //           );
+                                  //         },
+                                  //       );
+                                  //     } else if (provider.serviceList.isEmpty) {
+                                  //       return Center(
+                                  //         child: appText(title: texts.notFound),
+                                  //       );
+                                  //     }
+                                  //     return ListView.separated(
+                                  //       separatorBuilder: (context, index) {
+                                  //         return const SizedBox(
+                                  //           width: 6,
+                                  //         );
+                                  //       },
+                                  //       padding: const EdgeInsets.all(0),
+                                  //       itemCount: provider.serviceList.length,
+                                  //       shrinkWrap: true,
+                                  //       scrollDirection: Axis.horizontal,
+                                  //       itemBuilder: (context, index) {
+                                  //         return SizedBox(
+                                  //           width: 150,
+                                  //           child: Padding(
+                                  //             padding: const EdgeInsets.all(8),
+                                  //             child: Column(
+                                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                                  //               children: [
+                                  //                 SizedBox(
+                                  //                   width: 150,
+                                  //                   height: 120,
+                                  //                   child: ClipRRect(
+                                  //                     borderRadius: BorderRadius.circular(16),
+                                  //                     child: Container(
+                                  //                       color: Colors.yellowAccent.shade100,
+                                  //                       child: Padding(
+                                  //                         padding: const EdgeInsets.all(6),
+                                  //                         child: Column(
+                                  //                           mainAxisAlignment:
+                                  //                               MainAxisAlignment.start,
+                                  //                           children: [
+                                  //                             // GridView.builder(
+                                  //                             //   padding:
+                                  //                             //       const EdgeInsets.all(0),
+                                  //                             //   shrinkWrap: true,
+                                  //                             //   physics:
+                                  //                             //       const NeverScrollableScrollPhysics(),
+                                  //                             //   itemCount: provider
+                                  //                             //               .serviceList[
+                                  //                             //                   index]
+                                  //                             //               .subService!
+                                  //                             //               .length >
+                                  //                             //           4
+                                  //                             //       ? 4
+                                  //                             //       : provider
+                                  //                             //           .serviceList[index]
+                                  //                             //           .subService
+                                  //                             //           ?.length,
+                                  //                             //   gridDelegate:
+                                  //                             //       const FixedGridViewHeight(
+                                  //                             //           crossAxisCount: 2,
+                                  //                             //           height: 50,
+                                  //                             //           mainAxisSpacing: 5,
+                                  //                             //           crossAxisSpacing: 5),
+                                  //                             //   itemBuilder: (context, i) {
+                                  //                             //     return Column(
+                                  //                             //       crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                             //       children: [
+                                  //                             //         Container(
+                                  //                             //           decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                                  //                             //           height:35,
+                                  //                             //           width: 35,
+                                  //                             //           child: ClipRRect(
+                                  //                             //             borderRadius:BorderRadius.circular(12),
+                                  //                             //             child: Image.network(
+                                  //                             //               provider
+                                  //                             //                       .serviceList[
+                                  //                             //                           index]
+                                  //                             //                       .subService?[i]
+                                  //                             //                       .image
+                                  //                             //                       ?.first ??
+                                  //                             //                   '',
+                                  //                             //               fit: BoxFit.fill,
+                                  //                             //             ),
+                                  //                             //           ),
+                                  //                             //         ),
+                                  //                             //         const SizedBox(height: 2,),
+                                  //                             //         Text("${provider.serviceList[index].subService?[i].type}",style: TextStyle(fontSize: 8),),
+                                  //                             //       ],
+                                  //                             //     );
+                                  //                             //   },
+                                  //                             // ),
+                                  //                             GridView.builder(
+                                  //                               padding: const EdgeInsets.all(0),
+                                  //                               shrinkWrap: true,
+                                  //                               physics: const NeverScrollableScrollPhysics(),
+                                  //                               itemCount: provider.serviceList[index].subService!.length > 4
+                                  //                                   ? 4
+                                  //                                   : provider.serviceList[index].subService!.length,
+                                  //                               gridDelegate: const FixedGridViewHeight(
+                                  //                                 crossAxisCount: 2,
+                                  //                                 height: 50,
+                                  //                                 mainAxisSpacing: 5,
+                                  //                                 crossAxisSpacing: 5,
+                                  //                               ),
+                                  //                               itemBuilder: (context, i) {
+                                  //                                 if (i == 3 && provider.serviceList[index].subService!.length > 4) {
+                                  //                                   return Column(
+                                  //                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                                     children: [
+                                  //                                       Container(
+                                  //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                                  //                                         height: 35,
+                                  //                                         width: 35,
+                                  //                                         child: ClipRRect(
+                                  //                                           borderRadius: BorderRadius.circular(12),
+                                  //                                           child: Center(
+                                  //                                             child: Text(
+                                  //                                               '+${provider.serviceList[index].subService!.length - 3}',
+                                  //                                               style: TextStyle(fontSize: 12),
+                                  //                                             ),
+                                  //                                           ),
+                                  //                                         ),
+                                  //                                       ),
+                                  //                                       const SizedBox(height: 2,),
+                                  //                                       Text(
+                                  //                                         "More",
+                                  //                                         style: TextStyle(fontSize: 8),
+                                  //                                       ),
+                                  //                                     ],
+                                  //                                   );
+                                  //                                 } else {
+                                  //                                   return Column(
+                                  //                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                                     children: [
+                                  //                                       Container(
+                                  //                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                                  //                                         height: 35,
+                                  //                                         width: 35,
+                                  //                                         child: ClipRRect(
+                                  //                                           borderRadius: BorderRadius.circular(12),
+                                  //                                           child: Image.network(
+                                  //                                             provider.serviceList[index].subService![i].image?.first ?? '',
+                                  //                                             fit: BoxFit.fill,
+                                  //                                           ),
+                                  //                                         ),
+                                  //                                       ),
+                                  //                                       const SizedBox(height: 2,),
+                                  //                                       Text(
+                                  //                                         "${provider.serviceList[index].subService![i].type}",
+                                  //                                         style: TextStyle(fontSize: 8),
+                                  //                                       ),
+                                  //                                     ],
+                                  //                                   );
+                                  //                                 }
+                                  //                               },
+                                  //                             ),
+                                  //
+                                  //                           ],
+                                  //                         ),
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //                 const SizedBox(
+                                  //                   height: 6,
+                                  //                 ),
+                                  //                 appText(
+                                  //                   title: provider.serviceList[index].name ??
+                                  //                       '',
+                                  //                   fontSize: 14,
+                                  //                   fontWeight: FontWeight.w500,
+                                  //                 ),
+                                  //                 const SizedBox(
+                                  //                   height: 4,
+                                  //                 ),
+                                  //                 // appText(
+                                  //                 //   title:
+                                  //                 //       '${provider.serviceList[index].subService?.length ?? 0} Products',
+                                  //                 //   color: appColors.appGray,
+                                  //                 //   fontSize: 12,
+                                  //                 //   fontWeight: FontWeight.w500,
+                                  //                 // ),
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         );
+                                  //       },
+                                  //     );
+                                  //   }),
+                                  // ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      appText(
+                                        title: texts.nearBy,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: appColors.appColor,
                                       ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                TabBar(
-                                  onTap: (value) {
-                                    setState(() {
-                                      selectedTabIndex = value;
-                                    });
-                                  },
-                                  controller: _tabController,
-                                  labelColor: appColors.appColor,
-                                  labelStyle: const TextStyle(fontSize: 14),
-                                  indicatorColor: appColors.appColor,
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  tabs: [
-                                    Tab(
-                                      text: texts.shops,
-                                    ),
-                                    Tab(
-                                      text: texts.package,
-                                    ),
-                                    Tab(
-                                      text: texts.membership,
-                                    ),
-                                  ],
-                                ),
-                                selectedTabIndex == 0
-                                    ? _nearByShopList()
-                                    : selectedTabIndex == 1
-                                        ? _nearByPackagesList()
-                                        : _nearByMembershipList(),
-                              ],
+                                      const SizedBox(
+                                        width: 25,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          _showFilter();
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 1,
+                                                color: appColors.appColor),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                16, 4, 16, 4),
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.badge,
+                                                  color: appColors.appColor,
+                                                ),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                appText(
+                                                  color: appColors.appColor,
+                                                  title: texts.filter,
+                                                  fontWeight: FontWeight.w600,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  TabBar(
+                                    onTap: (value) {
+                                      setState(() {
+                                        selectedTabIndex = value;
+                                      });
+                                    },
+                                    controller: _tabController,
+                                    labelColor: appColors.appColor,
+                                    labelStyle: const TextStyle(fontSize: 14),
+                                    indicatorColor: appColors.appColor,
+                                    indicatorSize: TabBarIndicatorSize.tab,
+                                    tabs: [
+                                      Tab(
+                                        text: texts.shops,
+                                      ),
+                                      Tab(
+                                        text: texts.package,
+                                      ),
+                                      Tab(
+                                        text: texts.membership,
+                                      ),
+                                    ],
+                                  ),
+                                  selectedTabIndex == 0
+                                      ? _nearByShopList()
+                                      : selectedTabIndex == 1
+                                          ? _nearByPackagesList()
+                                          : _nearByMembershipList(),
+                                ],
+                              ),
                             ),
-                          ),
-                        ))
+                          ))
+                        ],
+                      ),
+                    )
+                  : const Align(
+                      alignment: Alignment.center, child: Text('Coming Soon'))
+            ],
+          ),
+          bottomSheet: Visibility(
+            visible: isBottomSheetOpen,
+            child: Container(
+              height: 70,
+              width: double.maxFinite,
+              color: Colors.yellow.shade400,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        appText(
+                            title: 'Sub Total',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: appColors.appWhite),
+                        appText(
+                            title: '₹1499',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: appColors.appWhite)
                       ],
                     ),
-                  )
-                : const Align(
-              alignment: Alignment.center,
-                child: Text('Coming Soon'))
-          ],
-        )),
+                    const Spacer(),
+                    Container(
+                      height: 35,
+                      width: 90,
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: appColors.appWhite, width: 2),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Center(
+                          child: appText(
+                              title: 'Proceed',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: appColors.appWhite)),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -1360,7 +1458,7 @@ class _DashboardState extends State<Dashboard>
                                       (context, error, stackTrace) {
                                     // Custom image error builder
                                     return Image.network(
-                                        "${provider.membershipList[index].image?.first??""}");
+                                        "${provider.membershipList[index].image?.first ?? ""}");
                                   },
                                 ),
                               ),
@@ -1522,7 +1620,7 @@ class _DashboardState extends State<Dashboard>
                                 fontWeight: FontWeight.bold,
                               ),
                               appText(
-                                title:  _getServiceName(
+                                title: _getServiceName(
                                     provider.packageList[index].service ?? []),
                                 color: Colors.black,
                               ),
