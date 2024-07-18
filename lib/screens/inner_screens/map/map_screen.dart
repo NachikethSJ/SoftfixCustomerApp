@@ -141,7 +141,7 @@ class _MapScreenState extends State<MapScreen> {
           GoogleMap(
             compassEnabled: true,
             myLocationButtonEnabled: true,
-            minMaxZoomPreference: MinMaxZoomPreference(17, 26),
+            minMaxZoomPreference: const MinMaxZoomPreference(17, 26),
             myLocationEnabled: true,
             mapType: MapType.normal,
             trafficEnabled: true,
@@ -200,7 +200,7 @@ class _MapScreenState extends State<MapScreen> {
                     )),
                 maxLines: 1,
                 textEditingController: searchController,
-                googleAPIKey: "AIzaSyAgtycLt6CSf3KBRfhV2XEBL1YkCMOFgj8",
+                googleAPIKey: "AIzaSyBObJitjMo7f-b9SyHZMqv0SKmWlQIq0Ak",
                 debounceTime: 400,
                 countries: const ["IN"],
                 isLatLngRequired: true,

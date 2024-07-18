@@ -589,7 +589,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            /*showSlotBookingDialog(
+                                            showSlotBookingDialog(
                                                 context,
                                                 provider
                                                         .nearByShopServicesList[
@@ -597,7 +597,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                                         .subServices?[
                                                             childIndex]
                                                         .id ??
-                                                    0);*/
+                                                    0);
                                           },
                                           child: SizedBox(
                                               width: 60,
@@ -611,7 +611,7 @@ class _ShopDetailState extends State<ShopDetail> with CacheManager {
                                                         color: appColors
                                                             .appColor)),
                                                 child: Center(
-                                                    child: Text("Add",
+                                                    child: Text("Book",
                                                         style: TextStyle(
                                                             color: appColors
                                                                 .appColor))),

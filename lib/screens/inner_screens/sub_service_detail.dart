@@ -315,10 +315,10 @@ class SubServiceDetailState extends State<SubServiceDetail> with CacheManager{
                 padding: const EdgeInsets.all(12),
                 child: GestureDetector(
                   onTap: () {
-                    /*showSlotBookingDialog(
+                    showSlotBookingDialog(
                         context,
                         provider.subServiceDetail.subService?.id.toString() ??
-                            '');*/
+                            '');
                     //item Add to cart
                     //  addCartService();
                   },

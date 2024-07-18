@@ -647,14 +647,14 @@ class _DashboardState extends State<Dashboard>
                                                         ),
                                                         InkWell(
                                                           onTap: () {
-                                                            setState(() {
+                                                           /* setState(() {
                                                               isBottomSheetOpen =
                                                                   true;
-                                                            });
+                                                            });*/
                                                             //Select Slot Dialog
-                                                            /*showSlotBookingDialog(
+                                                            showSlotBookingDialog(
                                                               context,
-                                                              '${subService[index].id}');*/
+                                                              '${subService[index].id}');
                                                             //addCartService()
                                                           },
                                                           child: Container(
@@ -672,7 +672,7 @@ class _DashboardState extends State<Dashboard>
                                                                         BorderRadius.circular(
                                                                             5)),
                                                             child:
-                                                                isBottomSheetOpen ==
+                                                                /*isBottomSheetOpen ==
                                                                         true
                                                                     ? Row(
                                                                         mainAxisAlignment:
@@ -704,7 +704,7 @@ class _DashboardState extends State<Dashboard>
                                                                               child: appText(title: '+', color: appColors.appBlack, fontSize: 16)),
                                                                         ],
                                                                       )
-                                                                    : Center(
+                                                                    :*/ Center(
                                                                         child:
                                                                             appText(
                                                                           title:
