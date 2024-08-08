@@ -200,7 +200,7 @@ class _MapScreenState extends State<MapScreen> {
                     )),
                 maxLines: 1,
                 textEditingController: searchController,
-                googleAPIKey: "AIzaSyBObJitjMo7f-b9SyHZMqv0SKmWlQIq0Ak",
+                googleAPIKey: "AIzaSyAgtycLt6CSf3KBRfhV2XEBL1YkCMOFgj8",
                 debounceTime: 400,
                 countries: const ["IN"],
                 isLatLngRequired: true,

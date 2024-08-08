@@ -53,7 +53,6 @@ class AuthProvider extends ChangeNotifier {
         body: body,
         headers: {},
       );
-
       showToast(res?.message, isSuccess: true);
       notifyListeners();
       _setShowLoader(false);
